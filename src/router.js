@@ -23,12 +23,8 @@ export class Router {
   mount(element) {
     m.mount(element, this)
     window.onpopstate = e => {
-			if (e.state) {
-				this.setData(e.state.data, true)
-				m.redraw()
-			} else {
-				this.navigate(window.location.pathname)
-			}
+			if (e.state) this.setData(e.state.data, true)
+			else this.navigate(window.location.pathname)
 		}
   }
 
@@ -39,6 +35,7 @@ export class Router {
 		const query = queryIndex > -1 ? href.substr(queryIndex) : ''
 		window.history.replaceState({data}, data.title)
 		document.title = data.title
+		m.redraw()
 	}
 
 	clear() {
