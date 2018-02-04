@@ -7,6 +7,10 @@ export class Router {
 
   constructor(initialState) {
 		this.data = initialState
+    window.onpopstate = e => {
+			if (e.state) this.setData(e.state.data, true)
+			else this.navigate(window.location.pathname)
+		}
 	}
 	
 	get url() {
@@ -19,14 +23,6 @@ export class Router {
 		const route = {href, params}
 		return this.resolve(this.data, route)
 	}
-  
-  mount(element) {
-    m.mount(element, this)
-    window.onpopstate = e => {
-			if (e.state) this.setData(e.state.data, true)
-			else this.navigate(window.location.pathname)
-		}
-  }
 
 	setData(data) {
 		this.data = data
