@@ -1,0 +1,17 @@
+{
+  "name": "@codeurs/front",
+  "version": "0.0.0",
+  "description": "Collection of mithril utilities and components",
+  "main": "src/index.js",
+  "repository": "https://github.com/codeurs/front",
+  "author": "Ben Merckx <ben@codeurs.be>",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "hex-to-rgb": "^1.0.1",
+    "jump.js": "^1.0.2",
+    "matchmediaquery": "^0.2.1",
+    "mithril": "^1.1.6",
+    "popmotion": "^8.1.10"
+  }
+}
