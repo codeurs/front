@@ -4,7 +4,6 @@ import jump from 'jump.js'
 export class Router {
   transport = null
   data = {}
-  cycle = function() {}
 
   constructor(initialState) {
 		this.data = initialState
@@ -22,11 +21,14 @@ export class Router {
 	}
   
   mount(element) {
-    this.cycle = () => m.mount(element, this)
-    this.cycle()
+    m.mount(element, this)
     window.onpopstate = e => {
-			if (e.state) this.setData(e.state.data)
-			else this.navigate(window.location.pathname)
+			if (e.state) {
+				this.setData(e.state.data, true)
+				m.redraw()
+			} else {
+				this.navigate(window.location.pathname)
+			}
 		}
   }
 
@@ -37,7 +39,6 @@ export class Router {
 		const query = queryIndex > -1 ? href.substr(queryIndex) : ''
 		window.history.replaceState({data}, data.title)
 		document.title = data.title
-		this.cycle()
 	}
 
 	clear() {
@@ -62,7 +63,7 @@ export class Router {
 	navigate(path) {
 		const {hash} = window.location
 		if (path == this.url) {
-			this.cycle()
+			m.redraw()
 			if (hash) this.scroll(hash)
 		} else {
       this.clear()
