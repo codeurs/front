@@ -1,40 +1,48 @@
 import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import m from 'mithril'
+import stream from 'mithril/stream'
 import {Component} from './component'
 
+function contains(total, index) {
+	return index >= 0 && index < total
+}
+
+/**
+ * index: Stream<number>
+ * total: Stream<number>
+ * ?actives: Stream<Array<number => boolean>>
+ */
 export class SliderController {
-	index = 0
-	total = 0
+	index = stream(0)
+	total = stream(0)
+	actives = stream([])
 
 	has(index) {
-		return index >= 0 && index < this.total
+		return contains(this.total(), index)
 	}
 
 	hasNext() {
-		return this.has(this.index + 1)
+		return this.has(this.index() + 1)
 	}
 
 	hasPrevious() {
-		return this.has(this.index - 1)
+		return this.has(this.index() - 1)
 	}
 
 	goTo(index) {
-		return this.has(index) && ((this.index = index), true)
+		return this.has(index) && (this.index(index), true)
 	}
 
 	goNext() {
-		return this.goTo(this.index + 1)
+		return this.goTo(this.index() + 1)
 	}
 
 	goPrevious() {
-		return this.goTo(this.index - 1)
+		return this.goTo(this.index() - 1)
 	}
 
-	// This requires a lot more bookkeeping but is necessary
-	// for sweet and easy animations
-	actives = []
 	isActive(childIndex) {
-		return this.actives[childIndex] && this.actives[childIndex]()
+		return this.actives()[childIndex] && this.actives()[childIndex]()
 	}
 }
 
@@ -65,6 +73,7 @@ export class Slider extends Component {
 		}
 	}
 
+	// Todo: rewrite this to properly to use popmotion's actions and reactions
 	listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			if (this.tween) this.tween.stop()
@@ -90,46 +99,46 @@ export class Slider extends Component {
 				}
 			})
 			listen(document, 'mouseup touchend', {once: true}).start(() => {
-				const {controller} = this.attrs
+				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
 				track.stop()
 				if (Math.abs(velocity) > 0.2 * this.size) {
-					const success =
-						velocity > 0 ? controller.goPrevious() : controller.goNext()
-					if (!success) this.bounce()
-					else m.redraw()
-				} else {
-					this.bounce()
+					const next = velocity > 0 ? index() - 1 : index() + 1
+					if (contains(total(), next)) {
+						index(next)
+						return m.redraw()
+					}
 				}
+				this.bounce()
 			})
 		})
 	}
 
 	// Bounce back to current slide
 	bounce() {
-		const {controller} = this.attrs
+		const {index} = this.attrs
 		this.tween = spring({
 			from: this.pos.get(),
 			velocity: this.pos.getVelocity(),
-			to: this.slides[controller.index],
+			to: this.slides[index()],
 			stiffness: 100,
 			damping: 20
 		}).start(this.pos)
 	}
 
 	setSize(resized = false) {
-		const {controller} = this.attrs
+		const {index} = this.attrs
 		const size = this.dom.getBoundingClientRect().width
 		this.size = size
 		this.calcSlides()
-		if (resized) this.pos.update(this.slides[controller.index])
+		if (resized) this.pos.update(this.slides[index()])
 	}
 
 	calcSlides() {
-		const {controller} = this.attrs
+		const {index, total, actives} = this.attrs
 		const content = this.dom.firstChild
 		const children = content.children
-		const actives = []
+		const activeChecks = []
 		this.slides = [0]
 		let curr = 0,
 			prev = 0,
@@ -145,8 +154,8 @@ export class Slider extends Component {
 			}
 			const start = prev,
 				end = curr
-			actives.push(() => {
-				const now = this.slides[controller.index]
+				activeChecks.push(() => {
+				const now = this.slides[index]
 				return start >= -now - 1 && end <= -now + this.size + 1
 			})
 			prev = curr
@@ -156,21 +165,21 @@ export class Slider extends Component {
 			this.slides.pop()
 			this.slides.push(-(curr - this.size))
 		}
-		controller.total = this.slides.length
-		if (controller.index > controller.total)
-			controller.index = controller.total - 1
-		controller.actives = actives
+		total(this.slides.length)
+		if (index() > total())
+			index(total() - 1)
+		if (actives) actives(activeChecks)
 	}
 
 	onupdate() {
-		const {controller} = this.attrs
+		const {index} = this.attrs
 		const x = this.pos.get()
 		this.setSize()
-		if (x != this.slides[controller.index])
+		if (x != this.slides[index()])
 			this.tween = tween({
 				from: this.pos.get(),
 				velocity: this.pos.getVelocity(),
-				to: this.slides[controller.index],
+				to: this.slides[index()],
 				stiffness: 200
 			}).start(this.pos)
 	}
