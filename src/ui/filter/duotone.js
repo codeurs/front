@@ -2,7 +2,7 @@ import m from 'mithril'
 import {Component} from '@codeurs/front'
 import hexRgb from 'hex-to-rgb'
 
-export default class DuoTone extends Component {
+export class DuoTone extends Component {
 	view() {
 		const {id, from, to} = this.attrs
 		const a = hexRgb(from)

@@ -6,6 +6,7 @@ export {Background} from './ui/background'
 export {Icon} from './ui/icon'
 export {Slider, SliderController} from './ui/slider'
 export {MediaQuery} from './ui/mediaquery'
+export {Duotone} from './ui/filter/duotone'
 
 export {Router} from './router'
 export {action} from './action'
