@@ -2,7 +2,7 @@ import m from 'mithril'
 import {Component} from './component'
 import matchMedia from 'matchmediaquery'
 
-export default class MediaQuery extends Component {
+export class MediaQuery extends Component {
 	matcher = this.createMatcher()
 
 	createMatcher() {
