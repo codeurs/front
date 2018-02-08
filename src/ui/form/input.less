@@ -1,0 +1,29 @@
+.input-front {
+  position: relative;
+
+  //INPUT
+  &-input {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #dedede;
+    padding: 10px;
+    color: #171717;
+    font: inherit;
+    font-size: 14px;
+    line-height: 14px;
+
+    .has-error & {
+      border: 1px solid #f44336;
+    }
+  }
+
+  //LABEL
+  &-label {
+    color: #000000;
+    pointer-events: none;
+    user-select: none;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+}
