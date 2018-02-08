@@ -79,30 +79,22 @@ export class Slider extends Component {
 			if (this.tween) this.tween.stop()
 			const scrollTop =
 				document.body.scrollTop || document.documentElement.scrollTop
-			let start,
-				samples = 0
+			let start, isHorizontal
 			const track = pointer({x: this.pos.get()}).start(p => {
-				if (Math.abs(samples) > 10) {
-					if (samples > 0) this.pos.update(p.x)
-					else window.scrollTo(0, scrollTop + -p.y)
-				} else if (start) {
-					const isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
-					if (isHorizontal) {
-						this.pos.update(p.x)
-						samples++
-					} else {
-						window.scrollTo(0, scrollTop + -p.y)
-						samples--
-					}
-				} else {
-					start = {x: p.x, y: p.y}
+				if (!start) return start = {x: p.x, y: p.y}
+				if (!isHorizontal) {
+					isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
+					this.dom.style.pointerEvents = 'none'
 				}
+				if (isHorizontal) this.pos.update(p.x)
+				else window.scrollTo(0, scrollTop + -p.y)
 			})
-			listen(document, 'mouseup touchend', {once: true}).start(() => {
+			listen(document, 'mouseup touchend', {once: true}).start(e => {
 				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
 				track.stop()
-				if (Math.abs(velocity) > 0.2 * this.size) {
+				this.dom.style.pointerEvents = ''
+				if (Math.abs(velocity) > .2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
 					if (contains(total(), next)) {
 						index(next)
