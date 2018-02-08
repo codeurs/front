@@ -83,9 +83,11 @@ export class Slider extends Component {
 				samples = 0,
 				locked = false
 			const track = pointer({x: this.pos.get()}).start(p => {
-				if (Math.abs(samples) > 2) {
-					if (!locked)
-						this.dom.style.pointerEvents = 'none'
+				if (!locked) {
+					this.dom.style.pointerEvents = 'none'
+					locked = true
+				}
+				if (Math.abs(samples) > 5) {
 					if (samples > 0) this.pos.update(p.x)
 					else window.scrollTo(0, scrollTop + -p.y)
 				} else if (start) {
