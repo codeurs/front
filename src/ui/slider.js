@@ -80,9 +80,12 @@ export class Slider extends Component {
 			const scrollTop =
 				document.body.scrollTop || document.documentElement.scrollTop
 			let start,
-				samples = 0
+				samples = 0,
+				locked = false
 			const track = pointer({x: this.pos.get()}).start(p => {
-				if (Math.abs(samples) > 10) {
+				if (Math.abs(samples) > 2) {
+					if (!locked)
+						this.dom.style.pointerEvents = 'none'
 					if (samples > 0) this.pos.update(p.x)
 					else window.scrollTo(0, scrollTop + -p.y)
 				} else if (start) {
@@ -98,11 +101,12 @@ export class Slider extends Component {
 					start = {x: p.x, y: p.y}
 				}
 			})
-			listen(document, 'mouseup touchend', {once: true}).start(() => {
+			listen(document, 'mouseup touchend', {once: true}).start(e => {
 				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
 				track.stop()
-				if (Math.abs(velocity) > 0.2 * this.size) {
+				this.dom.style.pointerEvents = ''
+				if (Math.abs(velocity) > .2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
 					if (contains(total(), next)) {
 						index(next)
