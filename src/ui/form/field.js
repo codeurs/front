@@ -1,6 +1,7 @@
 import m from 'mithril'
 import classnames from 'classnames'
 import {Component} from '../component'
+import {getErrorMessage} from './../../util/formutils'
 
 import './field.less'
 
@@ -42,14 +43,6 @@ export default class Field extends Component {
 
         if(!hasErrors) return
 
-        return m(`div.${this.className}-errormsg`, this.getMessage())
-    }
-
-    getMessage() {
-        const {errors} = this.attrs
-        const errorsList = typeof errors == 'string' ? [errors] : errors
-
-        if (errorsList.length) return errorsList[0]
-        return 'This value is not valid'
+        return m(`div.${this.className}-errormsg`, getErrorMessage(errors))
     }
 }

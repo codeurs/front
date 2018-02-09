@@ -27,6 +27,7 @@ import {Boxes} from './ui/form/boxes'
  * }
  *
  * TODO:
+ * - Gebruik de setCustomValidity methode om de in-browser validatie toe te passen op elementen met een error
  * - Select vervangen door geheel eigen implementatie (die makkelijker te stylen is als de standaard html select)
  * - Een flexibel en veilig wysiwyg-editor veld toevoegen (bv. tinymce)
  * - Basis styling van bestaande elementen robuuster en flexibeler maken
@@ -149,9 +150,22 @@ export class Form {
                     this.msg = response.msg
                     this.errors = response.errors || {}
 
+                    const formDom = e && e.target
+
                     const [firstKey] = Object.keys(this.errors)
                     if (firstKey) {
                         jump('#field_' + firstKey + '_' + this.key)
+                    }
+
+                    // TODO:
+                    // Voor browers die het ondersteunen enkel reportValidity gebruiken en geen jump.
+                    // Alvorens dat kan moet eerst setCustomValidity juist geimplementeerd worden voor alle elementen
+                    if(formDom && formDom.reportValidity){
+                        setTimeout(() => {
+                            if(e.target.reportValidity){
+                                e.target.reportValidity()
+                            }
+                        }, 20)
                     }
                 }
             })

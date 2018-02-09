@@ -18,3 +18,11 @@ export function randomKey(prefix = '') {
             .substr(2, 10)
     )
 }
+
+export function getErrorMessage(errors){
+    if(errors === undefined) return ''
+    const errorsList = typeof errors == 'string' ? [errors] : errors
+
+    if (errorsList.length) return errorsList[0]
+    return 'This value is not valid'
+}
