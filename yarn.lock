@@ -32,6 +32,10 @@ mithril@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/mithril/-/mithril-1.1.6.tgz#bd2cc0de3d3c86076a6a7a30367a601a1bd108f3"
 
+object-to-formdata@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/object-to-formdata/-/object-to-formdata-1.2.2.tgz#74ec6b8cb958a9887e086257bc00f1d22a715143"
+
 popmotion@^8.1.10:
   version "8.1.10"
   resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-8.1.10.tgz#1b7e697d47ddd1bb26f1c6db8f35530bc86619d3"
