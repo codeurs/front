@@ -137,7 +137,7 @@ export class Form extends FormBase {
 
   failure(form, errors) {
     const [firstKey] = Object.keys(errors)
-    if (firstKey) this.ui.focusField(firstKey)
+    if (firstKey) this.fields.focusField(firstKey)
     // TODO:
     // Voor browers die het ondersteunen enkel reportValidity gebruiken en geen jump.
     // Alvorens dat kan moet eerst setCustomValidity juist geimplementeerd worden voor alle elementen
