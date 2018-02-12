@@ -1,0 +1,63 @@
+.checkbox-front {
+	transform: translate3d(0, 0, 0);
+
+	&-input {
+		//Do not use display: none because the object has to be positioned
+		position: absolute;
+		opacity: 0;
+	}
+
+	&-label {
+		cursor: pointer;
+		position: relative;
+
+		&-square,
+		&-text {
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		&-square {
+			position: relative;
+			top: 4px;
+			width: 14px;
+			height: 14px;
+			border: 1px solid #dedede;
+			border-radius: 2px;
+			margin-right: 15px;
+
+			.has-error & {
+				border: 1px solid #f44336;
+			}
+
+			&:after {
+				color: #000000;
+				content: "✔";
+				font-size: 16px;
+				line-height: 0.9;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 14px;
+				height: 14px;
+				opacity: 0;
+				transform: scale(0);
+				transition: all 0.3s ease;
+			}
+		}
+
+		&-text {
+			font-size: 18px;
+			line-height: 22px;
+			max-width: ~"calc(100% - 30px)";
+			user-select: none;
+		}
+	}
+
+	&-input:checked + .checkbox-front-label {
+		.checkbox-front-label-square:after {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+}
