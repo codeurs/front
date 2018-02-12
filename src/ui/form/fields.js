@@ -28,11 +28,11 @@ export class Fields {
     return this.store.status
   }
 
-  asField(viewClass, config) {
+  asField(viewClass, config, children) {
     return m(
       this.config.fieldClass,
       this.fieldAttrs(config),
-      m(viewClass, this.viewAttrs(config))
+      m(viewClass, this.viewAttrs(config), children)
     )
   }
 
