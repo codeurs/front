@@ -1,9 +1,5 @@
 import stream from 'mithril/stream'
 
-function contains(total, index) {
-	return index >= 0 && index < total
-}
-
 /**
  * index: Stream<number>
  * total: Stream<number>
@@ -15,7 +11,7 @@ export class SliderStore {
 	actives = stream([])
 
 	has(index) {
-		return contains(this.total(), index)
+		return index >= 0 && index < this.total()
 	}
 
 	hasNext() {
