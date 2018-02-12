@@ -52,7 +52,7 @@ export class Slider extends Component {
 				this.dom.style.pointerEvents = ''
 				if (Math.abs(velocity) > .2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
-					if (next > 0 && next < total()) {
+					if (next >= 0 && next < total()) {
 						index(next)
 						return m.redraw()
 					}
