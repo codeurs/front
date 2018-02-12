@@ -17,7 +17,7 @@ export class Router {
     const {href} = window.location
     const params =
       href.indexOf('?') > -1 ? m.parseQueryString(href.split('?')[1]) : {}
-    const route = {href, params}
+    const route = {href, path: window.location.pathname, params}
     return this.resolve(this.data, route)
   }
 
@@ -53,7 +53,7 @@ export class Router {
     else window.scrollTo(0, 0)
   }
 
-  fetch() {
+  fetch(path) {
     return Promise.reject('implement')
   }
 
