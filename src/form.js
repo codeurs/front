@@ -23,12 +23,12 @@ export class FormBase {
     this.fields = fields
   }
 
-  formSubmit = e => {
+  formSubmit = (e, options = {}) => {
     e.preventDefault()
     const form = e.target
     const {action: url, method} = form
     const type = form.getAttribute('enctype') || 'application/json'
-    return this.submit(type, {url, method})
+    return this.submit(type, {url, method, ...options})
   }
 
   submit(type, {url, method, headers = {}, ...options}) {
