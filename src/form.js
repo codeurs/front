@@ -41,7 +41,9 @@ export class FormBase {
           url,
           method,
           data: this.formatData(type),
-          headers: {'Content-Type': type, ...headers},
+          headers: type.indexOf('multipart') === 0
+            ? headers
+            : {'Content-Type': type, ...headers},
           serialize: v => v,
           ...options
         }).then(
