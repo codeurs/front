@@ -4,25 +4,20 @@ export class Component {
 	}
 
 	oninit(vnode) {
-		this.patch(this.update, 'oncreate', 'onupdate', 'view')
-	}
-
-	patch(to, ...methods) {
-		const comp = this
-		methods.forEach(method => {
-			const original = comp[method] ? comp[method].bind(comp) : null
-			comp[method] = (...args) => {
-				return to.apply(comp, args.concat(original))
+		['oncreate', 'onupdate', 'view'].forEach(method => {
+			const original = this[method] ? this[method].bind(this) : null
+			this[method] = vnode => {
+				this.update(method, vnode)
+				if (original) return original(vnode)
 			}
 		})
 	}
 
-	update(vnode, original) {
+	update(method, vnode) {
 		this.attrs = vnode.attrs
 		this.dom = vnode.dom
 		this.children = vnode.children
 		this.onafterupdate()
-		if (original) return original(vnode)
 	}
 
 	onafterupdate() {}
