@@ -113,9 +113,12 @@ export class Slider extends Component {
 			this.slides.pop()
 			this.slides.push(-(curr - this.size))
 		}
-		total(this.slides.length)
-		if (index() > total())
-			index(total() - 1)
+		if (total() != this.slides.length) {
+			total(this.slides.length)
+			if (index() > total())
+				index(total() - 1)
+			m.redraw()
+		}
 		if (actives) actives(activeChecks)
 	}
 
