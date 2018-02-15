@@ -117,7 +117,7 @@ export class Slider extends Component {
 			total(this.slides.length)
 			if (index() > total())
 				index(total() - 1)
-			m.redraw()
+			setTimeout(m.redraw)
 		}
 		if (actives) actives(activeChecks)
 	}
