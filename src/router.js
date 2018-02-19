@@ -22,7 +22,6 @@ export class Router {
   }
 
   mount(element) {
-    m.mount(element, this)
     window.onpopstate = e => {
       if (e.state) {
         this.setData(e.state.data, true)
@@ -31,6 +30,7 @@ export class Router {
         this.navigate(window.location.pathname)
       }
     }
+    m.mount(element, this)
   }
 
   setData(data) {
@@ -57,7 +57,7 @@ export class Router {
     return Promise.reject('implement')
   }
 
-  resolve() {
+  resolve(data, route) {
     throw 'implement'
   }
 

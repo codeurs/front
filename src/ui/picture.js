@@ -24,11 +24,11 @@ export class Picture extends Component {
 		return `/cache/${width}/auto${path}`
 	}
 
-	srcset(path) {
-		return WIDTHS.map(width => {
+	srcset(path, max) {
+		return WIDTHS.filter(width => width <= max).map(width => {
 			const src = this.sized(path, width)
 			return `${src} ${width * 2}w`
-		}).join(', ')
+		})
 	}
 
 	view() {
@@ -40,10 +40,12 @@ export class Picture extends Component {
 			src,
 			mod,
 			inline = false,
+			max = 800,
 			...attrs
 		} = this.attrs
 		if (empty || !src) return
-		return m('.image',
+		const set = this.srcset(src, max)
+		return m('.picture',
 			{
 				class: classnames([
 					`mod-${mod}`,
@@ -52,11 +54,11 @@ export class Picture extends Component {
 					}
 				])
 			},
-			m('img.image-el', {
-				src,
+			m('img.picture-el', {
+				src: set[set.length - 1],
 				width,
 				height,
-				srcset: this.srcset(src),
+				srcset: set.join(', '),
 				alt: '',
 				...attrs
 			})

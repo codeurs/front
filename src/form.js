@@ -23,6 +23,10 @@ export class FormBase {
     this.fields = fields
   }
 
+  get status() {
+    return this.store.status.type
+  }
+
   formSubmit = (e, options = {}) => {
     e.preventDefault()
     const form = e.target
