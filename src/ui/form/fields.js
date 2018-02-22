@@ -1,7 +1,7 @@
 import m from 'mithril'
 import {FormStatus} from '../../store/formstore'
 import {randomKey} from '../../util/formutils'
-import Field from './field'
+import {Field} from './field'
 
 export {Input} from './input'
 export {Select} from './select'

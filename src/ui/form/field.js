@@ -5,7 +5,7 @@ import {getErrorMessage} from './../../util/formutils'
 
 import './field.less'
 
-export default class Field extends Component {
+export class Field extends Component {
     className = this.attrs.unstyled ? 'field' : 'field-front'
 
     view() {
