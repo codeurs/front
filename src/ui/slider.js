@@ -33,23 +33,24 @@ export class Slider extends Component {
 	listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			if (this.tween) this.tween.stop()
-			const scrollTop =
-				document.body.scrollTop || document.documentElement.scrollTop
-			let start, isHorizontal
-			const track = pointer({x: this.pos.get()}).start(p => {
+			let start, isHorizontal = null
+			const track = pointer({
+				x: this.pos.get(),
+				preventDefault: false
+			}).start(p => {
 				if (!start) return start = {x: p.x, y: p.y}
-				if (!isHorizontal) {
+				if (isHorizontal === null) {
 					isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
 					this.dom.style.pointerEvents = 'none'
 				}
 				if (isHorizontal) this.pos.update(p.x)
-				else window.scrollTo(0, scrollTop + -p.y)
 			})
 			listen(document, 'mouseup touchend', {once: true}).start(e => {
 				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
 				track.stop()
 				this.dom.style.pointerEvents = ''
+				if (!isHorizontal) return
 				if (Math.abs(velocity) > .2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
 					if (next >= 0 && next < total()) {
