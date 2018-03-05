@@ -26,7 +26,8 @@ export class Input extends Component {
       modifier,
       onfocus,
       type = 'text',
-      required
+      required,
+      placeholder
     } = this.attrs
 
     return m(`.${this.className}`,
@@ -37,6 +38,7 @@ export class Input extends Component {
           required,
           name,
           value,
+          placeholder,
           oncreate: vnode => (this.inputDom = vnode.dom),
           oninput: onchange && (e => onchange(e.target.value)),
           onchange: onchange && (e => onchange(e.target.value))
