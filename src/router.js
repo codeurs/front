@@ -32,14 +32,18 @@ export class Router {
 		}
   }
 
-	setData(data) {
-		this.data = data
-		const {hash, href} = window.location
-		const queryIndex = href.indexOf('?')
-		const query = queryIndex > -1 ? href.substr(queryIndex) : ''
-		window.history.replaceState({data}, data.title)
-		document.title = data.title
-	}
+  getPageTitle(data) {
+    return data.title
+  }
+
+  setData(data) {
+    this.data = data
+    const {hash, href} = window.location
+    const queryIndex = href.indexOf('?')
+    const query = queryIndex > -1 ? href.substr(queryIndex) : ''
+    window.history.replaceState({data}, this.getPageTitle(data))
+    document.title = this.getPageTitle(data)
+  }
 
 	clear() {
 		if (!this.transport) return
