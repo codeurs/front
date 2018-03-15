@@ -11,12 +11,6 @@ import {
   Boxes
 } from './ui/form/fields'
 
-export function createForm({data = {}, ...config} = {}) {
-  const store = new FormStore(data)
-  const fields = new Fields(store, config)
-  return new FormBase(store, fields)
-}
-
 export class FormBase {
   constructor(store, fields) {
     this.store = store
@@ -27,7 +21,11 @@ export class FormBase {
     return this.store.status.type
   }
 
-  formSubmit = (e, options = {}) => {
+  isCompleted() {
+    return this.status == FormStatus.Success
+  }
+
+  formSubmit(e, options = {}) {
     e.preventDefault()
     const form = e.target
     const {action: url, method} = form
@@ -108,48 +106,27 @@ export class FormBase {
  * - Een flexibel en veilig wysiwyg-editor veld toevoegen (bv. tinymce)
  * - Basis styling van bestaande elementen robuuster en flexibeler maken
  */
-
 export class Form extends FormBase {
-  constructor({url, data = {}, headers = {}, onsuccess, ...config}) {
-    const store = new FormStore(data)
-    const fields = new Fields(store, config)
-    super(store, fields)
-    // Let's try and fix this typo right from the start without breaking our dependants
-    if ('onsucces' in config) onsuccess = config.onsucces
-    this.url = url
-    this.headers = headers
-    this.onsuccess = onsuccess
-  }
 
-  submit(e) {
-    if (e) e.preventDefault()
-    const form = e.target
-    return super
-      .submit('multipart/form-data', {
-        url: this.url,
-        method: 'POST',
-        headers: this.headers
-      })
-      .then(response => {
-        this.msg = response.msg
-        if (response.success) this.done(response)
-        else this.failure(form, response.errors || {})
-      })
-  }
+    constructor({data = {}, ...config} = {}) {
+        const store = new FormStore(data)
+        const fields = new Fields(store, {
+            defaultUnstyled: true,
+            labelInFields: false,
+            defaultRequired: false,
+            ...config
+        })
+        super(store, fields)
+    }
 
-  done(response) {
-    if (this.onsuccess) this.onsuccess(response.data)
-  }
-
-  failure(form, errors) {
-    const [firstKey] = Object.keys(errors)
-    if (firstKey) this.fields.focusField(firstKey)
-    // TODO:
-    // Voor browers die het ondersteunen enkel reportValidity gebruiken en geen jump.
-    // Alvorens dat kan moet eerst setCustomValidity juist geimplementeerd worden voor alle elementen
-    if ('reportValidity' in form)
-      setTimeout(() => {
-        if (form.reportValidity) form.reportValidity()
-      }, 20)
-  }
+    formSubmit(e, options = {}){
+        return super
+            .formSubmit(e, options)
+            .catch(
+                errors => {
+                    const [firstKey] = Object.keys(errors)
+                    if (firstKey) this.fields.focusField(firstKey)
+                }
+            )
+    }
 }

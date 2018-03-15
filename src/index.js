@@ -13,7 +13,7 @@ export {FormStatus, FormStore} from './store/formstore'
 
 export {Router} from './router'
 export {action} from './action'
-export {FormBase, Form, createForm} from './form'
+export {FormBase, Form} from './form'
 
 export {Fields} from './ui/form/fields'
 export {Field} from './ui/form/field'

@@ -13,8 +13,9 @@ export class Input extends Component {
 
   onupdate() {
     const {errors} = this.attrs
-    if (this.inputDom && this.inputDom.setCustomValidity) 
-      this.inputDom.setCustomValidity(getErrorMessage(errors))
+    //TODO: fixen
+    //if (this.inputDom && this.inputDom.setCustomValidity)
+    //  this.inputDom.setCustomValidity(getErrorMessage(errors))
   }
 
   view() {
