@@ -19,19 +19,20 @@ export class Input extends Component {
             onfocus,
             type = 'text',
             required,
-            errors
+            errors,
+            disabled
         } = this.attrs
 
         if(this.inputDom && this.inputDom.setCustomValidity){
-            console.log(getErrorMessage(errors))
             this.inputDom.setCustomValidity(getErrorMessage(errors))
         }
 
-        return m(`.${this.className}`, {class: classnames([modifier, value && 'has-value'])}, [
+        return m(`.${this.className}${disabled?'.is-readonly':''}`, {class: classnames([modifier, value && 'has-value'])}, [
             m(`input.${this.className}-input`, {
                 type,
                 required,
                 name,
+                disabled,
                 value,
                 oncreate: (vnode) => this.inputDom = vnode.dom,
                 oninput: onchange && (e => {
