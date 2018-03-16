@@ -1,0 +1,1 @@
+module.exports = require('@codeurs/packer')('src/index.js', 'dist/bundle.js')

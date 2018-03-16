@@ -6,6 +6,9 @@
   "repository": "https://github.com/codeurs/front",
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
+  "scripts": {
+    "examples:build": "cd examples/gh-pages && cross-env NODE_ENV=production webpack"
+  },
   "dependencies": {
     "classnames": "^2.2.5",
     "hex-to-rgb": "^1.0.1",
@@ -14,5 +17,9 @@
     "mithril": "^1.1.6",
     "object-to-formdata": "codeurs/object-to-formdata",
     "popmotion": "^8.1.10"
+  },
+  "devDependencies": {
+    "@codeurs/packer": "^0.4.2",
+    "cross-env": "^5.1.4"
   }
 }
