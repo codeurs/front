@@ -55,7 +55,7 @@ export class Picture extends Component {
 				])
 			},
 			m('img.picture-el', {
-				src: set[set.length - 1],
+				src: this.sized(src, WIDTHS[WIDTHS.length - 1]),
 				width,
 				height,
 				srcset: set.join(', '),
