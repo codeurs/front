@@ -14,7 +14,8 @@ export class Radios extends Component {
             options,
             unstyled,
 			name = this.defaultKey,
-			required
+			required,
+            disabled
 		} = this.attrs
 
 		const cleanOptions = cleanupOptions(options)
@@ -25,6 +26,7 @@ export class Radios extends Component {
 					option: option.label,
 					name: name,
                     unstyled,
+                    disabled,
 					required,
 					value: value == option.key,
 					onchange: onchange && (_ => onchange(option.key))

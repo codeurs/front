@@ -14,20 +14,22 @@ export class Radio extends Component {
             onchange,
             option,
             name = this.id,
-            required
+            required,
+            disabled
         } = this.attrs
 
         return m(`div.${this.className}`, [
             m(`input.${this.className}-input`, {
                 type: 'radio',
                 checked: value ? true : false,
+                disabled: disabled && !value ? true : false,
                 required,
                 name: name,
                 onclick: onchange && (_ => onchange(!value)),
                 id: this.id
             }),
             m(`label.${this.className}-label`, {for: this.id}, [
-                m(`span.${this.className}-label-bullet`),
+                m(`span.${this.className}-label-bullet${disabled?'.is-readonly':''}`),
                 m(`span.${this.className}-label-text`, option)
             ])
         ])
