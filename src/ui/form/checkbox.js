@@ -17,12 +17,15 @@ export class Checkbox extends Component {
 			required
 		} = this.attrs
 
+		let isChecked = value ? true : false
+		if(value === 'false') isChecked = false
+
 		return m(`div.${this.className}`, [
 			m(`input.${this.className}-input`, {
 				type: 'checkbox',
 				name,
 				id: this.id,
-				checked: value ? true : false,
+				checked: isChecked,
 				onclick: onchange && (() => onchange(!value)),
 				required
 			}),
