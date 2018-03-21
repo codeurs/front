@@ -22,7 +22,7 @@ import {action} from '@codeurs/front'
 view(){
     return m('a', {
         class: 'link',
-        …action('/url')
+        ...action('/url')
     })
 }
 ```
