@@ -2,8 +2,8 @@
 A collection of (currently) unfinished and undocumented mithril utilities and components.
 
 ## Table of Contents
-[Action](#action)
-[Slider](#slider)
+- [Action](#action)
+- [Slider](#slider)
 
 ## Action
 
