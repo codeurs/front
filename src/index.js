@@ -24,3 +24,5 @@ export {Checkbox} from './ui/form/checkbox'
 export {Radios} from './ui/form/radios'
 export {Radio} from './ui/form/radio'
 export {Boxes} from './ui/form/boxes'
+
+export {classes} from './util/classes'
