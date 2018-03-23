@@ -18,7 +18,7 @@ function prefix(key) {
 }
 
 function parseClasses(classes) {
-  if (typeof classes == 'string' || Array.isArray(classes)) 
+  if (typeof classes == 'string' || Array.isArray(classes) || !classes) 
     return classes
   return Object.keys(classes).map(key => {
     return prefixClassNames(prefix(key), classes[key])
