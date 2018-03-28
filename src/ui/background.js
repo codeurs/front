@@ -37,7 +37,7 @@ export class Background extends Component {
 				key: this.src(),
 				...attrs
 			},
-			this.chilren
+			this.children
 		)
 	}
 }
