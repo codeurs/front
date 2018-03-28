@@ -20,7 +20,7 @@ export class Page extends Component {
 
 	onbeforeupdate = (vnode, old) => {
 		this.currentRoute = vnode.attrs.route
-		if (vnode.attrs.route.href == old.attrs.route.href)
+		if (vnode.attrs.route.href !== old.attrs.route.href)
 			this.onroutechange()
 		return true
 	}
