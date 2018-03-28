@@ -25,10 +25,14 @@ function trimSlashes(str) {
   return str.replace(/^\/|\/$/g, '')
 }
 
+function startsWith(a, b) {
+  return a.substr(0, b.length) == b
+}
+
 action.isActive = data => {
   if (typeof data == 'string') return action.isActive({url: data})
   const {pathname} = window.location
-  return trimSlashes(data.url) == trimSlashes(pathname)
+  return startsWith(trimSlashes(pathname), trimSlashes(data.url))
 }
 
 action.anchorClick = (e, href, replace) => {
