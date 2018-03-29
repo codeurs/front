@@ -27,5 +27,5 @@ function parseClasses(classes) {
 
 export function classes(...classes) {
   const names = classNames(classes.map(parseClasses))
-  return names ? {class: names} : {}
+  return names ? {className: names} : {}
 }
