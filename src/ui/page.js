@@ -15,14 +15,10 @@ export class Page extends Component {
 	}
 
 	onafterupdate() {
+		const last = this.currentRoute.href
 		this.currentRoute = this.attrs.route
-	}
-
-	onbeforeupdate = (vnode, old) => {
-		this.currentRoute = vnode.attrs.route
-		if (vnode.attrs.route.href !== old.attrs.route.href)
+		if (last !== this.currentRoute.href)
 			this.onroutechange()
-		return true
 	}
 
 	onroutechange() {}
