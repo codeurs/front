@@ -3,7 +3,8 @@ export function action(data, cb, replace = false) {
   if (!data) return {}
   const {url, target} = data
 	if (url.indexOf('mailto:') === 0) return {href: url}
-  if (url.indexOf('://') > -1)
+  if (url.indexOf('@') > -1) return {href: 'mailto:'+url}
+  if (url.indexOf('.') > -1 || url.indexOf('://') > -1)
     return {
       href: url,
       target: target || '_blank',
