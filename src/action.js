@@ -1,6 +1,6 @@
 export function action(data, cb, replace = false) {
   if (typeof data == 'string') return action({url: data}, cb, replace)
-  if (!data) return {}
+  if (!data || !data.url) return {}
   const {url, target} = data
 	if (url.indexOf('mailto:') === 0) return {href: url}
   if (url.indexOf('@') > -1) return {href: 'mailto:'+url}
