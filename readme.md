@@ -28,6 +28,31 @@ view(){
 }
 ```
 
+## Modal
+
+A temporary UI overlay.
+
+````javascript
+import {Component, ModalStore, Modal, ModalContainer, ModalOverlay} from '@codeurs/front'
+
+class ModalExample extends Component {
+  modal = new ModalStore()
+  
+  view() {
+    return [
+      m('a', {onclick: this.modal.open}, 'Open modal'),
+      m(Modal, this.modal, [
+        m(ModalOverlay),
+        m(ModalContainer, [
+          m('.modalexample', 'Popup content')
+        ])
+      ])
+    ]
+  }
+}
+````
+
+
 ## Slider
 
 Horizontal touch enabled slider. Slides can be of variable width.
