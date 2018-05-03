@@ -3,6 +3,7 @@ A collection of (currently) unfinished and undocumented mithril utilities and co
 
 ## Table of Contents
 - [Action](#action)
+- [Modal](#modal)
 - [Slider](#slider)
 
 ## Action
@@ -37,7 +38,6 @@ import {Component, ModalStore, Modal, ModalContainer, ModalOverlay} from '@codeu
 
 class ModalExample extends Component {
   modal = new ModalStore()
-  
   view() {
     return [
       m('a', {onclick: this.modal.open}, 'Open modal'),
