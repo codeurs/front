@@ -33,7 +33,7 @@ view(){
 A temporary UI overlay.
 
 ````javascript
-import {Component, ModalStore, Modal, ModalContainer, ModalOverlay} from '@codeurs/front'
+import {Component, ModalStore, Modal, ModalOverlay} from '@codeurs/front'
 
 class ModalExample extends Component {
   modal = new ModalStore()
@@ -43,9 +43,7 @@ class ModalExample extends Component {
       m('a', {onclick: this.modal.open}, 'Open modal'),
       m(Modal, this.modal, [
         m(ModalOverlay),
-        m(ModalContainer, [
-          m('.modalexample', 'Popup content')
-        ])
+        m('.modalexample', 'Popup content')
       ])
     ]
   }

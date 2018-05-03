@@ -6,14 +6,6 @@ import {classes} from '../util/classes'
 
 export const ModalOverlay = subComponent('.modal-overlay')
 
-export class ModalContainer extends Component {
-  view() {
-    return m('.modal-container', this.attrs, [
-      m('.modal-container-content', this.children)
-    ])
-  }
-}
-
 import './modal.less'
 export class Modal extends Component {
   opened = false
@@ -40,7 +32,7 @@ export class Modal extends Component {
   }
 
   view() {
-    const {isOpen, close, zIndex = 1000} = this.attrs
+    const {isOpen, close, zIndex = 1000, mod} = this.attrs
     if (!isOpen) return null
     return m('.modal', {
       oncreate: ({dom}) => setTimeout(() => {
@@ -54,11 +46,15 @@ export class Modal extends Component {
         }, false, {once: true})
         dom.classList.remove('is-open')
       }),
+      ...classes({mod}),
+      style: {zIndex}
+    }, m('.modal-container', {
       onclick: ({target}) => {
         if (target && target.classList.contains('modal-container'))
           close()
-      },
-      style: {zIndex}
-    }, this.children)
+      }
+    }, 
+      m('.modal-container-content', this.children)
+    ))
   }
 }
