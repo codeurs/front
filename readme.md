@@ -4,6 +4,7 @@ A collection of (currently) unfinished and undocumented mithril utilities and co
 ## Table of Contents
 - [Action](#action)
 - [Modal](#modal)
+- [Portal](#portal)
 - [Slider](#slider)
 
 ## Action
@@ -12,7 +13,7 @@ Use an action component when you have an internal or external link.
 
 ```javascript
 import {action} from '@codeurs/front'
-view(){
+view() {
     return m('a', action('/url'))
 }
 ```
@@ -21,7 +22,7 @@ If you have another attribute you must write it a little bit different.
 
 ```javascript
 import {action} from '@codeurs/front'
-view(){
+view() {
     return m('a', {
         class: 'link',
         ...action('/url')
@@ -50,21 +51,36 @@ class ModalExample extends Component {
 }
 ````
 
+## Portal
+
+Creates a top-level node in the body and mounts its children. Useful to escape z-index stacking for modals.
+
+````javascript
+import {Component, Portal} from '@codeurs/front'
+
+class PortalExample extends Component {
+  view() {
+    return m(Portal, [
+      m('.portalexample', 'This is placed at the end of document.body')
+    ])
+  }
+}
+````
 
 ## Slider
 
 Horizontal touch enabled slider. Slides can be of variable width.
 
 ````javascript
-import {Slider, SliderStore, Component} from '@codeurs/front'
+import {Component, Slider, SliderStore} from '@codeurs/front'
 
-export default class MySlider extends Component {
+export default class SliderExample extends Component {
   slider = new SliderStore()
   view() {
-    return m('.myslider', [
+    return m('.sliderexample', [
       m(Slider, this.slider, [
-        m('.myslider-slide'), // display: inline-block
-        m('.myslider-slide')  // etc ...
+        m('.sliderexample-slide'), // display: inline-block
+        m('.sliderexample-slide')  // etc ...
       ]),
       m('a', {onclick: e => this.slider.goPrevious()}, 'Previous'),
       m('a', {onclick: e => this.slider.goNext()}, 'Next')
