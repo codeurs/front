@@ -7,6 +7,7 @@ export {Icon} from './ui/icon'
 export {Slider} from './ui/slider'
 export {MediaQuery} from './ui/mediaquery'
 export {Modal, ModalOverlay} from './ui/modal'
+export {Portal} from './ui/portal'
 export {DuoTone} from './ui/filter/duotone'
 
 export {SliderStore, SliderStore as SliderController} from './store/sliderstore'
