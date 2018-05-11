@@ -4,6 +4,7 @@ A collection of (currently) unfinished and undocumented mithril utilities and co
 ## Table of Contents
 - [Action](#action)
 - [Classes](#classes)
+- [MediaQuery](#mediaquery)
 - [Modal](#modal)
 - [Portal](#portal)
 - [Slider](#slider)
