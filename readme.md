@@ -63,6 +63,27 @@ view() {
 }
 ```
 
+## MediaQuery
+
+Media queries are useful when you want to modify your site depending on the browser's width. The big advantage over css media queries is that elements are not shown but also not drawn.
+
+```javascript
+import {MediaQuery} from '@codeurs/front'
+
+view() {
+  return [
+    m(MediaQuery, {
+      maxWidth: 767,
+      view: () => m('p', 'Content that can only be seen up to 768 pixels.')
+    }),
+    m(MediaQuery, {
+      minWidth: 768,
+      view: () => m('p', 'Content that can only be seen from 768 pixels.')
+    })
+  ]
+}
+```
+
 ## Modal
 
 A temporary UI overlay.
