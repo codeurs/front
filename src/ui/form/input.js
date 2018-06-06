@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import m from 'mithril'
 import {Component} from '../component'
-import {getErrorMessage} from './../../util/formutils'
+import {getErrorMessage} from '../../util/formutils'
 
 import './input.less'
 

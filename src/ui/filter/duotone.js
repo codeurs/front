@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {Component} from '@codeurs/front'
+import {Component} from '../component'
 import hexRgb from 'hex-to-rgb'
 
 export class DuoTone extends Component {
