@@ -7,19 +7,19 @@
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
-    "examples:build": "cd examples/gh-pages && cross-env NODE_ENV=production webpack"
+    "examples:build": "cd examples/gh-pages && webpack --mode development"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "hex-to-rgb": "^1.0.1",
     "jump.js": "^1.0.2",
     "matchmediaquery": "^0.2.1",
+    "mini-css-extract-plugin": "^0.4.0",
     "mithril": "^1.1.6",
     "object-to-formdata": "codeurs/object-to-formdata",
     "popmotion": "^8.1.10"
   },
   "devDependencies": {
-    "@codeurs/packer": "^0.4.2",
-    "cross-env": "^5.1.4"
+    "@codeurs/packer": "codeurs/packer#w4"
   }
 }
