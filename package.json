@@ -1,6 +1,6 @@
 {
   "name": "@codeurs/front",
-  "version": "0.4.0-alpha.3",
+  "version": "0.4.0-alpha.4",
   "description": "Collection of mithril utilities and components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,8 +11,8 @@
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
-		"docs": "cd docs && webpack --config webpack.config.js --mode development",
-		"fixdeclation": "",
+    "docs": "cd docs && webpack --config webpack.config.js --mode development",
+    "fixdeclation": "",
     "prepublishOnly": "tsc && cat src/index.ts | sed -En \"s/from '.\\//from '/p\" >> dist/index.d.ts && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
   },
   "dependencies": {
