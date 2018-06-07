@@ -2,13 +2,15 @@
   "compilerOptions": {
     "declaration": true,
     "inlineSourceMap": true,
-    "target": "ES6",
-    "module": "AMD",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./src/",
-    "outFile": "./dist/index.js",
+		"baseUrl": "./src/",
+		"outDir": "./dist/",
     "allowSyntheticDefaultImports": true
-  },
+	},
+	"include": [
+		"./src/custom.d.ts"
+	],
   "files": [
     "./src/index.ts"
   ]

@@ -27,7 +27,7 @@ export class Fields {
     this.config = {...this.config, ...config}
   }
 
-  get status() {
+  status() {
     return this.store.status
   }
 
@@ -56,15 +56,16 @@ export class Fields {
    * Can be used to initialize custom formfields - also used internally
    */
   fieldAttrs({key, ...rest}) {
-    const attrs = this.defaultFieldAttrs(rest.name || key, rest)
-    switch (this.status.type) {
+		const attrs = this.defaultFieldAttrs(rest.name || key, rest)
+		const status = this.status()
+    switch (status.type) {
       case 'error':
         return {
           ...attrs,
-          errors: this.status.errors[key], 
+          errors: status.errors[key], 
           onfocus: () => {
-						if (this.status.type == 'error')
-							delete this.status.errors[key]
+						if (status.type == 'error')
+							delete status.errors[key]
 					}
         }
       default: 

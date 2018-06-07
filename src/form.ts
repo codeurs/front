@@ -20,12 +20,12 @@ export class FormBase {
 		this.fields = fields
 	}
 
-	get status() {
+	status() {
 		return this.store.status.type
 	}
 
 	isCompleted() {
-		return this.status == FormStatus.Success
+		return this.status() == FormStatus.Success
 	}
 
 	formSubmit(e, options = {}) {

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "./dist"
   ],
   "repository": "https://github.com/codeurs/front",
   "author": "Ben Merckx <ben@codeurs.be>",
@@ -13,7 +13,7 @@
   "scripts": {
     "docs": "cd docs && webpack --config webpack.config.js --mode development",
     "fixdeclation": "",
-    "prepublishOnly": "tsc && cat src/index.ts | sed -En \"s/from '.\\//from '/p\" >> dist/index.d.ts && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
+    "prepublishOnly": "tsc && copyfiles -u 1 \"./src/**/*.less\" dist"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -28,7 +28,9 @@
   },
   "devDependencies": {
     "@codeurs/packer": "codeurs/packer#w4",
+    "@types/es6-shim": "^0.31.37",
     "@types/mithril": "^1.1.12",
+    "babel-cli": "^6.26.0",
     "copyfiles": "^2.0.0",
     "typescript": "^2.9.1"
   }

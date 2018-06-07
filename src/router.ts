@@ -9,7 +9,7 @@ export class Router {
 		this.data = initialState
 	}
 
-	get url() {
+	url() {
 		return this.data.url
 	}
 
@@ -67,7 +67,7 @@ export class Router {
 
 	navigate(path) {
 		const {hash} = window.location
-		if (path == this.url) {
+		if (path == this.url()) {
 			if (hash) this.scroll(hash)
 		} else {
 			this.clear()
