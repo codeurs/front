@@ -11,8 +11,9 @@
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
-    "docs": "cd docs && webpack --config webpack.config.js --mode development",
-    "prepublishOnly": "tsc && cat src/index.ts >> dist/index.d.ts && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
+		"docs": "cd docs && webpack --config webpack.config.js --mode development",
+		"fixdeclation": "",
+    "prepublishOnly": "tsc && cat src/index.ts | sed -En \"s/from '.\\//from '/p\" >> dist/index.d.ts && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
   },
   "dependencies": {
     "classnames": "^2.2.5",
