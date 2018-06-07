@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import {FormStatus, FormStore} from '../../store/formstore'
 import {randomKey} from '../../util/formutils'
 import {Field} from './field'

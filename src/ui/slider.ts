@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import {Stream} from 'mithril/stream'
 import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import {Component} from './component'

@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import {Options, cleanupOptions} from '../../util/formutils'
 import {Component} from './../component'
 import {Checkbox} from './checkbox'

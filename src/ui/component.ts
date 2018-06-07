@@ -4,7 +4,7 @@ import {
 	CVnodeDOM,
 	Children
 } from 'mithril'
-import equal from 'fast-deep-equal'
+import * as equal from 'fast-deep-equal'
 
 declare var process: {env: {NODE_ENV: string}}
 

@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import {Component} from './component'
 
 export class Portal extends Component {

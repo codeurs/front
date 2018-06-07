@@ -1,4 +1,5 @@
-import m, {Vnode} from 'mithril'
+import * as m from 'mithril'
+import {Vnode} from 'mithril'
 import {Component} from './component'
 import matchMedia from 'matchmediaquery'
 

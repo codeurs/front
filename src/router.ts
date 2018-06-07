@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import jump from 'jump.js'
 
 export class Router {

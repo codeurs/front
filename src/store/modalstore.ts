@@ -1,4 +1,4 @@
-import stream from 'mithril/stream'
+import * as stream from 'mithril/stream'
 
 export class ModalStore {
   isOpen = false

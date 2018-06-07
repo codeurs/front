@@ -6,7 +6,7 @@
     "moduleResolution": "node",
 		"baseUrl": "./src/",
 		"outDir": "./dist/",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": false
 	},
 	"include": [
 		"./src/custom.d.ts"

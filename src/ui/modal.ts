@@ -1,4 +1,4 @@
-import m from 'mithril'
+import * as m from 'mithril'
 import {Component} from './component'
 import {subComponent} from '../util/subcomponent'
 import lockScroll from '../util/lockscroll'
