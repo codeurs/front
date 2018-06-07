@@ -3,7 +3,7 @@ import jump from 'jump.js'
 
 export class Router {
   transport = null
-  data = {}
+  data: any = {}
 
   constructor(initialState) {
     this.data = initialState
@@ -24,7 +24,7 @@ export class Router {
   mount(element) {
     window.onpopstate = e => {
       if (e.state) {
-        this.setData(e.state.data, true)
+        this.setData(e.state.data)
         m.redraw()
       } else {
         this.navigate(window.location.pathname)

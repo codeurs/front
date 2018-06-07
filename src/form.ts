@@ -6,12 +6,15 @@ import {
   Input,
   Select,
   Textarea,
-  Radio,
+  Radios,
   Checkbox,
   Boxes
 } from './ui/form/fields'
 
 export class FormBase {
+	store: FormStore
+	fields: Fields
+
   constructor(store, fields) {
     this.store = store
     this.fields = fields
@@ -34,9 +37,9 @@ export class FormBase {
   }
 
   submit(type, {url, method, headers = {}, ...options}) {
-    switch (this.store) {
-      case FormStatus.Sending:
-      case FormStatus.Success:
+    switch (this.store.status.type) {
+      case 'sending':
+      case 'success':
         return
       default:
         return this.transfer({

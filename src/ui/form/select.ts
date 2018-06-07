@@ -5,8 +5,20 @@ import {Component} from '../component'
 
 import './select.less'
 
-export class Select extends Component {
-    className = this.attrs.className || (this.attrs.unstyled && 'select') || 'select-front'
+export class Select extends Component<{
+	name: string
+	unstyled?: boolean
+	className?: string
+	value: string
+	label?: string
+	modifier?: any
+	required?: boolean
+	options: Array<{key: string; label: string}> | {[key: string]: string}
+	onchange?: (v: string) => void
+	onfocus?: (e: Event) => void
+}> {
+	className =
+		this.attrs.className || (this.attrs.unstyled && 'select') || 'select-front'
 
 	view() {
 		const {

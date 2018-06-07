@@ -7,13 +7,18 @@ import {classes} from '../util/classes'
 export const ModalOverlay = subComponent('.modal-overlay')
 
 import './modal.less'
-export class Modal extends Component {
+export class Modal extends Component<{
+  isOpen: boolean,
+  close: () => void,
+  zIndex?: number,
+  mod?: any
+}> {
   opened = false
   oncreate = this.lock
   onupdate = this.lock
   
   lock() {
-    const {isOpen, open, close} = this.attrs
+    const {isOpen, close} = this.attrs
     if (this.opened === isOpen) return
     if (isOpen) window.addEventListener('keydown', this.closeByKey)
     else window.removeEventListener('keydown', this.closeByKey)
@@ -40,7 +45,7 @@ export class Modal extends Component {
         dom.classList.add('is-open')
       }, 25),
       onbeforeremove: ({dom}) => new Promise(done => {
-        dom.addEventListener('transitionend', () => {
+        (dom as any).addEventListener('transitionend', () => {
           lockScroll(false)
           done()
         }, false, {once: true})

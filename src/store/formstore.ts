@@ -1,38 +1,47 @@
 import m from 'mithril'
 
 export const FormStatus = {
-  Reset: 'normal',
+  Reset: 'reset',
   Sending: 'sending', // {xhr}
   Failure: 'error', // {errors}
-  Success: 'submitted' // {response}
+  Success: 'success' // {response}
 }
 
+export type FormState =
+	| {type: 'reset'}
+	| {type: 'sending', xhr: XMLHttpRequest}
+	| {type: 'error', errors: {}}
+	| {type: 'success', response: {}}
+
 export class FormStore {
+	data: {}
+	status: FormState
+
   constructor(data = {}) {
     this.data = data
-    this.status = {type: FormStatus.Reset}
+    this.status = {type: 'reset'}
   }
 
   send(xhr) {
-    this.status = {type: FormStatus.Sending, xhr}
+    this.status = {type: 'sending', xhr}
   }
 
   success(response) {
-    this.status = {type: FormStatus.Success, response}
+    this.status = {type: 'success', response}
     return response
   }
 
   fail(errors) {
-    this.status = {type: FormStatus.Failure, errors}
+    this.status = {type: 'error', errors}
     return errors
   }
 
   reset() {
     switch (this.status.type) {
-      case FormData.Sending:
+      case 'sending':
         this.status.xhr.abort()
       default:
-        this.status = {type: FormStatus.Reset}
+        this.status = {type: 'reset'}
     }
   }
 

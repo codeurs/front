@@ -1,9 +1,15 @@
-import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import m from 'mithril'
+import {Stream} from 'mithril/stream'
+import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import {Component} from './component'
 
 import './slider.less'
-export class Slider extends Component {
+export class Slider extends Component<{
+	index: Stream<number>, 
+	total: Stream<number>, 
+	actives: Stream<Array<() => void>>,
+	unstyled: boolean
+}, HTMLDivElement> {
 	size = 0
 	total = 0
 	pos = null
@@ -14,23 +20,23 @@ export class Slider extends Component {
 	tween = null
 
 	oncreate() {
-		const contentStyler = styler(this.dom.firstChild)
+		const contentStyler = (styler as any)(this.dom.firstChild)
 		this.pos = value(0, contentStyler.set('x'))
 		const listener = this.listen()
-		const size = e => this.setSize(true)
+		const size = () => this.setSize(true)
 		window.addEventListener('resize', size)
 		size()
 		// We redraw in the next frame here, because
 		// active state is only now available
 		setTimeout(m.redraw)
-		this.onremove = () => {
+		this['onremove'] = () => {
 			listener.stop()
 			window.removeEventListener('resize', size)
 		}
 	}
 
 	// Todo: rewrite this to properly to use popmotion's actions and reactions
-	listen() {
+	private listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			if (this.tween) this.tween.stop()
 			let start, isHorizontal = null
@@ -85,7 +91,7 @@ export class Slider extends Component {
 
 	calcSlides() {
 		const {index, total, actives} = this.attrs
-		const content = this.dom.firstChild
+		const content = this.dom.firstChild as HTMLElement
 		const children = content.children
 		const activeChecks = []
 		this.slides = [0]
@@ -103,8 +109,8 @@ export class Slider extends Component {
 			}
 			const start = prev,
 				end = curr
-				activeChecks.push(() => {
-				const now = this.slides[index]
+			activeChecks.push(() => {
+				const now = this.slides[index()]
 				return start >= -now - 1 && end <= -now + this.size + 1
 			})
 			prev = curr
@@ -130,9 +136,9 @@ export class Slider extends Component {
 		if (x != this.slides[index()])
 			this.tween = tween({
 				from: this.pos.get(),
-				velocity: this.pos.getVelocity(),
+				//velocity: this.pos.getVelocity(),
 				to: this.slides[index()],
-				stiffness: 200
+				//stiffness: 200
 			}).start(this.pos)
 	}
 

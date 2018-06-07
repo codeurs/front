@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "inlineSourceMap": true,
+    "target": "ES6",
+    "module": "AMD",
+    "moduleResolution": "node",
+    "baseUrl": "./src/",
+    "outFile": "./dist/index.js",
+    "allowSyntheticDefaultImports": true
+  },
+  "files": [
+    "./src/index.ts"
+  ]
+}

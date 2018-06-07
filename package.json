@@ -6,8 +6,12 @@
   "repository": "https://github.com/codeurs/front",
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
+  "scripts": {
+    "docs": "cd docs && webpack --config webpack.config.js --mode development"
+  },
   "dependencies": {
     "classnames": "^2.2.5",
+    "fast-deep-equal": "^2.0.1",
     "hex-to-rgb": "^1.0.1",
     "jump.js": "^1.0.2",
     "matchmediaquery": "^0.2.1",
@@ -15,5 +19,11 @@
     "object-to-formdata": "codeurs/object-to-formdata",
     "popmotion": "^8.1.10",
     "scrollbar-width": "^3.1.1"
+  },
+  "devDependencies": {
+    "@codeurs/packer": "../packer",
+    "@types/mithril": "^1.1.12",
+    "ts-loader": "^4.3.1",
+    "typescript": "^2.9.1"
   }
 }

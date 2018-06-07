@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {FormStatus} from '../../store/formstore'
+import {FormStatus, FormStore} from '../../store/formstore'
 import {randomKey} from '../../util/formutils'
 import {Field} from './field'
 import jump from 'jump.js'
@@ -7,11 +7,13 @@ import jump from 'jump.js'
 export {Input} from './input'
 export {Select} from './select'
 export {Textarea} from './textarea'
+export {Radio} from './radio'
 export {Radios} from './radios'
 export {Checkbox} from './checkbox'
 export {Boxes} from './boxes'
 
 export class Fields {
+	store: FormStore
   key = randomKey()
   config = {
     fieldClass: Field,
@@ -29,7 +31,7 @@ export class Fields {
     return this.store.status
   }
 
-  asField(viewClass, config, children) {
+  asField(viewClass, config, children?) {
     return m(
       this.config.fieldClass,
       this.fieldAttrs(config),
@@ -56,11 +58,14 @@ export class Fields {
   fieldAttrs({key, ...rest}) {
     const attrs = this.defaultFieldAttrs(rest.name || key, rest)
     switch (this.status.type) {
-      case FormStatus.Failure:
+      case 'error':
         return {
           ...attrs,
           errors: this.status.errors[key], 
-          onfocus: () => delete this.status.errors[key]
+          onfocus: () => {
+						if (this.status.type == 'error')
+							delete this.status.errors[key]
+					}
         }
       default: 
         return attrs

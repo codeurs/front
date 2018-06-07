@@ -5,18 +5,24 @@ import {getErrorMessage} from '../../util/formutils'
 
 import './input.less'
 
-export class Input extends Component {
+export class Input extends Component<{
+	name: string
+	type?: string
+	unstyled?: boolean
+	className?: string
+	value: string
+	label?: string
+	modifier?: any
+	required?: boolean
+	options: Array<{key: string; label: string}> | {[key: string]: string}
+	onchange?: (v: string) => void
+	onfocus?: (e: Event) => void
+	placeholder?: string
+}> {
   className = this.attrs.className ||
     (this.attrs.unstyled && 'input') ||
     'input-front'
   inputDom = null
-
-  onupdate() {
-    const {errors} = this.attrs
-    //TODO: fixen
-    //if (this.inputDom && this.inputDom.setCustomValidity)
-    //  this.inputDom.setCustomValidity(getErrorMessage(errors))
-  }
 
   view() {
     const {
@@ -39,7 +45,8 @@ export class Input extends Component {
           required,
           name,
           value,
-          placeholder,
+					placeholder,
+					onfocus,
           oncreate: vnode => (this.inputDom = vnode.dom),
           oninput: onchange && (e => onchange(e.target.value)),
           onchange: onchange && (e => onchange(e.target.value))
