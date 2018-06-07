@@ -1,6 +1,6 @@
 {
   "name": "@codeurs/front",
-  "version": "0.4.0-alpha.2",
+  "version": "0.4.0-alpha.3",
   "description": "Collection of mithril utilities and components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "docs": "cd docs && webpack --config webpack.config.js --mode development",
-    "prepublishOnly": "tsc && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
+    "prepublishOnly": "tsc && cat src/index.ts >> dist/index.d.ts && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
   },
   "dependencies": {
     "classnames": "^2.2.5",
