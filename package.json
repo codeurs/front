@@ -1,19 +1,18 @@
 {
   "name": "@codeurs/front",
-  "version": "0.4.0-alpha.1",
+  "version": "0.4.0-alpha.2",
   "description": "Collection of mithril utilities and components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/index.js",
-    "dist/index.d.ts"
+    "dist"
   ],
   "repository": "https://github.com/codeurs/front",
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
     "docs": "cd docs && webpack --config webpack.config.js --mode development",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc && copyfiles -f ./src/ui/*.less ./src/ui/**/*.less dist"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@codeurs/packer": "codeurs/packer#w4",
     "@types/mithril": "^1.1.12",
+    "copyfiles": "^2.0.0",
     "typescript": "^2.9.1"
   }
 }
