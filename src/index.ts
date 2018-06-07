@@ -9,6 +9,7 @@ export {MediaQuery} from './ui/mediaquery'
 export {Modal, ModalOverlay} from './ui/modal'
 export {Portal} from './ui/portal'
 export {DuoTone} from './ui/filter/duotone'
+export {Masonry} from './ui/masonry'
 
 export {SliderStore, SliderStore as SliderController} from './store/sliderstore'
 export {FormStatus, FormStore} from './store/formstore'

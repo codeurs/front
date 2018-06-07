@@ -4,12 +4,15 @@ import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import {Component} from './component'
 
 import './slider.less'
-export class Slider extends Component<{
-	index: Stream<number>, 
-	total: Stream<number>, 
-	actives: Stream<Array<() => void>>,
-	unstyled: boolean
-}, HTMLDivElement> {
+export class Slider extends Component<
+	{
+		index: Stream<number>
+		total: Stream<number>
+		actives: Stream<Array<() => void>>
+		unstyled: boolean
+	},
+	HTMLDivElement
+> {
 	size = 0
 	total = 0
 	pos = null
@@ -39,12 +42,13 @@ export class Slider extends Component<{
 	private listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			if (this.tween) this.tween.stop()
-			let start, isHorizontal = null
+			let start,
+				isHorizontal = null
 			const track = pointer({
 				x: this.pos.get(),
 				preventDefault: false
 			}).start(p => {
-				if (!start) return start = {x: p.x, y: p.y}
+				if (!start) return (start = {x: p.x, y: p.y})
 				if (isHorizontal === null) {
 					isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
 					this.dom.style.pointerEvents = 'none'
@@ -57,7 +61,7 @@ export class Slider extends Component<{
 				track.stop()
 				this.dom.style.pointerEvents = ''
 				if (!isHorizontal) return
-				if (Math.abs(velocity) > .2 * this.size) {
+				if (Math.abs(velocity) > 0.2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
 					if (next >= 0 && next < total()) {
 						index(next)
@@ -122,8 +126,7 @@ export class Slider extends Component<{
 		}
 		if (total() != this.slides.length) {
 			total(this.slides.length)
-			if (index() > total())
-				index(total() - 1)
+			if (index() > total()) index(total() - 1)
 			setTimeout(m.redraw)
 		}
 		if (actives) actives(activeChecks)
@@ -137,7 +140,7 @@ export class Slider extends Component<{
 			this.tween = tween({
 				from: this.pos.get(),
 				//velocity: this.pos.getVelocity(),
-				to: this.slides[index()],
+				to: this.slides[index()]
 				//stiffness: 200
 			}).start(this.pos)
 	}
@@ -145,7 +148,8 @@ export class Slider extends Component<{
 	view() {
 		const {unstyled = false} = this.attrs
 		const style = styles => ({style: unstyled || styles})
-		return m('.slider',
+		return m(
+			'.slider',
 			style({overflow: 'hidden'}),
 			m('.slider-content', this.children)
 		)

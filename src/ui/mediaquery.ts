@@ -3,8 +3,8 @@ import {Component} from './component'
 import matchMedia from 'matchmediaquery'
 
 export class MediaQuery extends Component<{
-	minWidth?: number,
-	maxWidth?: number,
+	minWidth?: number
+	maxWidth?: number
 	view: () => Vnode
 }> {
 	matcher = this.createMatcher()

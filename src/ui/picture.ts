@@ -19,13 +19,13 @@ export function getResizedUrl(url, width, height) {
 
 import './picture.less'
 export class Picture extends Component<{
-	empty?: boolean,
-	width?: number,
-	height?: number,
-	src?: string,
-	mod?: any,
-	inline?: boolean,
-	max?: number,
+	empty?: boolean
+	width?: number
+	height?: number
+	src?: string
+	mod?: any
+	inline?: boolean
+	max?: number
 }> {
 	sized(path, width) {
 		if (path.charAt(0) != '/') path = `/${path}`
@@ -52,7 +52,8 @@ export class Picture extends Component<{
 		} = this.attrs
 		if (empty || !src) return
 		const set = this.srcset(src, max)
-		return m('.picture',
+		return m(
+			'.picture',
 			{
 				class: classnames([
 					`mod-${mod}`,

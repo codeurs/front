@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 import './icon.less'
 export class Icon extends Component<{
-	icon: string,
+	icon: string
 	class?: any
 }> {
 	view() {

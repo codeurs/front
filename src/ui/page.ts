@@ -3,8 +3,8 @@ import {Component} from './component'
 
 export class Page extends Component<{
 	route: {
-		href: string, 
-		path: string, 
+		href: string
+		path: string
 		params: {}
 	}
 }> {
@@ -23,8 +23,7 @@ export class Page extends Component<{
 	onafterupdate() {
 		const last = this.currentRoute.href
 		this.currentRoute = this.attrs.route
-		if (last !== this.currentRoute.href)
-			this.onroutechange()
+		if (last !== this.currentRoute.href) this.onroutechange()
 	}
 
 	onroutechange() {}
