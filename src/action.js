@@ -1,6 +1,6 @@
 export function action(data, cb, replace = false) {
   if (typeof data == 'string') return action({url: data}, cb, replace)
-  if (!data) return {}
+  if (!data || !data.url) return {}
   const {url, target} = data
 	if (url.indexOf('mailto:') === 0) return {href: url}
   if (url.indexOf('@') > -1) return {href: 'mailto:'+url}
@@ -30,10 +30,13 @@ function startsWith(a, b) {
   return a.substr(0, b.length) == b
 }
 
-action.isActive = data => {
-  if (typeof data == 'string') return action.isActive({url: data})
+action.isActive = (data, exact = false) => {
+  if (typeof data == 'string') return action.isActive({url: data}, exact)
   const {pathname} = window.location
-  return startsWith(trimSlashes(pathname), trimSlashes(data.url))
+  const path = trimSlashes(pathname)
+  const url = trimSlashes(data.url)
+  if (exact) return path == url
+  return startsWith(path, url)
 }
 
 action.anchorClick = (e, href, replace) => {

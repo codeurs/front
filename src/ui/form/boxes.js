@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {cleanupOptions} from 'util/formutils'
+import {cleanupOptions} from '../../util/formutils'
 import {Component} from './../component'
 import {Checkbox} from './checkbox'
 import './boxes.less'

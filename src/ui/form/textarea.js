@@ -4,7 +4,7 @@ import {Component} from '../component'
 
 import './textarea.less'
 
-export class Textarea extends Component {
+export class TextArea extends Component {
     className = this.attrs.className || (this.attrs.unstyled && 'textarea') || 'textarea-front'
 
 	view() {

@@ -44,6 +44,10 @@ popmotion@^8.1.10:
     style-value-types "^1.0.3"
     stylefire "^1.1.9"
 
+scrollbar-width@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/scrollbar-width/-/scrollbar-width-3.1.1.tgz#c62e63efa5934dac37b43da34f7550caca8444a2"
+
 style-value-types@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-1.0.3.tgz#651c3c75c988ea2ef86e20c6a07f98cce62efddf"
