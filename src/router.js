@@ -74,6 +74,7 @@ export class Router {
       return this.fetch(path).then(data => {
         this.setData(data)
         setTimeout(() => this.scroll(hash))
+        m.redraw()
         return data
       })
     }
