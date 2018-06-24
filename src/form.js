@@ -116,8 +116,6 @@ export class Form extends FormBase {
             .formSubmit(e, options)
             .catch(
                 errors => {
-                    console.log('errors', errors)
-
                     const [firstKey] = Object.keys(errors)
                     if (firstKey) this.fields.focusField(firstKey)
                 }
