@@ -1,15 +1,7 @@
 import m from 'mithril'
-import {FormStatus, FormStore} from './store/formstore'
 import objectToFormData from 'object-to-formdata'
-import {
-  Fields,
-  Input,
-  Select,
-  Textarea,
-  Radio,
-  Checkbox,
-  Boxes
-} from './ui/form/fields'
+import {FormStatus, FormStore} from './store/formstore'
+import {Boxes, Checkbox, Fields, Input, Radios, Select, TextArea} from './ui/form/fields'
 
 export class FormBase {
   constructor(store, fields) {
@@ -76,7 +68,7 @@ export class FormBase {
   text = config => this.fields.asField(Input, {...config})
   email = config => this.text({...config, type: 'email'})
   password = config => this.text({...config, type: 'password'})
-  textarea = config => this.fields.asField(Textarea, {...config})
+  textarea = config => this.fields.asField(TextArea, {...config})
   select = config => this.fields.asField(Select, config)
   radio = config => this.fields.asField(Radios, config)
   checkbox = config => this.fields.asField(Checkbox, config)
@@ -124,6 +116,8 @@ export class Form extends FormBase {
             .formSubmit(e, options)
             .catch(
                 errors => {
+                    console.log('errors', errors)
+
                     const [firstKey] = Object.keys(errors)
                     if (firstKey) this.fields.focusField(firstKey)
                 }

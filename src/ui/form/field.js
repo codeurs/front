@@ -25,9 +25,18 @@ export class Field extends Component {
 
         return m(`div.${this.className}`, {class: classnames(classes), style, id}, [
             this.viewLabel(),
+            this.viewBefore(),
             this.children,
-            this.viewErrors()
+            this.viewAfter()
         ])
+    }
+
+    viewBefore(){
+        return null
+    }
+
+    viewAfter(){
+        return this.viewErrors()
     }
 
     viewLabel(){
