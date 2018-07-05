@@ -6,6 +6,8 @@ export const FormStatus = {
 }
 
 export class FormStore {
+    onchange = () => {}
+
     constructor(data = {}) {
         this.data = data
         this.status = {type: FormStatus.Reset}
@@ -35,30 +37,25 @@ export class FormStore {
     }
 
     setData(key, value) {
-        return this.setDataRec(this.data, key.split('.'), value)
+        const res = this.setDataRec(this.data, key.split('.'), value)
+        this.onchange(this.data)
+        return res
     }
 
     setDataRec(data, keyParts, value) {
         const key = keyParts.shift()
-        const res = key.match(/(.*)\[(.*)]/)
 
         if(keyParts.length){
-            const newData = res ? data[res[1]][res[2]] : data[key]
+            const newData = data[key]
             return this.setDataRec(newData, keyParts, value)
         }
 
-        return res ?
-            data[res[1]][res[2]] = value :
-            data[key] = value
+        return data[key] = value
     }
 
     getData(key) {
-        //Key can be nested, eg. arguments[0].fieldname
         return key.split('.').reduce(
-            (acc, curr) => {
-                const res = curr.match(/(.*)\[(.*)]/)
-                return res ? acc[res[1]][res[2]] : acc[curr]
-            },
+            (acc, curr) => acc[curr],
             this.data
         )
     }

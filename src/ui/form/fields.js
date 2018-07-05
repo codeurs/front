@@ -30,7 +30,7 @@ export class Fields {
   }
 
   getErrorKey(key){
-    return key.replace('[','.').replace(']','')
+    return key
   }
 
   asField(viewClass, config, children) {
@@ -49,7 +49,10 @@ export class Fields {
       ...rest,
       id: `field_${this.getErrorKey(key)}_${this.key}`,
       value: this.store.getData(key),
-      onchange: value => this.store.setData(key, value),
+      onchange: value => {
+          this.store.setData(key, value)
+          if(this.config.onchange) this.config.onchange(this.store.data)
+      },
       label: this.config.labelInFields ? undefined : rest.label
     }
   }
