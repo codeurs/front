@@ -17,8 +17,11 @@ export class Background extends Component {
 		const {img} = this.attrs
 		const src = this.src()
 		this.showing = src
-		if (!src || img.empty) return
 		const {style} = this.dom
+		if (!src || img.empty) {
+			style.backgroundImage = ``
+			return
+		}
 		const url = getResizedUrl(src, this.dom.offsetWidth, this.dom.offsetHeight)
 		style.backgroundImage = `url('${url}')`
 		if (img.focus)
