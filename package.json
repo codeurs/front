@@ -1,6 +1,6 @@
 {
   "name": "@codeurs/front",
-  "version": "0.2.7",
+  "version": "0.3.9",
   "description": "Collection of mithril utilities and components",
   "main": "src/index.js",
   "repository": "https://github.com/codeurs/front",
@@ -13,6 +13,7 @@
     "matchmediaquery": "^0.2.1",
     "mithril": "^1.1.6",
     "object-to-formdata": "codeurs/object-to-formdata",
-    "popmotion": "^8.1.10"
+    "popmotion": "^8.1.10",
+    "scrollbar-width": "^3.1.1"
   }
 }

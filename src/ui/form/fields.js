@@ -6,7 +6,7 @@ import jump from 'jump.js'
 
 export {Input} from './input'
 export {Select} from './select'
-export {Textarea} from './textarea'
+export {TextArea} from './textarea'
 export {Radios} from './radios'
 export {Checkbox} from './checkbox'
 export {Boxes} from './boxes'
@@ -29,6 +29,10 @@ export class Fields {
     return this.store.status
   }
 
+  getErrorKey(key){
+    return key
+  }
+
   asField(viewClass, config, children) {
     return m(
       this.config.fieldClass,
@@ -43,9 +47,12 @@ export class Fields {
       unstyled: this.config.defaultUnstyled,
       name: key,
       ...rest,
-      id: 'field_' + key + '_' + this.key,
-      value: this.store.data[key],
-      onchange: value => this.store.setData(key, value),
+      id: `field_${this.getErrorKey(key)}_${this.key}`,
+      value: this.store.getData(key),
+      onchange: value => {
+          this.store.setData(key, value)
+          if(this.config.onchange) this.config.onchange(this.store.data)
+      },
       label: this.config.labelInFields ? undefined : rest.label
     }
   }
@@ -55,12 +62,17 @@ export class Fields {
    */
   fieldAttrs({key, ...rest}) {
     const attrs = this.defaultFieldAttrs(rest.name || key, rest)
+    const errorKey = this.getErrorKey(key)
+
     switch (this.status.type) {
       case FormStatus.Failure:
         return {
           ...attrs,
-          errors: this.status.errors[key], 
-          onfocus: () => delete this.status.errors[key]
+          errors: this.status.errors[errorKey],
+          onfocus: () => {
+            if(this.status.errors && this.status.errors[errorKey])
+              delete this.status.errors[errorKey]
+          }
         }
       default: 
         return attrs
@@ -79,7 +91,8 @@ export class Fields {
     }
   }
 
-  focusField(field) {
-    jump(`#field_${field}_${this.key}`)
+  focusField(key) {
+    const node = document.getElementById(`field_${key}_${this.key}`)
+    if(node) jump(node)
   }
 }

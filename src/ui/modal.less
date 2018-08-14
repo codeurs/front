@@ -1,0 +1,49 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity .35s ease-out;
+  overflow: auto;
+ 
+  &.is-open {
+    opacity: 1;
+  }
+
+  &-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  &-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    z-index: 1;
+
+    &-content {
+      position: relative;
+    }
+  }
+
+  &.mod-full {
+    .modal-container-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+    }
+  }
+}

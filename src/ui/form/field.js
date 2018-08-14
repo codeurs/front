@@ -1,7 +1,7 @@
 import m from 'mithril'
 import classnames from 'classnames'
 import {Component} from '../component'
-import {getErrorMessage} from './../../util/formutils'
+import {getErrorMessage} from '../../util/formutils'
 
 import './field.less'
 
@@ -25,9 +25,18 @@ export class Field extends Component {
 
         return m(`div.${this.className}`, {class: classnames(classes), style, id}, [
             this.viewLabel(),
+            this.viewBefore(),
             this.children,
-            this.viewErrors()
+            this.viewAfter()
         ])
+    }
+
+    viewBefore(){
+        return null
+    }
+
+    viewAfter(){
+        return this.viewErrors()
     }
 
     viewLabel(){

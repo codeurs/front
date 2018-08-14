@@ -9,9 +9,19 @@ export class Page extends Component {
 		this.currentRoute = this.attrs.route
 	}
 
-	onafterupdate() {
-		this.currentRoute = this.attrs.route
+	oninit(vnode) {
+		super.oninit(vnode)
+		this.onroutechange()
 	}
+
+	onafterupdate() {
+		const last = this.currentRoute.href
+		this.currentRoute = this.attrs.route
+		if (last !== this.currentRoute.href)
+			this.onroutechange()
+	}
+
+	onroutechange() {}
 
 	static render(attrs) {
 		return m(this, attrs)

@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import m from 'mithril'
 import {Component} from '../component'
-import {getErrorMessage} from './../../util/formutils'
+import {getErrorMessage} from '../../util/formutils'
 
 import './input.less'
 
@@ -28,11 +28,12 @@ export class Input extends Component {
       onfocus,
       type = 'text',
       required,
-      placeholder
+      placeholder,
+      disabled
     } = this.attrs
 
     return m(`.${this.className}`,
-      {class: classnames([modifier, value && 'has-value'])},
+      {class: classnames([modifier, value && 'has-value', disabled && 'is-disabled'])},
       [
         m(`input.${this.className}-input`, {
           type,
@@ -40,9 +41,11 @@ export class Input extends Component {
           name,
           value,
           placeholder,
+          disabled,
           oncreate: vnode => (this.inputDom = vnode.dom),
           oninput: onchange && (e => onchange(e.target.value)),
-          onchange: onchange && (e => onchange(e.target.value))
+          onchange: onchange && (e => onchange(e.target.value)),
+          onfocus
         }),
         label && m(`label.${this.className}-label`, label)
       ]

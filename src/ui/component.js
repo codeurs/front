@@ -15,7 +15,7 @@ export class Component {
 
 	update(method, vnode) {
 		this.attrs = vnode.attrs
-		this.dom = vnode.dom
+		if (vnode.dom) this.dom = vnode.dom
 		this.children = vnode.children
 		this.onafterupdate()
 	}

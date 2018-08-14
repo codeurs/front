@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {cleanupOptions, randomKey} from 'util/formutils'
+import {cleanupOptions, randomKey} from '../../util/formutils'
 import {Component} from '../component'
 import {Radio} from './radio'
 

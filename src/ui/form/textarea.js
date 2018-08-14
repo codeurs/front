@@ -4,7 +4,7 @@ import {Component} from '../component'
 
 import './textarea.less'
 
-export class Textarea extends Component {
+export class TextArea extends Component {
     className = this.attrs.className || (this.attrs.unstyled && 'textarea') || 'textarea-front'
 
 	view() {
@@ -12,13 +12,14 @@ export class Textarea extends Component {
 			value,
 			onchange,
 			label,
+            disabled,
 			modifier,
 			name,
             required,
 			onfocus
 		} = this.attrs
 
-		return m(`div.${this.className}`, {class: classnames([modifier, value && 'has-value'])}, [
+		return m(`div.${this.className}`, {class: classnames([modifier, value && 'has-value', disabled && 'is-disabled'])}, [
 				m(`textarea.${this.className}-textarea`, {
 					required,
 					name,
