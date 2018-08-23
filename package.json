@@ -7,7 +7,7 @@
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
-    "publish-to-npm": "yarn publish",
+    "publish-to-npm": "yarn publish"
   },
   "dependencies": {
     "classnames": "^2.2.5",
