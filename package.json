@@ -6,6 +6,9 @@
   "repository": "https://github.com/codeurs/front",
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
+  "scripts": {
+    "publish-to-npm": "yarn publish",
+  },
   "dependencies": {
     "classnames": "^2.2.5",
     "hex-to-rgb": "^1.0.1",
