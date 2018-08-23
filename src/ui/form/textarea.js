@@ -15,6 +15,7 @@ export class TextArea extends Component {
             disabled,
 			modifier,
 			name,
+			placeholder,
             required,
 			onfocus
 		} = this.attrs
@@ -24,6 +25,7 @@ export class TextArea extends Component {
 					required,
 					name,
 					onfocus,
+                    placeholder,
 					value,
 					oninput: onchange && (e => onchange(e.target.value)),
 					onchange: onchange && (e => onchange(e.target.value))
