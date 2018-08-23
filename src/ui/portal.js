@@ -1,18 +1,22 @@
 import m from 'mithril'
 import {Component} from './component'
+import redraw from 'mithril/redraw'
 
 export class Portal extends Component {
   node = document.createElement('div')
 
-  oncreate() {
+  oncreate(vnode) {
     document.body.appendChild(this.node)
-    m.mount(this.node, {
-      view: () => this.children
-    })
+    redraw.subscribe(this.node, m.redraw)
+    this.onupdate(vnode)
+  }
+
+  onupdate() {
+    redraw.render(this.node, this.children)
   }
 
   onremove() {
-    m.mount(this.node, null)
+    redraw.unsubscribe(this.node)
     document.body.removeChild(this.node)
   }
 
