@@ -23,9 +23,12 @@ export class Slider extends Component {
 		// We redraw in the next frame here, because
 		// active state is only now available
 		setTimeout(m.redraw)
+		const cancelDrag = e => e.preventDefault()
+		this.dom.addEventListener('dragstart', cancelDrag)
 		this.onremove = () => {
 			listener.stop()
 			window.removeEventListener('resize', size)
+			this.dom.removeEventListener('dragstart', cancelDrag)
 		}
 	}
 
@@ -39,17 +42,14 @@ export class Slider extends Component {
 				preventDefault: false
 			}).start(p => {
 				if (!start) return start = {x: p.x, y: p.y}
-				if (isHorizontal === null) {
+				if (isHorizontal === null)
 					isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
-					this.dom.style.pointerEvents = 'none'
-				}
 				if (isHorizontal) this.pos.update(p.x)
 			})
 			listen(document, 'mouseup touchend', {once: true}).start(e => {
 				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
 				track.stop()
-				this.dom.style.pointerEvents = ''
 				if (!isHorizontal) return
 				if (Math.abs(velocity) > .2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
@@ -110,7 +110,6 @@ export class Slider extends Component {
 			prev = curr
 		}
 		if (curr > last && last !== 0) {
-			const toLast = curr - this.size
 			this.slides.pop()
 			this.slides.push(-(curr - this.size))
 		}
