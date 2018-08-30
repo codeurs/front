@@ -1,6 +1,6 @@
 {
   "name": "@codeurs/front",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "Collection of mithril utilities and components",
   "main": "src/index.js",
   "repository": "https://github.com/codeurs/front",
