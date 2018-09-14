@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {randomKey} from '../../util/formutils'
 import {Component} from '../component'
 
@@ -13,11 +13,12 @@ export class Radio extends Component<{
 	unstyled?: boolean
 	className?: string
 }> {
-	className =
-		this.attrs.className || (this.attrs.unstyled && 'radio') || 'radio-front'
+	className = this.attrs.className ||
+		(this.attrs.unstyled && 'radio') ||
+		'radio-front'
 	id = randomKey('radio_')
 
-	view() {
+	render() {
 		const {
 			value = false,
 			onchange,

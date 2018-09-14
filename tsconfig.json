@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
+		"target": "es5",
     "declaration": true,
     "inlineSourceMap": true,
     "module": "commonjs",
     "moduleResolution": "node",
 		"baseUrl": "./src/",
 		"outDir": "./dist/",
-    "allowSyntheticDefaultImports": false
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "preserveWatchOutput": true
 	},
-	"include": [
-		"./src/custom.d.ts"
-	],
   "files": [
     "./src/index.ts"
   ]

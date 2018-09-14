@@ -1,26 +1,25 @@
 import classnames from 'classnames'
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from '../component'
 
 import './textarea.less'
 
 export class Textarea extends Component<{
-	name: string,
-	unstyled?: boolean,
-	className?: string,
-	value: string,
-	label?: string,
-	modifier?: any,
-	required?: boolean,
-	onchange?: (v: string) => void,
+	name: string
+	unstyled?: boolean
+	className?: string
+	value: string
+	label?: string
+	modifier?: any
+	required?: boolean
+	onchange?: (v: string) => void
 	onfocus?: (e: Event) => void
 }> {
-	className =
-		this.attrs.className ||
+	className = this.attrs.className ||
 		(this.attrs.unstyled && 'textarea') ||
 		'textarea-front'
 
-	view() {
+	render() {
 		const {
 			value,
 			onchange,
@@ -31,8 +30,7 @@ export class Textarea extends Component<{
 			onfocus
 		} = this.attrs
 
-		return m(
-			`div.${this.className}`,
+		return m(`div.${this.className}`,
 			{class: classnames([modifier, value && 'has-value'])},
 			[
 				m(`textarea.${this.className}-textarea`, {

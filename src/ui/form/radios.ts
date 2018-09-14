@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {cleanupOptions, randomKey} from '../../util/formutils'
 import {Component} from '../component'
 import {Radio} from './radio'
@@ -19,7 +19,7 @@ export class Radios extends Component<{
 		this.attrs.className || (this.attrs.unstyled && 'radios') || 'radios-front'
 	defaultKey = randomKey('radios_')
 
-	view() {
+	render() {
 		const {
 			value,
 			onchange,
@@ -31,8 +31,7 @@ export class Radios extends Component<{
 
 		const cleanOptions = cleanupOptions(options)
 
-		return m(
-			`div.${this.className}`,
+		return m(`div.${this.className}`,
 			cleanOptions.map(option =>
 				m(Radio, {
 					option: option.label,

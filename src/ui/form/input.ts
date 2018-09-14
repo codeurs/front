@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'
 
@@ -24,7 +24,7 @@ export class Input extends Component<{
     'input-front'
   inputDom = null
 
-  view() {
+  render() {
     const {
       value,
       onchange,

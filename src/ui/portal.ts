@@ -1,22 +1,22 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 
 export class Portal extends Component {
 	node = document.createElement('div')
 
-	oncreate() {
+	onCreate() {
 		document.body.appendChild(this.node)
 		m.mount(this.node, {
 			view: () => this.children
 		})
 	}
 
-	onremove() {
+	onRemove() {
 		m.mount(this.node, null)
 		document.body.removeChild(this.node)
 	}
 
-	view() {
+	render() {
 		return null
 	}
 }

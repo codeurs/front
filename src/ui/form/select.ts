@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import * as m from 'mithril'
+import m from 'mithril'
 import {cleanupOptions} from '../../util/formutils'
 import {Component} from '../component'
 
@@ -20,7 +20,7 @@ export class Select extends Component<{
 	className =
 		this.attrs.className || (this.attrs.unstyled && 'select') || 'select-front'
 
-	view() {
+	render() {
 		const {
 			value,
 			onchange,

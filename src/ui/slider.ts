@@ -1,4 +1,5 @@
-import * as m from 'mithril'
+import m from 'mithril'
+import {Vnode} from 'mithril'
 import {Stream} from 'mithril/stream'
 import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import {Component} from './component'
@@ -13,6 +14,7 @@ export class Slider extends Component<
 	},
 	HTMLDivElement
 > {
+	children: () => Vnode
 	size = 0
 	total = 0
 	pos = null
@@ -22,7 +24,7 @@ export class Slider extends Component<
 	slides = []
 	tween = null
 
-	oncreate() {
+	onCreate() {
 		const contentStyler = (styler as any)(this.dom.firstChild)
 		this.pos = value(0, contentStyler.set('x'))
 		const listener = this.listen()
@@ -132,7 +134,7 @@ export class Slider extends Component<
 		if (actives) actives(activeChecks)
 	}
 
-	onupdate() {
+	onUpdate() {
 		const {index} = this.attrs
 		const x = this.pos.get()
 		this.setSize()
@@ -145,11 +147,10 @@ export class Slider extends Component<
 			}).start(this.pos)
 	}
 
-	view() {
+	render() {
 		const {unstyled = false} = this.attrs
 		const style = styles => ({style: unstyled || styles})
-		return m(
-			'.slider',
+		return m('.slider',
 			style({overflow: 'hidden'}),
 			m('.slider-content', this.children)
 		)

@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import classnames from 'classnames'
 import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'
@@ -15,7 +15,7 @@ export class Field extends Component<{
 }> {
 	className = this.attrs.unstyled ? 'field' : 'field-front'
 
-	view() {
+	render() {
 		const {errors, id, required, width = 1.0} = this.attrs
 
 		const style = {width: `${width * 100}%`}

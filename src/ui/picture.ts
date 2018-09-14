@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 import classnames from 'classnames'
 
@@ -39,7 +39,7 @@ export class Picture extends Component<{
 		})
 	}
 
-	view() {
+	render() {
 		const {
 			empty,
 			width,
@@ -52,8 +52,7 @@ export class Picture extends Component<{
 		} = this.attrs
 		if (empty || !src) return
 		const set = this.srcset(src, max)
-		return m(
-			'.picture',
+		return m('.picture',
 			{
 				class: classnames([
 					`mod-${mod}`,

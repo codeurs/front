@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 
 import './masonry.less'
@@ -17,24 +17,21 @@ export class Masonry extends Component<{
 		return cols
 	}
 
-	view() {
+	render() {
 		const {cols: colsCount, addClass} = this.attrs
 		const items = this.children
 		if (!(items instanceof Array)) throw 'Array expected'
 		const cols = this.divide(items, colsCount)
-		return m(
-			'.masonry',
+		return m('.masonry',
 			cols.map((children, i) =>
-				m(
-					'.masonry-col',
+				m('.masonry-col',
 					{
 						style: {
 							'flex-basis': 100 / cols.length + '%'
 						}
 					},
 					children.map((item, j) =>
-						m(
-							'.masonry-item',
+						m('.masonry-item',
 							{
 								class: addClass ? addClass(i, j) : ''
 							},

@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Options, cleanupOptions} from '../../util/formutils'
 import {Component} from './../component'
 import {Checkbox} from './checkbox'
@@ -16,8 +16,9 @@ export class Boxes extends Component<{
 	onchange?: (v: Array<string>) => void
 	onfocus?: (e: Event) => void
 }> {
-	className =
-		this.attrs.className || (this.attrs.unstyled && 'boxes') || 'boxes-front'
+	className = this.attrs.className ||
+		(this.attrs.unstyled && 'boxes') ||
+		'boxes-front'
 
 	setValue(key, active) {
 		const {value = [], onchange} = this.attrs
@@ -30,7 +31,7 @@ export class Boxes extends Component<{
 		}
 	}
 
-	view() {
+	render() {
 		const {value = [], options, unstyled, required} = this.attrs
 		const cleanOptions = cleanupOptions(options)
 		const half = Math.ceil(cleanOptions.length / 2)

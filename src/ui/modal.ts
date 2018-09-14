@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 import {subComponent} from '../util/subcomponent'
 import lockScroll from '../util/lockscroll'
@@ -25,7 +25,7 @@ export class Modal extends Component<{
 		this.opened = isOpen
 	}
 
-	onremove() {
+	onRemove() {
 		window.removeEventListener('keydown', this.closeByKey)
 	}
 
@@ -36,7 +36,7 @@ export class Modal extends Component<{
 		m.redraw()
 	}
 
-	view() {
+	render() {
 		const {isOpen, close, zIndex = 1000, mod} = this.attrs
 		if (!isOpen) return null
 		return m('.modal',
@@ -62,8 +62,7 @@ export class Modal extends Component<{
 				...classes({mod}),
 				style: {zIndex}
 			},
-			m(
-				'.modal-container',
+			m('.modal-container',
 				{
 					onclick: ({target}) => {
 						if (target && target.classList.contains('modal-container')) close()

@@ -1,75 +1,84 @@
-import {
-	Component as MithrilComponent,
-	CVnode,
-	CVnodeDOM,
-	Children
-} from 'mithril'
-import * as equal from 'fast-deep-equal'
+import {Component as MithrilComponent, CVnode, Children} from 'mithril'
+import m from 'mithril'
+import redrawApi from 'mithril/redraw'
 
-declare var process: {env: {NODE_ENV: string}}
+// Type signature is incomplete
+const redraw = redrawApi as any
 
-export class Component<Attr = {}, El = Element>
+export class Component<Attr = {}, Dom = Element>
 	implements MithrilComponent<Attr> {
-	// Use pure to mark this component for optimization
-	// Do not use this for components that hold internal state,
-	// use impure child components, or need access to children
-	pure = false
-	// Following are references to properties on mithril's vnode
 	attrs: Attr
-	dom: El
 	children: Children
+	private __root = document.createDocumentFragment()
 
 	constructor(vnode: CVnode<Attr>) {
+		this.__update(vnode)
+	}
+
+	get dom(): Dom {
+		const vnodes = (this.__root as any).vnodes
+		if (vnodes.length === 0) return null
+		if (vnodes.length === 1) return vnodes[0]
+		return vnodes
+	}
+
+	// Public API
+
+	onInit() {}
+	onCreate() {}
+	onUpdate() {}
+	onBeforeRemove() {}
+	onRemove() {}
+	onBeforeUpdate(newVNode) {}
+	render(): Children {
+		throw 'implement'
+	}
+
+	redraw() {
+		redraw.render(this.__root, this.render())
+	}
+
+	// Mithril connection
+	/* Uncomment to test performance vs global redraws
+	dom = null
+	oninit = vnode => (this.__update(vnode), this.onInit())
+	oncreate = vnode => (this.__update(vnode), this.onCreate())
+	onupdate = vnode => (this.__update(vnode), this.onUpdate())
+	onremove = vnode => this.onRemove()
+	onbeforeremove = vnode => this.onBeforeRemove()
+	onbeforeupdate = (_, vnode) => this.onBeforeUpdate(vnode)
+	view() {
+		return this.render()
+	}*/
+
+	oninit = vnode => (this.__update(vnode), this.onInit())
+	oncreate = vnode => {
+		this.__update(vnode)
+		this.redraw()
+		redraw.subscribe(this.__root, m.redraw)
+		vnode.dom.parentNode.replaceChild(this.__root, vnode.dom)
+		this.onCreate()
+	}
+	onupdate = vnode => {
+		this.__update(vnode)
+		this.redraw()
+		this.onUpdate()
+	}
+	onbeforeremove = vnode =>
+		Promise.resolve(this.onBeforeRemove()).then(this.__remove, this.__remove)
+	onremove = vnode => this.onRemove()
+	onbeforeupdate = (_, newVNode) => this.onBeforeUpdate(newVNode)
+	view() {
+		return ''
+	}
+
+	private __remove = () => {
+		(this.__root as any).vnodes.forEach(vnode => vnode.dom.remove())
+		redraw.unsubscribe(this.__root, m.redraw)
+	}
+
+	private __update(vnode) {
 		this.attrs = vnode.attrs
-	}
-
-	oninit(_) {
-		if (this.pure) this.patch(this.updatePure, 'oncreate', 'onupdate', 'view')
-		else this.patch(this.update, 'oncreate', 'onupdate', 'view')
-	}
-
-	onbeforeupdate(vnode: CVnode<Attr>, old: CVnodeDOM<Attr>) {
-		return !this.pure || !equal(vnode.attrs, old.attrs)
-	}
-
-	patch(to: any, ...methods: Array<string>) {
-		const comp: any = this
-		methods.forEach(method => {
-			const original = comp[method] && comp[method].bind(comp)
-			comp[method] = (...args) => {
-				return to.apply(comp, args.concat(original))
-			}
-		})
-	}
-
-	update(vnode: CVnodeDOM<Attr>, original?: any) {
-		this.attrs = vnode.attrs
-		if (vnode.dom) this.dom = vnode.dom as any
 		this.children = vnode.children
-		this.onafterupdate()
-		if (original) {
-			if (process.env.NODE_ENV === 'production') {
-				try {
-					return original(vnode)
-				} catch (e) {
-					console.error(e)
-					return null
-				}
-			} else {
-				return original(vnode)
-			}
-		}
-	}
-
-	onafterupdate() {}
-
-	updatePure(vnode: CVnodeDOM<Attr>, original?: any) {
-		this.attrs = vnode.attrs
-		this.dom = vnode.dom as any
-		if (original) return original(vnode)
-	}
-
-	view(): Children {
-		throw 'assert'
 	}
 }

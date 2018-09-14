@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 import classnames from 'classnames'
 import {getResizedUrl} from './picture'
@@ -24,7 +24,7 @@ export class Background extends Component<
 		return typeof img === 'string' ? {src: img} : img
 	}
 
-	oncreate(vnode) {
+	onCreate() {
 		const img = this.image()
 		if (!img.src || img.empty) return
 		this.showing = img.src
@@ -39,15 +39,14 @@ export class Background extends Component<
 			style.backgroundPosition = `${img.focus.x * 100}% ${img.focus.y * 100}%`
 	}
 
-	onupdate(vnode) {
+	onUpdate() {
 		const img = this.image()
-		if (this.showing !== img.src) this.oncreate(vnode)
+		if (this.showing !== img.src) this.onCreate()
 	}
 
-	view() {
+	render() {
 		const {img, ...attrs} = this.attrs
-		return m(
-			'.background',
+		return m('.background',
 			{
 				key: this.image().src,
 				...attrs

@@ -16,7 +16,7 @@ Use an action component when you have an internal or external link.
 ```javascript
 import {action} from '@codeurs/front'
 
-view() {
+render() {
   return m('a', action('/url'))
 }
 ```
@@ -26,7 +26,7 @@ If you have multiple attributes you must write it a little bit different.
 ```javascript
 import {action} from '@codeurs/front'
 
-view() {
+render() {
   return m('a', {
     class: 'link',
     ...action('/url')
@@ -41,7 +41,7 @@ Conditionally join classNames together. Uses [classNames](https://github.com/Jed
 ```javascript
 import {classes} from '@codeurs/front'
 
-view() {
+render() {
   const {mod} = this.attrs
   const open = true
 
@@ -71,7 +71,7 @@ Media queries are useful when you want to modify your site depending on the brow
 ```javascript
 import {MediaQuery} from '@codeurs/front'
 
-view() {
+render() {
   return [
     m(MediaQuery, {
       maxWidth: 767,
@@ -94,7 +94,7 @@ import {Component, ModalStore, Modal, ModalOverlay} from '@codeurs/front'
 
 class ModalExample extends Component {
   modal = new ModalStore()
-  view() {
+  render() {
     return [
       m('a', {onclick: this.modal.open}, 'Open modal'),
       m(Modal, this.modal, [
@@ -114,7 +114,7 @@ Creates a top-level node in the body and mounts its children. Useful to escape z
 import {Component, Portal} from '@codeurs/front'
 
 class PortalExample extends Component {
-  view() {
+  render() {
     return m(Portal, [
       m('.portalexample', 'This is placed at the end of document.body')
     ])
@@ -131,7 +131,7 @@ import {Component, Slider, SliderStore} from '@codeurs/front'
 
 export default class SliderExample extends Component {
   slider = new SliderStore()
-  view() {
+  render() {
     return m('.sliderexample', [
       m(Slider, this.slider, [
         m('.sliderexample-slide'), // display: inline-block

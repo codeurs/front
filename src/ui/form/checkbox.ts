@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {randomKey} from '../../util/formutils'
 import {Component} from '../component'
 
@@ -13,13 +13,12 @@ export class Checkbox extends Component<{
 	required?: boolean
 	onchange?: (v: boolean) => void
 }> {
-	className =
-		this.attrs.className ||
+	className = this.attrs.className ||
 		(this.attrs.unstyled && 'checkbox') ||
 		'checkbox-front'
 	id = randomKey('check_')
 
-	view() {
+	render() {
 		const {value, onchange, label, name = this.id, required} = this.attrs
 
 		return m(`div.${this.className}`, [
@@ -31,8 +30,7 @@ export class Checkbox extends Component<{
 				onclick: onchange && (() => onchange(!value)),
 				required
 			}),
-			m(
-				`label.${this.className}-label`,
+			m(`label.${this.className}-label`,
 				{for: this.id},
 				m(`span.${this.className}-label-square`),
 				m(`span.${this.className}-label-text`, label)

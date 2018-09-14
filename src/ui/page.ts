@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Component} from './component'
 
 export class Page extends Component<{
@@ -15,12 +15,11 @@ export class Page extends Component<{
 		this.currentRoute = this.attrs.route
 	}
 
-	oninit(vnode) {
-		super.oninit(vnode)
+	onInit() {
 		this.onroutechange()
 	}
 
-	onafterupdate() {
+	onUpdate() {
 		const last = this.currentRoute.href
 		this.currentRoute = this.attrs.route
 		if (last !== this.currentRoute.href) this.onroutechange()

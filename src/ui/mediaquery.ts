@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import {Vnode} from 'mithril'
 import {Component} from './component'
 import matchMedia from 'matchmediaquery'
@@ -21,11 +21,11 @@ export class MediaQuery extends Component<{
 		return matcher
 	}
 
-	onremove() {
+	onRemove() {
 		this.matcher.removeListener(m.redraw)
 	}
 
-	view() {
+	render() {
 		const {view} = this.attrs
 		return this.matcher.matches && view()
 	}
