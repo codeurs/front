@@ -5,7 +5,7 @@ install:
   - yarn
 
 script:
-  - yarn examples:build
+  - yarn ghpages
 
 deploy:
   provider: pages
