@@ -1,6 +1,7 @@
 import m from 'mithril'
 import './index.less'
 import {Router, Component, Slider} from '../../src'
+import {SliderExample} from './sliderexample'
 
 class Docs extends Component {
 	count = 0
@@ -15,18 +16,10 @@ class Docs extends Component {
 				onChange: v => this.count = v
 			}),
 			m('h3', this.count),
-			m('div', items.map(i => 
-				m(Range, {
-					value: i,
-					onChange: v => this.count = v
-				})
-			))
-			/*m('h2', 'Slider'),  
+			m('h2', 'Slider'),  
 			m('.docs-slider', [
-				m(Slider, [
-					'ok'
-				])
-			])*/
+				m(SliderExample, {slides: this.count})
+			])
 		])
   }
 }
@@ -37,16 +30,9 @@ class Range extends Component<{value: number, onChange: (v: number) => any}> {
 		return m('input[type=range]', {
 			value,
 			min: 0,
-			max: 500,
+			max: 50,
 			oninput: e => onChange(e.target.value)
 		})
-	}
-}
-
-class Row extends Component<{index: number}> {
-	render() {
-		const {index} = this.attrs
-		return index
 	}
 }
 

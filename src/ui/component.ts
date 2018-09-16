@@ -18,8 +18,8 @@ export class Component<Attr = {}, Dom = Element>
 	get dom(): Dom {
 		const vnodes = (this.__root as any).vnodes
 		if (vnodes.length === 0) return null
-		if (vnodes.length === 1) return vnodes[0]
-		return vnodes
+		if (vnodes.length === 1) return vnodes[0].dom
+		return vnodes.map(vnode => vnode.dom)
 	}
 
 	// Public API

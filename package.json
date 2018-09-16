@@ -16,9 +16,10 @@
     "watch": "tsc --pretty --preserveWatchOutput -w",
     "docs": "run-p dev docs:watch",
     "docs:watch": "cd docs && webpack --mode development -w",
+    "docs:build": "cd docs && webpack --mode production",
     "less": "copyfiles -u 1 \"./src/**/*.less\" dist",
     "prepublishOnly": "run-p compile less",
-    "precommit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
+    "precommit": "run docs:build && node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
     "pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
     "pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'"
   },
@@ -44,7 +45,7 @@
     "scrollbar-width": "^3.1.1"
   },
   "devDependencies": {
-    "@codeurs/packer": "^0.6.0-alpha.0",
+    "@codeurs/packer": "codeurs/packer#w4",
     "@types/es6-shim": "^0.31.37",
     "babel-cli": "^6.26.0",
     "copyfiles": "^2.0.0",
