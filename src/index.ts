@@ -1,4 +1,17 @@
+declare global {
+	namespace JSX {
+		interface ElementAttributesProperty {
+			attrs
+		}
+		interface ElementChildrenAttribute {
+			children: {}
+		}
+	}
+}
+
+export * from './hyperscript'
 export * from './ui/component'
+export * from './ui/context'
 export * from './ui/page'
 export * from './ui/picture'
 export * from './ui/image'

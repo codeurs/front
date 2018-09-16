@@ -50,6 +50,13 @@
     "@babel/helper-explode-assignable-expression" "^7.0.0"
     "@babel/types" "^7.0.0"
 
+"@babel/helper-builder-react-jsx@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/helper-builder-react-jsx/-/helper-builder-react-jsx-7.0.0.tgz#fa154cb53eb918cf2a9a7ce928e29eb649c5acdb"
+  dependencies:
+    "@babel/types" "^7.0.0"
+    esutils "^2.0.0"
+
 "@babel/helper-call-delegate@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-call-delegate/-/helper-call-delegate-7.0.0.tgz#e036956bb33d76e59c07a04a1fff144e9f62ab78"
@@ -278,6 +285,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-syntax-jsx@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.0.0.tgz#034d5e2b4e14ccaea2e4c137af7e4afb39375ffd"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+
 "@babel/plugin-syntax-object-rest-spread@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0.tgz#37d8fbcaf216bd658ea1aebbeb8b75e88ebc549b"
@@ -438,6 +451,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-transform-react-jsx@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-react-jsx/-/plugin-transform-react-jsx-7.0.0.tgz#524379e4eca5363cd10c4446ba163f093da75f3e"
+  dependencies:
+    "@babel/helper-builder-react-jsx" "^7.0.0"
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-syntax-jsx" "^7.0.0"
+
 "@babel/plugin-transform-regenerator@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-regenerator/-/plugin-transform-regenerator-7.0.0.tgz#5b41686b4ed40bef874d7ed6a84bdd849c13e0c1"
@@ -560,16 +581,48 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@codeurs/packer@codeurs/packer#w4":
-  version "0.6.0-alpha.0"
-  resolved "https://codeload.github.com/codeurs/packer/tar.gz/a377411e5ab6ea0a80ae50fe7d9d681fc0ab0233"
+"@codeurs/packer@^0.6.0-alpha.2":
+  version "0.6.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@codeurs/packer/-/packer-0.6.0-alpha.2.tgz#b37b07a6c5190bbb334b1c7383956e45109bee1f"
   dependencies:
     "@babel/core" "^7.0.1"
     "@babel/plugin-proposal-class-properties" "^7.0.0"
     "@babel/plugin-proposal-decorators" "^7.0.0"
     "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
     "@babel/plugin-syntax-dynamic-import" "^7.0.0"
+    "@babel/plugin-syntax-jsx" "^7.0.0"
     "@babel/plugin-transform-proto-to-assign" "^7.0.0"
+    "@babel/plugin-transform-react-jsx" "^7.0.0"
+    "@babel/preset-env" "^7.0.0"
+    autoprefixer "^8.6.0"
+    babel-loader "^8.0.2"
+    css-loader "^1.0.0"
+    cssnano "^4.1.0"
+    extract-text-webpack-plugin "^4.0.0-beta.0"
+    file-loader "^2.0.0"
+    iconfont-webpack-plugin "^2.0.0"
+    less "^3.8.1"
+    less-loader "^4.1.0"
+    postcss-loader "^2.1.5"
+    raw-loader "^0.5.1"
+    ts-loader "^5.1.1"
+    typescript "^3.0.3"
+    webpack "^4.19.0"
+    webpack-bundle-analyzer "^2.13.1"
+    webpack-cli "^3.1.0"
+
+"@codeurs/packer@codeurs/packer":
+  version "0.6.0-alpha.2"
+  resolved "https://codeload.github.com/codeurs/packer/tar.gz/712a430115a9b5f850da043e9f26789cd27a74c4"
+  dependencies:
+    "@babel/core" "^7.0.1"
+    "@babel/plugin-proposal-class-properties" "^7.0.0"
+    "@babel/plugin-proposal-decorators" "^7.0.0"
+    "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
+    "@babel/plugin-syntax-dynamic-import" "^7.0.0"
+    "@babel/plugin-syntax-jsx" "^7.0.0"
+    "@babel/plugin-transform-proto-to-assign" "^7.0.0"
+    "@babel/plugin-transform-react-jsx" "^7.0.0"
     "@babel/preset-env" "^7.0.0"
     autoprefixer "^8.6.0"
     babel-loader "^8.0.2"
@@ -2209,7 +2262,7 @@ estraverse@^4.1.0, estraverse@^4.1.1:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
 
-esutils@^2.0.2:
+esutils@^2.0.0, esutils@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 

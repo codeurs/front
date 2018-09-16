@@ -7,9 +7,8 @@ const redraw = redrawApi as any
 
 export class Component<Attr = {}, Dom = Element>
 	implements MithrilComponent<Attr> {
-	attrs: Attr
-	children: Children
-	private __root = document.createDocumentFragment()
+	attrs: Readonly<{children?: Children}> & Readonly<Attr>
+	private __root: any = document.createDocumentFragment()
 
 	constructor(vnode: CVnode<Attr>) {
 		this.__update(vnode)
@@ -22,14 +21,20 @@ export class Component<Attr = {}, Dom = Element>
 		return vnodes.map(vnode => vnode.dom)
 	}
 
+	get children() {
+		return this.attrs.children
+	}
+
 	// Public API
 
 	onInit() {}
 	onCreate() {}
 	onUpdate() {}
-	onBeforeRemove() {}
+	onBeforeRemove(): PromiseLike<any> {
+		return
+	}
 	onRemove() {}
-	onBeforeUpdate(newVNode) {}
+	onBeforeUpdate(attrs: Attr): void | boolean {}
 	render(): Children {
 		throw 'implement'
 	}
@@ -67,18 +72,25 @@ export class Component<Attr = {}, Dom = Element>
 	onbeforeremove = vnode =>
 		Promise.resolve(this.onBeforeRemove()).then(this.__remove, this.__remove)
 	onremove = vnode => this.onRemove()
-	onbeforeupdate = (_, newVNode) => this.onBeforeUpdate(newVNode)
+	onbeforeupdate = (_, vnode) => this.onBeforeUpdate(vnode.attrs)
 	view() {
 		return ''
 	}
 
 	private __remove = () => {
-		(this.__root as any).vnodes.forEach(vnode => vnode.dom.remove())
+		this.__root.vnodes.forEach(vnode => vnode.dom.remove())
 		redraw.unsubscribe(this.__root, m.redraw)
 	}
 
 	private __update(vnode) {
-		this.attrs = vnode.attrs
-		this.children = vnode.children
+		this.attrs = {
+			...vnode.attrs,
+			children:
+				vnode.children &&
+				vnode.children[0] &&
+				typeof vnode.children[0].children == 'function'
+					? vnode.children[0].children
+					: vnode.children
+		}
 	}
 }
