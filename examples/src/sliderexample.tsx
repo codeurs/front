@@ -1,7 +1,7 @@
+import './sliderexample.less'
 import m from 'mithril'
 import {Component, Slider, SliderStore} from '../../dist'
 
-import './sliderexample.less'
 export class SliderExample extends Component<{slides: number}> {
 	slider = new SliderStore()
 	render() {

@@ -1,7 +1,7 @@
 import {Children, CVnode} from 'mithril'
 import {Component} from './component'
 
-export type ProviderAttrs<T> = {value: T}
+export type ProviderAttrs<T> = {value: T | ((old: T) => T)}
 export type Provider<T> = {
 	new (vnode: CVnode<ProviderAttrs<T>>): Component<ProviderAttrs<T>>
 }
@@ -11,16 +11,17 @@ export type Consumer<T> = {
 }
 
 export const createContext = <T>(
-	context: T
+	context?: T
 ): {
 	Provider: Provider<T>
 	Consumer: Consumer<T>
 } => {
 	return {
-		Provider: class Provider extends Component<{value: T}> {
+		Provider: class Provider extends Component<ProviderAttrs<T>> {
 			redraw() {
+				const {value} = this.attrs
 				const old = context
-				context = this.attrs.value
+				context = typeof value === 'function' ? value(old) : value
 				super.redraw()
 				context = old
 			}

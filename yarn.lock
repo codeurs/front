@@ -581,36 +581,6 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@codeurs/packer@^0.6.0-alpha.2":
-  version "0.6.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@codeurs/packer/-/packer-0.6.0-alpha.2.tgz#b37b07a6c5190bbb334b1c7383956e45109bee1f"
-  dependencies:
-    "@babel/core" "^7.0.1"
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
-    "@babel/plugin-proposal-decorators" "^7.0.0"
-    "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
-    "@babel/plugin-syntax-dynamic-import" "^7.0.0"
-    "@babel/plugin-syntax-jsx" "^7.0.0"
-    "@babel/plugin-transform-proto-to-assign" "^7.0.0"
-    "@babel/plugin-transform-react-jsx" "^7.0.0"
-    "@babel/preset-env" "^7.0.0"
-    autoprefixer "^8.6.0"
-    babel-loader "^8.0.2"
-    css-loader "^1.0.0"
-    cssnano "^4.1.0"
-    extract-text-webpack-plugin "^4.0.0-beta.0"
-    file-loader "^2.0.0"
-    iconfont-webpack-plugin "^2.0.0"
-    less "^3.8.1"
-    less-loader "^4.1.0"
-    postcss-loader "^2.1.5"
-    raw-loader "^0.5.1"
-    ts-loader "^5.1.1"
-    typescript "^3.0.3"
-    webpack "^4.19.0"
-    webpack-bundle-analyzer "^2.13.1"
-    webpack-cli "^3.1.0"
-
 "@codeurs/packer@codeurs/packer":
   version "0.6.0-alpha.2"
   resolved "https://codeload.github.com/codeurs/packer/tar.gz/712a430115a9b5f850da043e9f26789cd27a74c4"
@@ -3818,9 +3788,9 @@ mississippi@^2.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
-mithril@mithriljs/mithril.js#8ae094f:
-  version "1.1.3"
-  resolved "https://codeload.github.com/mithriljs/mithril.js/tar.gz/8ae094fd8546b626a31973701d744b78c49fcb4a"
+mithril@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/mithril/-/mithril-1.1.6.tgz#bd2cc0de3d3c86076a6a7a30367a601a1bd108f3"
 
 mixin-deep@^1.2.0:
   version "1.3.1"

@@ -12,14 +12,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "run-p less watch",
-    "compile": "tsc",
+    "build": "tsc",
     "watch": "tsc --pretty --preserveWatchOutput -w",
     "examples": "run-p dev examples:watch",
     "examples:watch": "cd examples && webpack --mode development -w",
     "examples:build": "cd examples && webpack --mode production",
 		"ghpages": "run-s prepublishOnly examples:build",
     "less": "copyfiles -u 1 \"./src/**/*.less\" dist",
-    "prepublishOnly": "run-p compile less",
+    "prepublishOnly": "run-p build less",
     "precommit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
     "pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
     "pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'"
@@ -40,7 +40,7 @@
     "classnames": "^2.2.6",
     "jump.js": "^1.0.2",
     "matchmediaquery": "^0.2.1",
-    "mithril": "mithriljs/mithril.js#8ae094f",
+    "mithril": "^1.1.6",
     "object-to-formdata": "codeurs/object-to-formdata",
     "popmotion": "^8.1.10",
     "scrollbar-width": "^3.1.1"
