@@ -12,7 +12,8 @@
     "skipLibCheck": true,
 		"baseUrl": "./src/",
 		"jsx": "react",
-		"jsxFactory": "m"
+		"jsxFactory": "m",
+		"experimentalDecorators": true
   },
   "include": [
     "./src/**/*",

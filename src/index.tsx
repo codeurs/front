@@ -1,31 +1,26 @@
 import './index.less'
 import {mount} from 'mithril'
-import {m, Component, createContext} from '../../dist'
+import {m, Component, Title, Theme} from '../../dist'
 import {SliderExample} from './sliderexample'
-
-const Theme = createContext(0)
 
 class Docs extends Component {
 	count = 0
 	render() {
 		return (
-			<div class="docs">
-				<h1>@codeurs/front</h1>
-				<Range value={this.count} onChange={v => (this.count = v)} />
-				<h3>{this.count}</h3>
-				<h2>Slider</h2>
-				<div class="docs-slider">
-					<SliderExample slides={this.count} />
-				</div>
-				<h2>Context</h2>
-				<Theme.Consumer>{theme => theme}</Theme.Consumer>
-				<Theme.Provider value={this.count}>
-					<div>
-						Theme: <Theme.Consumer>{theme => theme}</Theme.Consumer>
+			<Theme theme={theme => ({...theme, Title: () => 'title replaced'})}>
+				<div class="docs">
+					<Title>@codeurs/front</Title>
+					<Range value={this.count} onChange={v => (this.count = v)} />
+					<Title heading={3}>{this.count}</Title>
+
+					<Theme theme={theme => theme}>
+						<Title heading={2}>Slider</Title>
+					</Theme>
+					<div class="docs-slider">
+						<SliderExample slides={this.count} />
 					</div>
-				</Theme.Provider>
-				<Theme.Consumer>{theme => theme}</Theme.Consumer>
-			</div>
+				</div>
+			</Theme>
 		)
 	}
 }
