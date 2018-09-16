@@ -1,6 +1,6 @@
 import './index.less'
 import {mount} from 'mithril'
-import {m, Component, createContext} from '../../src'
+import {m, Component, createContext} from '../../dist'
 import {SliderExample} from './sliderexample'
 
 const Theme = createContext(0)
