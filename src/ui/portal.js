@@ -16,6 +16,7 @@ export class Portal extends Component {
   }
 
   onremove() {
+    redraw.render(this.node, [])
     redraw.unsubscribe(this.node)
     document.body.removeChild(this.node)
   }

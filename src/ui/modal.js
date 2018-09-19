@@ -40,12 +40,12 @@ export class Modal extends Component {
         dom.classList.add('is-open')
       }, 25),
       onbeforeremove: ({dom}) => new Promise(done => {
-        dom.addEventListener('transitionend', () => {
-          lockScroll(false)
-          done()
-        }, false, {once: true})
+        dom.addEventListener('transitionend', done, false, {once: true})
         dom.classList.remove('is-open')
       }),
+      onremove: () => {
+          lockScroll(false)
+      },
       ...classes({mod}),
       style: {zIndex}
     }, m('.modal-container', {
