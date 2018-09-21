@@ -10,6 +10,8 @@ export function largeImage(img) {
 }
 
 export function getResizedUrl(url, width, height) {
+    if (url.indexOf('://') > -1) return url
+
 	let w = WIDTHS.find(w => w > width)
 	let h = HEIGHTS.find(h => h > height)
 	if (!w) w = WIDTHS[WIDTHS.length - 1]
