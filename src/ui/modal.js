@@ -14,6 +14,7 @@ export class Modal extends Component {
   
   lock() {
     const {isOpen, open, close} = this.attrs
+    lockScroll(isOpen)
     if (this.opened === isOpen) return
     if (isOpen) window.addEventListener('keydown', this.closeByKey)
     else window.removeEventListener('keydown', this.closeByKey)
@@ -36,16 +37,12 @@ export class Modal extends Component {
     if (!isOpen) return null
     return m('.modal', {
       oncreate: ({dom}) => setTimeout(() => {
-        lockScroll(true)
         dom.classList.add('is-open')
       }, 25),
       onbeforeremove: ({dom}) => new Promise(done => {
         dom.addEventListener('transitionend', done, false, {once: true})
         dom.classList.remove('is-open')
       }),
-      onremove: () => {
-          lockScroll(false)
-      },
       ...classes({mod}),
       style: {zIndex}
     }, m('.modal-container', {
