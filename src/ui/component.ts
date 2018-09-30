@@ -1,9 +1,8 @@
 import {Component as MithrilComponent, CVnode, Children} from 'mithril'
-import m from 'mithril'
 import redrawApi from 'mithril/redraw'
 
 // Type signature is incomplete
-const redraw = redrawApi as any
+const redrawService = redrawApi as any
 
 export class Component<Attr = {}, Dom = Element>
 	implements MithrilComponent<Attr> {
@@ -40,7 +39,7 @@ export class Component<Attr = {}, Dom = Element>
 	}
 
 	redraw() {
-		redraw.render(this.__root, this.render())
+		redrawService.render(this.__root, this.render())
 	}
 
 	// Mithril connection
@@ -60,7 +59,7 @@ export class Component<Attr = {}, Dom = Element>
 	oncreate = vnode => {
 		this.__update(vnode)
 		this.redraw()
-		redraw.subscribe(this.__root, m.redraw)
+		redrawService.subscribe(this.__root, redrawService.redraw)
 		vnode.dom.parentNode.replaceChild(this.__root, vnode.dom)
 		this.onCreate()
 	}
@@ -79,7 +78,7 @@ export class Component<Attr = {}, Dom = Element>
 
 	private __remove = () => {
 		this.__root.vnodes.forEach(vnode => vnode.dom.remove())
-		redraw.unsubscribe(this.__root, m.redraw)
+		redrawService.unsubscribe(this.__root, redrawService.redraw)
 	}
 
 	private __update(vnode) {

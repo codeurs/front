@@ -1,7 +1,7 @@
 import './index.less'
-import {mount} from 'mithril'
+import mount from 'mithril/mount'
 import {m, Component, Title, Theme} from '../../dist'
-import {SliderExample} from './sliderexample'
+//import {SliderExample} from './sliderexample'
 
 class Docs extends Component {
 	count = 0
@@ -17,7 +17,7 @@ class Docs extends Component {
 						<Title heading={2}>Slider</Title>
 					</Theme>
 					<div class="docs-slider">
-						<SliderExample slides={this.count} />
+						{/*<SliderExample slides={this.count} />*/}
 					</div>
 				</div>
 			</Theme>

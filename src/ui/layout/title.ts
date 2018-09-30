@@ -1,5 +1,6 @@
 import './title.less'
-import m from 'mithril'
+import {Children} from 'mithril'
+import {m} from '../../hyperscript'
 import {Component} from '../component'
 import {widget} from './widget'
 
@@ -7,7 +8,7 @@ import {widget} from './widget'
 export class Title extends Component<{
 	heading?: number
 }> {
-	render() {
+	render(): Children {
 		const {children, heading = 1, ...attrs} = this.attrs
 		const tag = `h${heading}`
 		return m(`${tag}.title`, attrs, children)
