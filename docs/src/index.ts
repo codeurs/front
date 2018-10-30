@@ -1,4 +1,4 @@
-import * as m from 'mithril'
+import m from 'mithril'
 import './index.less'
 import {Router, Component} from './../../src/index.js'
 
