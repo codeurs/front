@@ -7,7 +7,7 @@ function startsWith(a, b) {
 }
 
 export const action = Object.assign(
-	(data, cb, replace = false) => {
+	(data, cb = null, replace = false) => {
 		if (typeof data == 'string') return action({url: data}, cb, replace)
 		if (!data || !data.url) return {}
 		const {url, target} = data
