@@ -39,12 +39,12 @@ export const action = Object.assign(
 			if (exact) return path == url
 			return startsWith(path, url)
 		},
-		anchorClick(e, href, replace) {
+		anchorClick(e, href, replace = false) {
 			if (e.which == 2) return
 			e.preventDefault()
 			action.navigate(href, replace)
 		},
-		navigate(url, replace) {
+		navigate(url, replace = false) {
 			if (!url) return
 			if (typeof url != 'string' && 'url' in url)
 				return action.navigate(url.url, replace)

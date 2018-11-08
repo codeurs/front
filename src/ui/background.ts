@@ -14,6 +14,7 @@ export type Img = {
 export class Background extends Component<
 	{
 		img: string | Img
+		[key: string]: any
 	},
 	HTMLDivElement
 > {
