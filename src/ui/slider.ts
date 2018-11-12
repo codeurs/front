@@ -9,7 +9,7 @@ export class Slider extends Component<
 		index: Stream<number>
 		total: Stream<number>
 		actives: Stream<Array<() => void>>
-		unstyled: boolean
+		unstyled?: boolean
 	},
 	HTMLDivElement
 > {
