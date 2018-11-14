@@ -11,7 +11,8 @@ export class Portal extends Component {
 	oncreate(vnode) {
 		document.body.appendChild(this.node)
 		redrawService.subscribe(this.node, m.redraw)
-		(this as any).onupdate(vnode)
+		const comp = this as any
+		comp.onupdate(vnode)
 	}
 
 	onupdate() {
