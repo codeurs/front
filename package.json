@@ -12,8 +12,10 @@
   "author": "Ben Merckx <ben@codeurs.be>",
   "license": "MIT",
   "scripts": {
+    "dev": "npm run -s css && tsc --pretty --preserveWatchOutput -w",
     "docs": "cd docs && webpack --config webpack.config.js --mode development",
-    "prepublishOnly": "tsc && copyfiles -u 1 \"./src/**/*.less\" dist"
+    "css": "copyfiles -u 1 \"./src/**/*.less\" dist",
+    "prepublishOnly": "tsc && npm run -s css"
   },
   "dependencies": {
     "@types/classnames": "^2.2.6",
