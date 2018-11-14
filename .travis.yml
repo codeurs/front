@@ -5,16 +5,19 @@ install:
   - yarn
 
 script:
-  - yarn examples:build
+  - yarn docs
 
 deploy:
   provider: pages
   skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  github-token: $GITHUB_TOKEN
   keep-history: true
-  local-dir: examples/gh-pages
+  local-dir: docs
   on:
-    branch: master
+    branch: ts_old
 
 cache:
   yarn: true
+
+env:
+  secure: "u0T1YAecgMpwEQruQAHfjiCiARYo7z/su1vpCTQvFOg3rPmsM/R/7ai0KYysL1whjTMvmFxg2pJx3jq2tejuD7kyK2JUDc1B9pSDg/LBwCPyw9ity5uElXh6GHtMTIyHLleKZRAh4pyrQY3Bs2QsdFHga1jSDr5w3PrRBJ+cYY78eYLGZwHgU8zbjZ6i65nqrA5oNUM9RtIZrM8ZWSz3WmW6zPkAQQaEJ/JqT+zJ1j29XLoBqXwML24ydUM/MHujj98tSCGbAGgjkGqx2t+fwtpbxEUSmc4rMC8PDAL7dCQ9kF6Q5D1ztbj+W8/IhLWhrAjjCzaogbPaYKpxAnnUPsoTuiZbe6wCDAT4S71Nf22SgA3QTT3+9G+L0EOhie/URyTzDwEXHhVUTDA+V0ayVe0XvcWqHeL92lLMMHSCUsx2zhqx5nw998XrmrUDt/rSq59b+4EJ+t1JVSDr5Eawnlvaqp1Yy1BPuA9l3vGnFQImWcUffz4Uu21Qc7uG+rQtZp7+wZ7zRYLuO4pwfftkVL6B0r8ixO4K7ksIIVMkxFoVOKOw4EDoN1qLzje7FHeCxHOPvSdK34KLnqTZ82y1Z/VcP+xcSxeA+n5lY27LIIJa869V0n4mBN+juOlwI1TzGb7pwkiIKdIrnSvEhN4WqIWUwkEaSOpkp8B+rhRy/aE="
