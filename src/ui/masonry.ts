@@ -4,7 +4,7 @@ import {Component} from './component'
 import './masonry.less'
 export class Masonry extends Component<{
 	cols: number
-	addClass: (i: number, j: number) => string
+	addClass?: (i: number, j: number) => string
 }> {
 	divide(items, colsCount) {
 		const cols = Array(colsCount)
