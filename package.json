@@ -1,6 +1,6 @@
 {
   "name": "@codeurs/front",
-  "version": "0.4.0-alpha.14",
+  "version": "0.4.0-alpha.15",
   "description": "Collection of mithril utilities and components",
   "sideEffects": false,
   "module": "dist/index.js",
@@ -13,7 +13,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm run -s css && tsc --pretty --preserveWatchOutput -w",
-    "docs": "cd docs && webpack --config webpack.config.js --mode development",
+    "docs": "cd docs && NODE_ENV=development webpack --config webpack.config.js -w",
+    "docs:dev": "cd docs && NODE_ENV=development webpack --config webpack.config.js",
     "css": "copyfiles -u 1 \"./src/**/*.less\" dist",
     "prepublishOnly": "tsc && npm run -s css"
   },
@@ -31,7 +32,7 @@
     "scrollbar-width": "^3.1.1"
   },
   "devDependencies": {
-    "@codeurs/packer": "codeurs/packer#w4",
+    "@codeurs/packer": "^0.6.0-alpha.3",
     "copyfiles": "^2.0.0",
     "typescript": "^3.1.4"
   }
