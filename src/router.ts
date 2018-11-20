@@ -1,5 +1,5 @@
 import m from 'mithril'
-import jump from 'jump.js'
+import jump from 'jump.js/src/jump.js'
 
 export class Router {
 	transport = null

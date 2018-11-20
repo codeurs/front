@@ -2,7 +2,7 @@ import m from 'mithril'
 import {FormStatus, FormStore} from '../../store/formstore'
 import {randomKey} from '../../util/formutils'
 import {Field} from './field'
-import jump from 'jump.js'
+import jump from 'jump.js/src/jump.js'
 
 export {Input} from './input'
 export {Select} from './select'
