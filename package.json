@@ -24,7 +24,7 @@
     "classnames": "^2.2.5",
     "fast-deep-equal": "^2.0.1",
     "hex-to-rgb": "^1.0.1",
-    "jump.js": "^1.0.2",
+    "jump.js": "callmecavs/jump.js#81726bf",
     "matchmediaquery": "^0.2.1",
     "mithril": "^1.1.6",
     "object-to-formdata": "codeurs/object-to-formdata",
