@@ -9,6 +9,7 @@ export class SliderStore {
 	index = stream(0)
 	total = stream(0)
 	actives = stream([])
+	animating = stream(false)
 
 	has(index) {
 		return index >= 0 && index < this.total()

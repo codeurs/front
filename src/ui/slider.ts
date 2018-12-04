@@ -9,6 +9,7 @@ export class Slider extends Component<
 		index: Stream<number>
 		total: Stream<number>
 		actives: Stream<Array<() => void>>
+		animating: Stream<boolean>
 		unstyled?: boolean
 	},
 	HTMLDivElement
@@ -41,7 +42,9 @@ export class Slider extends Component<
 	// Todo: rewrite this to properly to use popmotion's actions and reactions
 	private listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
+			const {animating} = this.attrs
 			if (this.tween) this.tween.stop()
+			animating(true)
 			let start,
 				isHorizontal = null
 			const track = pointer({
@@ -75,13 +78,15 @@ export class Slider extends Component<
 
 	// Bounce back to current slide
 	bounce() {
-		const {index} = this.attrs
+		const {index, animating} = this.attrs
+		animating(true)
 		this.tween = spring({
 			from: this.pos.get(),
 			velocity: this.pos.getVelocity(),
 			to: this.slides[index()],
 			stiffness: 100,
-			damping: 20
+			damping: 20,
+			complete: () => animating(false)
 		}).start(this.pos)
 	}
 
@@ -148,8 +153,7 @@ export class Slider extends Component<
 	view() {
 		const {unstyled = false} = this.attrs
 		const style = styles => ({style: unstyled || styles})
-		return m(
-			'.slider',
+		return m('.slider',
 			style({overflow: 'hidden'}),
 			m('.slider-content', this.children)
 		)
