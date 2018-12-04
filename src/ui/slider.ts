@@ -79,6 +79,7 @@ export class Slider extends Component<
 	// Bounce back to current slide
 	bounce() {
 		const {index, animating} = this.attrs
+		if (this.tween) this.tween.stop()
 		animating(true)
 		this.tween = spring({
 			from: this.pos.get(),
