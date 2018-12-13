@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"allowJs": true,
+		"target": "es5",
+		"module": "es6",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"noUnusedParameters": false,
+		"removeComments": false,
+		"preserveConstEnums": true,
+		"skipLibCheck": true,
+		"baseUrl": "./src/",
+		"jsx": "react",
+		"jsxFactory": "m",
+		"experimentalDecorators": true
+	},
+	"include": ["./src/**/*", "."]
+}
