@@ -20,7 +20,7 @@
 		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
 		"ghpages": "run-s prepublishOnly examples:build",
 		"less": "copyfiles -u 1 \"./src/**/*.less\" dist",
-		"prepublishOnly": "run-p build less",
+		"prepublishOnly": "rimraf dist && run-p build less",
 		"precommit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
 		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
 		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'"
