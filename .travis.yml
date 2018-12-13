@@ -14,7 +14,7 @@ deploy:
   keep-history: true
   local-dir: examples
   on:
-    branch: ts
+    branch: ts_old
 
 cache:
   yarn: true
