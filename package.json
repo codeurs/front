@@ -17,7 +17,7 @@
 		"watch": "tsc --pretty --preserveWatchOutput -w",
 		"examples": "run-p dev examples:watch",
 		"examples:watch": "cd examples && webpack --mode development -w",
-		"examples:build": "cd examples && cross-env ANALYZE=3000 webpack --mode production --optimize-minimize",
+		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
 		"ghpages": "run-s prepublishOnly examples:build",
 		"less": "copyfiles -u 1 \"./src/**/*.less\" dist",
 		"prepublishOnly": "run-p build less",
@@ -50,7 +50,7 @@
 		"scrollbar-width": "^3.1.1"
 	},
 	"devDependencies": {
-		"@codeurs/packer": "^0.6.0-alpha.3",
+		"@codeurs/packer": "^0.7.1",
 		"copyfiles": "^2.0.0",
 		"cross-env": "^5.2.0",
 		"husky": "^1.2.0",
