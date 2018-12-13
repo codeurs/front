@@ -31,8 +31,7 @@ export class Checkbox extends Component<{
 				onclick: onchange && (() => onchange(!value)),
 				required
 			}),
-			m(
-				`label.${this.className}-label`,
+			m(`label.${this.className}-label`,
 				{for: this.id},
 				m(`span.${this.className}-label-square`),
 				m(`span.${this.className}-label-text`, label)

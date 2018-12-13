@@ -27,8 +27,8 @@
 	},
 	"lint-staged": {
 		"src/**/*.ts": [
-			"npm run pretty:format",
-			"npm run pretty:hyperscript",
+			"npm run -s pretty:format",
+			"npm run -s pretty:hyperscript",
 			"git add"
 		],
 		"src/**/*.less": [
@@ -51,13 +51,12 @@
 	},
 	"devDependencies": {
 		"@codeurs/packer": "^0.6.0-alpha.3",
-		"babel-cli": "^6.26.0",
 		"copyfiles": "^2.0.0",
 		"cross-env": "^5.2.0",
-		"husky": "^0.14.3",
-		"lint-staged": "^7.2.2",
+		"husky": "^1.2.0",
+		"lint-staged": "^8.1.0",
 		"npm-run-all": "^4.1.3",
 		"prettier": "^1.15.3",
-		"typescript": "^3.1.4"
+		"typescript": "^3.2.2"
 	}
 }

@@ -31,8 +31,7 @@ export class Radios extends Component<{
 
 		const cleanOptions = cleanupOptions(options)
 
-		return m(
-			`div.${this.className}`,
+		return m(`div.${this.className}`,
 			cleanOptions.map(option =>
 				m(Radio, {
 					option: option.label,

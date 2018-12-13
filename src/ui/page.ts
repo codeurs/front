@@ -1,13 +1,15 @@
 import m from 'mithril'
 import {Component} from './component'
 
-export class Page<T = {}> extends Component<{
-	route: {
-		href: string
-		path: string
-		params: {}
-	}
-} & T> {
+export class Page<T = {}> extends Component<
+	{
+		route: {
+			href: string
+			path: string
+			params: {}
+		}
+	} & T
+> {
 	currentRoute = null
 
 	constructor(vnode) {

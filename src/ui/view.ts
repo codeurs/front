@@ -4,8 +4,7 @@ import redrawApi from 'mithril/redraw'
 // Type signature is incomplete
 const redrawService = redrawApi as any
 
-export class View<Attr = {}, Dom = Element>
-	implements MithrilComponent<Attr> {
+export class View<Attr = {}, Dom = Element> implements MithrilComponent<Attr> {
 	attrs: Readonly<{children?: Children}> & Readonly<Attr>
 	private __root: any = document.createDocumentFragment()
 

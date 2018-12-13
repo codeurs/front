@@ -47,8 +47,7 @@ export class Background extends Component<
 
 	view() {
 		const {img, ...attrs} = this.attrs
-		return m(
-			'.background',
+		return m('.background',
 			{
 				key: this.image().src,
 				...attrs

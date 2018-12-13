@@ -52,8 +52,7 @@ export class Picture extends Component<{
 		} = this.attrs
 		if (empty || !src) return
 		const set = this.srcset(src, max)
-		return m(
-			'.picture',
+		return m('.picture',
 			{
 				class: classnames([
 					`mod-${mod}`,

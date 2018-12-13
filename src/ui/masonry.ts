@@ -22,19 +22,16 @@ export class Masonry extends Component<{
 		const items = this.children
 		if (!(items instanceof Array)) throw 'Array expected'
 		const cols = this.divide(items, colsCount)
-		return m(
-			'.masonry',
+		return m('.masonry',
 			cols.map((children, i) =>
-				m(
-					'.masonry-col',
+				m('.masonry-col',
 					{
 						style: {
 							'flex-basis': 100 / cols.length + '%'
 						}
 					},
 					children.map((item, j) =>
-						m(
-							'.masonry-item',
+						m('.masonry-item',
 							{
 								class: addClass ? addClass(i, j) : ''
 							},

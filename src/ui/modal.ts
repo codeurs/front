@@ -62,8 +62,7 @@ export class Modal extends Component<{
 				...classes({mod}),
 				style: {zIndex}
 			},
-			m(
-				'.modal-container',
+			m('.modal-container',
 				{
 					onclick: ({target}) => {
 						if (target && target.classList.contains('modal-container')) close()
