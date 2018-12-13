@@ -741,9 +741,9 @@
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
 
-"@types/mithril@^1.1.13":
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/@types/mithril/-/mithril-1.1.13.tgz#4212aa5b8e59d2e34b41b63fb9e88fb1c55ecf98"
+"@types/mithril@codeurs/mithril.d.ts":
+  version "1.1.12"
+  resolved "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/e3c9c341ff07a839ab6d09804e6386f66fbbca8d"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"

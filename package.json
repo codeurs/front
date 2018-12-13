@@ -38,7 +38,7 @@
 	},
 	"dependencies": {
 		"@types/classnames": "^2.2.6",
-		"@types/mithril": "^1.1.13",
+		"@types/mithril": "codeurs/mithril.d.ts",
 		"classnames": "^2.2.5",
 		"fast-deep-equal": "^2.0.1",
 		"hex-to-rgb": "^1.0.1",
