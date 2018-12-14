@@ -37,7 +37,8 @@ export class View<Attr = {}, Dom = Element> implements MithrilComponent<Attr> {
 		throw 'implement'
 	}
 
-	redraw() {
+	redraw(event?) {
+		if (event) event.redraw = false
 		redrawService.render(this.__root, this.render())
 	}
 
