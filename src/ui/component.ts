@@ -45,7 +45,12 @@ export class Component<Attr = {}, El = Element>
 	update(vnode: CVnodeDOM<Attr>, original?: any) {
 		this.attrs = vnode.attrs
 		if (vnode.dom) this.dom = vnode.dom as any
-		this.children = vnode.children
+		this.children =
+			vnode.children &&
+			vnode.children[0] &&
+			typeof vnode.children[0].children == 'function'
+				? vnode.children[0].children
+				: vnode.children
 		this.onafterupdate()
 		if (original) {
 			if (process.env.NODE_ENV === 'production') {
