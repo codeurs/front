@@ -1,3 +1,24 @@
 body {
   font-family: sans-serif;
 }
+
+.examples {
+	&-slider {
+		height: 400px;
+		background: #eee;
+		margin-top: 50px;
+		
+		&.is-animating {
+			background: red;
+		}
+		
+		&-slide {
+			display: inline-flex;
+			height: 100%;
+			width: 100%;
+			justify-content: center;
+			align-items: center;
+			font-size: 50px;
+		}
+	}
+}
