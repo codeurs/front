@@ -43,7 +43,10 @@ export class Slider extends Component<
 	private listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			const {animating} = this.attrs
-			if (this.tween) this.tween.stop()
+			if (this.tween) {
+				console.log(this.tween)
+				this.tween.stop()
+			}
 			animating(true)
 			let start,
 				isHorizontal = null
@@ -86,9 +89,11 @@ export class Slider extends Component<
 			velocity: this.pos.getVelocity(),
 			to: this.slides[index()],
 			stiffness: 100,
-			damping: 20,
+			damping: 20
+		}).start({
+			update: v => this.pos.update(v),
 			complete: () => animating(false)
-		}).start(this.pos)
+		})
 	}
 
 	setSize(resized = false) {
@@ -139,7 +144,7 @@ export class Slider extends Component<
 	}
 
 	onupdate() {
-		const {index} = this.attrs
+		const {index, animating} = this.attrs
 		const x = this.pos.get()
 		this.setSize()
 		if (x != this.slides[index()])
@@ -148,7 +153,10 @@ export class Slider extends Component<
 				//velocity: this.pos.getVelocity(),
 				to: this.slides[index()]
 				//stiffness: 200
-			}).start(this.pos)
+			}).start({
+				update: v => this.pos.update(v),
+				complete: () => animating(false)
+			})
 	}
 
 	view() {
