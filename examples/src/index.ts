@@ -1,6 +1,16 @@
 import './index.less'
 import m, {Children} from 'mithril'
-import {Component, Slider, SliderStore, classes} from '../../dist'
+import {createContext, Component, Slider, SliderStore, classes} from '../../dist'
+
+const theme = createContext('green')
+
+class Button extends Component {
+	view() {
+		return m(theme.Consumer, color => [
+			m('button', {color}, color)
+		])
+	}
+} 
 
 class Examples extends Component {
 	slider = new SliderStore()
@@ -24,7 +34,16 @@ class Examples extends Component {
 						)
 					)
 				)
-			)
+			),
+			m(Button),
+			m(theme.Provider, {value: 'red'}, [
+				m(Button),
+				m(Button),
+				m(theme.Provider, {value: 'blue'}, [
+					m(Button)
+				]),
+				m(Button)
+			])
 		]
 	}
 }

@@ -12,10 +12,9 @@
 	"author": "Ben Merckx <ben@codeurs.be>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "run-p less watch",
+		"dev": "run-p less watch examples:watch",
 		"build": "tsc",
 		"watch": "tsc --pretty --preserveWatchOutput -w",
-		"examples": "run-p dev examples:watch",
 		"examples:watch": "cd examples && webpack --mode development -w",
 		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
 		"ghpages": "run-s prepublishOnly examples:build",
