@@ -43,10 +43,7 @@ export class Slider extends Component<
 	private listen() {
 		return listen(this.dom, 'mousedown touchstart').start(e => {
 			const {animating} = this.attrs
-			if (this.tween) {
-				console.log(this.tween)
-				this.tween.stop()
-			}
+			if (this.tween) this.tween.stop()
 			animating(true)
 			let start,
 				isHorizontal = null

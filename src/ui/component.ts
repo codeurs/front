@@ -4,17 +4,12 @@ import {
 	CVnodeDOM,
 	Children
 } from 'mithril'
-import equal from 'fast-deep-equal'
 import {extractChildren} from '../util/children'
 
 declare var process: {env: {NODE_ENV: string}}
 
 export class Component<Attr = {}, El = Element>
 	implements MithrilComponent<Attr> {
-	// Use pure to mark this component for optimization
-	// Do not use this for components that hold internal state,
-	// use impure child components, or need access to children
-	pure = false
 	// Following are references to properties on mithril's vnode
 	attrs: Attr
 	dom: El
@@ -25,12 +20,11 @@ export class Component<Attr = {}, El = Element>
 	}
 
 	oninit(_) {
-		if (this.pure) this.patch(this.updatePure, 'oncreate', 'onupdate', 'view')
-		else this.patch(this.update, 'oncreate', 'onupdate', 'view')
+		this.patch(this.update, 'oncreate', 'onupdate', 'view')
 	}
 
 	onbeforeupdate(vnode: CVnode<Attr>, old: CVnodeDOM<Attr>) {
-		return !this.pure || !equal(vnode.attrs, old.attrs)
+		return true
 	}
 
 	patch(to: any, ...methods: Array<string>) {
