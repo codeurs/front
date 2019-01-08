@@ -2,9 +2,7 @@
 export const Inline = v =>
 	typeof v.attrs.view === 'function'
 		? {
-				view() {
-					return v.attrs.view(...arguments)
-				}
+				view: vnode => v.attrs.view(vnode)
 		  }
 		: typeof v.children[0] === 'function'
 		? v.children[0](v)
