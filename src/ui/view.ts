@@ -1,4 +1,4 @@
-import {Component, CVnode, CVnodeDOM, Children} from 'mithril'
+import m, {Component, CVnode, CVnodeDOM, Children} from 'mithril'
 
 declare global {
 	namespace JSX {
@@ -11,7 +11,7 @@ declare global {
 	}
 }
 
-export class View<Attr = {}, Dom extends Element = Element>
+export abstract class View<Attr = {}, Dom extends Element = Element>
 	implements Component<Attr> {
 	attrs: Readonly<{children?: Children}> & Readonly<Attr>
 	dom: Dom
@@ -32,40 +32,56 @@ export class View<Attr = {}, Dom extends Element = Element>
 	onBeforeRemove(): void | Promise<any> {}
 	onRemove() {}
 	onBeforeUpdate(attrs: Attr): void | boolean {}
-	render(attrs: Attr): void | Children {
-		throw 'implement'
+	abstract view(): Children
+
+	// Todo: redrawing array views is too hard
+	// Todo: check going from array to single element - should fail
+	protected redraw(e?) {
+		if (e) e.redraw = false
+		const view = this.view()
+		if (Array.isArray(view)) m.redraw()
+		else this.dom && m.render(this.dom, this.view())
 	}
 
 	// Mithril connection
 
+	/** @internal */
 	oninit(vnode: CVnode<Attr>) {
 		this.__update(vnode)
 		return this.onInit()
 	}
+
+	/** @internal */
 	oncreate(vnode: CVnodeDOM<Attr>) {
 		this.__update(vnode)
 		return this.onCreate()
 	}
+
+	/** @internal */
 	onupdate(vnode: CVnodeDOM<Attr>) {
 		this.__update(vnode)
 		return this.onUpdate()
 	}
+
+	/** @internal */
 	onbeforeremove(vnode: CVnodeDOM<Attr>) {
 		this.__update(vnode)
 		return this.onBeforeRemove()
 	}
+
+	/** @internal */
 	onremove(vnode: CVnodeDOM<Attr>) {
 		this.__update(vnode)
 		return this.onRemove()
 	}
-	onbeforeupdate(_: CVnodeDOM<Attr>, vnode: CVnodeDOM<Attr>) {
-		return this.onBeforeUpdate(vnode.attrs)
-	}
-	view(vnode: CVnodeDOM<Attr>) {
+
+	/** @internal */
+	onbeforeupdate(vnode: CVnodeDOM<Attr>, old: CVnodeDOM<Attr>) {
 		this.__update(vnode)
-		return this.render(this.attrs)
+		return this.onBeforeUpdate(old.attrs)
 	}
 
+	/** @internal */
 	private __update(vnode: CVnode<Attr> | CVnodeDOM<Attr>) {
 		if ('dom' in vnode) this.dom = vnode.dom as Dom
 		this.attrs = {

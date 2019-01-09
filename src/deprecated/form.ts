@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {FormStatus, FormStore} from './store/formstore'
+import {FormStatus, FormStore} from '../store/formstore'
 import objectToFormData from 'object-to-formdata'
 import {
 	Fields,
@@ -9,7 +9,7 @@ import {
 	Radios,
 	Checkbox,
 	Boxes
-} from './ui/form/fields'
+} from '../ui/form/fields'
 
 export class FormBase {
 	store: FormStore

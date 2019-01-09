@@ -40,7 +40,7 @@ export class Router extends View<RouterAttrs> {
 
 	onRemove = () => (window.onpopstate = null)
 
-	render() {
+	view() {
 		const {
 			matcher = pathnameMatcher,
 			formatPath = v => v,

@@ -1,5 +1,5 @@
 import m from 'mithril'
-import {Component} from './component'
+import {Component} from '../ui/component'
 
 export class Page<T = {}> extends Component<
 	{

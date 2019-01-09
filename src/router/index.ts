@@ -1,4 +1,3 @@
-export * from './deprecated'
 export * from './link'
 export * from './redirect'
 export * from './parseroute'

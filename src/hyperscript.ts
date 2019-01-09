@@ -30,16 +30,17 @@ type ExtendedHyperscript = typeof hyperscript & {
 const isPlainFunction = input =>
 	typeof input === 'function' && typeof input.prototype.view !== 'function'
 
-const extended: any = (selector, attrs, ...children) => {
-	if (isPlainFunction(selector)) {
-		if (
-			attrs &&
-			(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
-		)
-			return selector({children: [...attrs, ...children]})
-		return selector({...attrs, children})
-	}
-	return hyperscript(selector, attrs, ...children)
-}
-
-export const m: ExtendedHyperscript = Object.assign(extended, hyperscript)
+export const m: ExtendedHyperscript = Object.assign(
+	(selector, attrs, ...children) => {
+		if (isPlainFunction(selector)) {
+			if (
+				attrs &&
+				(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
+			)
+				return selector({children: [...attrs, ...children]})
+			return selector({...attrs, children})
+		}
+		return hyperscript(selector, attrs, ...children)
+	},
+	hyperscript
+)

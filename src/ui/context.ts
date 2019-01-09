@@ -18,7 +18,7 @@ export type Context<T> = {
 
 export const createContext = <T>(context?: T): Context<T> => ({
 	Provider: class Provider extends View<ProviderAttrs<T>> {
-		render() {
+		view() {
 			const received = context
 			const {value, children} = this.attrs
 			context = value
@@ -33,7 +33,7 @@ export const createContext = <T>(context?: T): Context<T> => ({
 		}
 	},
 	Consumer: class Consumer extends View<ConsumerAttrs<T>> {
-		render() {
+		view() {
 			const {children} = this.attrs
 			return children(context)
 		}

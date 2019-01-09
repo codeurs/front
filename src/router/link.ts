@@ -10,28 +10,31 @@ export class Link extends View<{
 	onclick?: Function
 	[key: string]: any
 }> {
-	render() {
+	view() {
 		const {to, target, onclick, children, ...attrs} = this.attrs
 		return m(Location, location => {
 			const href = location.formatPath(to)
-			return m('a',
-				{
-					...attrs,
-					href,
-					onclick: e => {
-						e.redraw = false
-						if (onclick) onclick(e)
-						const ignore =
-							ignoreClick(e) ||
-							target === '_blank' ||
-							isExternal(location, e.currentTarget)
-						if (ignore) return
-						e.preventDefault()
-						location.push(href)
-					}
-				},
-				children
-			)
+			const anchorAttrs = {
+				...attrs,
+				href,
+				onclick: e => {
+					e.redraw = false
+					if (onclick) onclick(e)
+					const ignore =
+						ignoreClick(e) ||
+						target === '_blank' ||
+						isExternal(location, e.currentTarget)
+					if (ignore) return
+					e.preventDefault()
+					location.push(href)
+				}
+			}
+			if (typeof children === 'function')
+				return children({
+					active: location.match({path: to}),
+					anchorAttrs
+				})
+			return m('a', anchorAttrs, children)
 		})
 	}
 }

@@ -743,7 +743,7 @@
 
 "@types/mithril@codeurs/mithril.d.ts":
   version "1.1.12"
-  resolved "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/e3c9c341ff07a839ab6d09804e6386f66fbbca8d"
+  resolved "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/e1fa3d5c5d8098f839e130fbaf9a1d742276d959"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"

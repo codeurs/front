@@ -5,7 +5,7 @@ import {m} from '../hyperscript'
 export class Redirect extends View<{
 	to: string
 }> {
-	render() {
+	view() {
 		const {to} = this.attrs
 		return m(Location, location => location.replace(location.formatPath(to)))
 	}
