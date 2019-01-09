@@ -32,7 +32,7 @@ export class View<Attr = {}, Dom extends Element = Element>
 	onBeforeRemove(): void | Promise<any> {}
 	onRemove() {}
 	onBeforeUpdate(attrs: Attr): void | boolean {}
-	render(attrs: Attr): Children {
+	render(attrs: Attr): void | Children {
 		throw 'implement'
 	}
 

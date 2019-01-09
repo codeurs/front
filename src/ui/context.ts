@@ -2,8 +2,6 @@
 
 import m, {CVnode, Children} from 'mithril'
 import {View} from './view'
-import {extractChildren} from '../util/children'
-import {Inline} from './inline'
 
 export type ProviderAttrs<T> = {value: T}
 export type Provider<T> = {
@@ -21,14 +19,14 @@ export type Context<T> = {
 export const createContext = <T>(context?: T): Context<T> => ({
 	Provider: class Provider extends View<ProviderAttrs<T>> {
 		render() {
-			const old = context
+			const received = context
 			const {value, children} = this.attrs
 			context = value
 			return [
 				children,
-				m(Inline, {
+				m({
 					view: () => {
-						context = old
+						context = received
 					}
 				})
 			]
@@ -36,8 +34,8 @@ export const createContext = <T>(context?: T): Context<T> => ({
 	},
 	Consumer: class Consumer extends View<ConsumerAttrs<T>> {
 		render() {
-			const consumer = this.children
-			if (typeof consumer === 'function') return consumer(context)
+			const {children} = this.attrs
+			return children(context)
 		}
 	}
 })

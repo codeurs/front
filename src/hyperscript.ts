@@ -1,5 +1,5 @@
 import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
-import {default as hyperscript} from 'mithril'
+import hyperscript from 'mithril'
 
 type ExtendedHyperscript = typeof hyperscript & {
 	(selector: string, ...children: Children[]): Vnode<any, any>
