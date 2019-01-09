@@ -10,7 +10,8 @@ import {
 	parseRoute,
 	Switch,
 	Redirect,
-	HistoryRouter
+	HistoryRouter,
+	classes
 } from '../../dist'
 
 const Theme = createContext('green')
@@ -21,7 +22,7 @@ const Button = () => (
 
 class SliderExample extends View {
 	slider = new SliderStore()
-	render() {
+	view() {
 		return (
 			<div>
 				<h1>@codeurs/front</h1>
@@ -49,7 +50,7 @@ class SliderExample extends View {
 const hashMatcher = (location, route) =>
 	parseRoute(location.hash.substr(1), route)
 
-const hashFormatter = path => `/#${path}`
+const hashFormatter = path => path && `/#${path}`
 
 const HashRouter = ({children}) => (
 	<HistoryRouter matcher={hashMatcher} formatPath={hashFormatter}>
@@ -57,67 +58,91 @@ const HashRouter = ({children}) => (
 	</HistoryRouter>
 )
 
+const LanguageLink = ({lang, children}) => (
+	<Link to={`/${lang}`}>
+		{({active, anchorAttrs}) => (
+			<a {...classes({is: {active}})} {...anchorAttrs}>
+				{children}
+			</a>
+		)}
+	</Link>
+)
+
+const LanguagesNav = () => (
+	<HashRouter>
+		<LanguageLink lang="nl">Nederlands</LanguageLink>
+		<LanguageLink lang="en">English</LanguageLink>
+		<LanguageLink lang="fr">Français</LanguageLink>
+	</HashRouter>
+)
+
 class Examples extends View {
-	render() {
+	view() {
 		return (
 			<HashRouter>
-				<Route
-					path="/:language"
-					render={({
-						match: {
-							params: {language}
-						}
-					}) => (
-						<div>
-							<HistoryRouter
-								matcher={(location, route) =>
-									hashMatcher(location, {
-										...route,
-										path: route.path && `/${language}${route.path}`
-									})
-								}
-								formatPath={path => hashFormatter(`/${language}${path}`)}
-								language={language}
-							>
-								<div>
-									<HashRouter>
-										<Link to="/nl">Nederlands</Link>
-										<Link to="/en">English</Link>
-										<Link to="/fr">Français</Link>
-									</HashRouter>
-								</div>
-								Language: {language}
-								<nav>
-									<Link to="/">Home</Link>
-									<Link to="/slider">Slider</Link>
-									<Link to="/other">Other</Link>
-									<Link to="/back">Back home</Link>
-								</nav>
-								<Switch>
-									<Route path="/slider" render={SliderExample} />
-									<Route
-										path="/other"
-										render={() => {
-											return <div>Other</div>
-										}}
-									/>
-									<Route
-										path="/back"
-										render={() => {
-											return (
-												<div>
-													Back home
-													<Redirect to="/" />
-												</div>
-											)
-										}}
-									/>
-									<Route render={() => <div>Match all</div>} />
-								</Switch>
-							</HistoryRouter>
-						</div>
-					)}
-				/>
+				<Switch>
+					<Route
+						path="/:language"
+						render={({
+							match: {
+								params: {language}
+							}
+						}) => (
+							<div>
+								<HistoryRouter
+									matcher={(location, route) =>
+										hashMatcher(location, {
+											...route,
+											path: route.path && `/${language}${route.path}`
+										})
+									}
+									formatPath={path => hashFormatter(`/${language}${path}`)}
+									language={language}
+								>
+									<div>
+										<LanguagesNav />
+									</div>
+									Language: {language}
+									<nav>
+										<Link to="/">Home</Link>
+										<Link to="/slider">Slider</Link>
+										<Link to="/other">Other</Link>
+										<Link to="/back">Back home</Link>
+									</nav>
+									<Switch>
+										<Route path="/slider" render={SliderExample} />
+										<Route
+											path="/other"
+											render={() => {
+												return <div>Other</div>
+											}}
+										/>
+										<Route
+											path="/back"
+											render={() => {
+												return (
+													<div>
+														Back home
+														<Redirect to="/" />
+													</div>
+												)
+											}}
+										/>
+										<Route render={() => <div>Match all</div>} />
+									</Switch>
+								</HistoryRouter>
+							</div>
+						)}
+					/>
+					<Route>
+						{() => (
+							<div>
+								Choose a language:
+								<LanguagesNav />
+							</div>
+						)}
+					</Route>
+				</Switch>
 			</HashRouter>
 		)
 	}
