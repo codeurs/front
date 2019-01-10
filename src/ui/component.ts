@@ -3,7 +3,7 @@ import {
 	CVnode,
 	CVnodeDOM,
 	Children
-} from 'mithril'
+} from 'mithril-es'
 import {extractChildren} from '../util/children'
 
 declare var process: {env: {NODE_ENV: string}}

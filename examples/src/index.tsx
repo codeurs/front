@@ -1,4 +1,5 @@
 import './index.less'
+//import 'core-js/fn/weak-set'
 import {
 	m,
 	createContext,
@@ -17,13 +18,14 @@ import {
 	ModalOverlay,
 	Portal
 } from '../../dist'
+import {mount} from 'mithril-es'
 
 const Theme = createContext('green')
 
 const Button = () => (
 	<Theme.Consumer>{color => <button>{color}</button>}</Theme.Consumer>
 )
-
+/*
 class SliderExample extends View {
 	slider = new SliderStore()
 	view() {
@@ -50,7 +52,7 @@ class SliderExample extends View {
 		)
 	}
 }
-
+*/
 const hashMatcher = (location, route) =>
 	parseRoute(location.hash.substr(1), route)
 
@@ -124,7 +126,7 @@ class Examples extends View {
 										<Link to="/back">Back home</Link>
 									</nav>
 									<Switch>
-										<Route path="/slider" render={SliderExample} />
+										{/*<Route path="/slider" render={SliderExample} />*/}
 										<Route
 											path="/other"
 											render={() => {
@@ -163,4 +165,4 @@ class Examples extends View {
 	}
 }
 
-m.mount(document.getElementById('root'), Examples)
+mount(document.getElementById('root'), Examples)

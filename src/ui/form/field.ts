@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m} from 'mithril-es'
 import classnames from 'classnames'
 import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'

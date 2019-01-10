@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import m from 'mithril'
+import {m} from 'mithril-es'
 import {cleanupOptions} from '../../util/formutils'
 import {Component} from '../component'
 

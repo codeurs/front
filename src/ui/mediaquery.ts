@@ -1,5 +1,5 @@
-import m from 'mithril'
-import {Vnode} from 'mithril'
+import {m, redraw} from 'mithril-es'
+import {Vnode} from 'mithril-es'
 import {Component} from './component'
 import matchMedia from 'matchmediaquery'
 
@@ -17,12 +17,12 @@ export class MediaQuery extends Component<{
 		if (maxWidth) rules.push(`(max-width: ${maxWidth}px)`)
 		const query = rules.join(' and ')
 		const matcher = matchMedia(query)
-		matcher.addListener(m.redraw)
+		matcher.addListener(redraw)
 		return matcher
 	}
 
 	onremove() {
-		this.matcher.removeListener(m.redraw)
+		this.matcher.removeListener(redraw)
 	}
 
 	view() {

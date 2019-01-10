@@ -1,6 +1,6 @@
 // See https://github.com/MithrilJS/mithril.js/issues/2148#issuecomment-452023800
 
-import m, {CVnode, Children} from 'mithril'
+import {m, CVnode, Children} from 'mithril-es'
 import {View} from './view'
 
 export type ProviderAttrs<T> = {value: T}

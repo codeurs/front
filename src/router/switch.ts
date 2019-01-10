@@ -1,6 +1,6 @@
 import {View} from '../ui/view'
 import {Route, RouteAttrs} from './route'
-import {Vnode} from 'mithril'
+import {Vnode} from 'mithril-es'
 import {m} from '../hyperscript'
 import {Location} from './router'
 import {extractChildren} from '../util/children'

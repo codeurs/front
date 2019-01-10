@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m, redraw} from 'mithril-es'
 import {Stream} from 'mithril/stream'
 import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
 import {Component} from './component'
@@ -32,7 +32,7 @@ export class Slider extends Component<
 		size()
 		// We redraw in the next frame here, because
 		// active state is only now available
-		setTimeout(m.redraw)
+		setTimeout(redraw)
 		this['onremove'] = () => {
 			listener.stop()
 			window.removeEventListener('resize', size)
@@ -68,7 +68,7 @@ export class Slider extends Component<
 					const next = velocity > 0 ? index() - 1 : index() + 1
 					if (next >= 0 && next < total()) {
 						index(next)
-						return m.redraw()
+						return redraw()
 					}
 				}
 				this.bounce()
@@ -135,7 +135,7 @@ export class Slider extends Component<
 		if (total() != this.slides.length) {
 			total(this.slides.length)
 			if (index() > total()) index(total() - 1)
-			setTimeout(m.redraw)
+			setTimeout(redraw)
 		}
 		if (actives) actives(activeChecks)
 	}

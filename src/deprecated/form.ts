@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m, buildQueryString, request} from 'mithril-es'
 import {FormStatus, FormStore} from '../store/formstore'
 import objectToFormData from 'object-to-formdata'
 import {
@@ -62,7 +62,7 @@ export class FormBase {
 	formatData(type) {
 		switch (type) {
 			case 'application/x-www-form-urlencoded':
-				return m.buildQueryString(this.store.data)
+				return buildQueryString(this.store.data)
 			case 'multipart/form-data':
 				return objectToFormData(this.store.data)
 			case 'application/json':
@@ -71,7 +71,7 @@ export class FormBase {
 	}
 
 	transfer(request) {
-		return m.request({
+		return request({
 			...request,
 			config: xhr => this.store.send(xhr)
 		})

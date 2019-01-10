@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m, parseQueryString, redraw, mount} from 'mithril-es'
 import jump from 'jump.js'
 
 export class Router {
@@ -16,7 +16,7 @@ export class Router {
 	view(vnode) {
 		const {href} = window.location
 		const params =
-			href.indexOf('?') > -1 ? m.parseQueryString(href.split('?')[1]) : {}
+			href.indexOf('?') > -1 ? parseQueryString(href.split('?')[1]) : {}
 		const route = {href, path: window.location.pathname, params}
 		return this.resolve(this.data, route)
 	}
@@ -25,12 +25,12 @@ export class Router {
 		window.onpopstate = e => {
 			if (e.state) {
 				this.setData(e.state.data)
-				m.redraw()
+				redraw()
 			} else {
 				this.navigate(window.location.pathname)
 			}
 		}
-		m.mount(element, this)
+		mount(element, this)
 	}
 
 	getPageTitle(data) {

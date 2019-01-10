@@ -1,4 +1,4 @@
-import m, {Component, CVnode, CVnodeDOM, Children} from 'mithril'
+import {m, Component, CVnode, CVnodeDOM, Children} from 'mithril-es'
 import {extractChildren} from '../util/children'
 
 declare global {

@@ -1,4 +1,5 @@
 import {m} from '../hyperscript'
+import {redraw} from 'mithril-es'
 import {View} from '../ui/view'
 import {createContext} from '../ui/context'
 import {parseRoute, Match} from './parseroute'
@@ -39,9 +40,9 @@ export class Router extends View<RouterAttrs> {
 	static instances = 0
 
 	onCreate() {
-		if (!Router.instances++) window.addEventListener('popstate', m.redraw)
+		if (!Router.instances++) window.addEventListener('popstate', redraw)
 		this.onRemove = () => {
-			if (!--Router.instances) window.removeEventListener('popstate', m.redraw)
+			if (!--Router.instances) window.removeEventListener('popstate', redraw)
 		}
 	}
 
@@ -65,11 +66,11 @@ export class Router extends View<RouterAttrs> {
 					pathname,
 					replace: (to: string) => {
 						history.replaceState(pathname, '', to)
-						m.redraw()
+						redraw()
 					},
 					push: (href: string) => {
 						history.pushState(href, '', href)
-						m.redraw()
+						redraw()
 					},
 					match: (route: RouteAttrs) => matcher(location, route),
 					formatPath

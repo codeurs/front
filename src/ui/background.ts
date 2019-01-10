@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m} from 'mithril-es'
 import {Component} from './component'
 import classnames from 'classnames'
 import {getResizedUrl} from './picture'

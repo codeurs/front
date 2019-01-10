@@ -1,4 +1,4 @@
-import m from 'mithril'
+import {m, redraw} from 'mithril-es'
 import {Component} from './component'
 import {subComponent} from '../util/subcomponent'
 import lockScroll from '../util/lockscroll'
@@ -33,7 +33,7 @@ export class Modal extends Component<{
 		const {close} = this.attrs
 		if (e.keyCode !== 27) return
 		close()
-		m.redraw()
+		redraw()
 	}
 
 	view() {
