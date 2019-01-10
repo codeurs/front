@@ -11,7 +11,11 @@ import {
 	Switch,
 	Redirect,
 	HistoryRouter,
-	classes
+	classes,
+	ModalStore,
+	Modal,
+	ModalOverlay,
+	Portal
 } from '../../dist'
 
 const Theme = createContext('green')
@@ -52,29 +56,38 @@ const hashMatcher = (location, route) =>
 
 const hashFormatter = path => path && `/#${path}`
 
-const HashRouter = ({children}) => (
-	<HistoryRouter matcher={hashMatcher} formatPath={hashFormatter}>
-		{children}
-	</HistoryRouter>
-)
+const HashRouter = ({children}) =>
+	m(HistoryRouter, {matcher: hashMatcher, formatPath: hashFormatter}, children)
 
-const LanguageLink = ({lang, children}) => (
-	<Link to={`/${lang}`}>
-		{({active, anchorAttrs}) => (
-			<a {...classes({is: {active}})} {...anchorAttrs}>
-				{children}
-			</a>
-		)}
-	</Link>
-)
+const LanguageLink = ({lang, children}) =>
+	m(Link, {to: `/${lang}`}, ({active, anchorAttrs}) =>
+		m('a', {...classes({is: {active}}), ...anchorAttrs}, children)
+	)
 
-const LanguagesNav = () => (
-	<HashRouter>
-		<LanguageLink lang="nl">Nederlands</LanguageLink>
-		<LanguageLink lang="en">English</LanguageLink>
-		<LanguageLink lang="fr">Français</LanguageLink>
-	</HashRouter>
-)
+const LanguagesNav = () => 
+	m(HashRouter, [
+		m(LanguageLink, {lang: 'nl'}, 'Nederlands'),
+		m(LanguageLink, {lang: 'en'}, 'English'),
+		m(LanguageLink, {lang: 'fr'}, 'Français'),
+	])
+	
+class ModalExample extends View {
+	modal = new ModalStore()
+	view() {
+		return [
+			m('button', {onclick: this.modal.open}, 'Open modal'),
+			m(Portal, [
+				m(Modal, this.modal, [
+					m(ModalOverlay),
+					m('.modalexample', [
+						'Popup content',
+						m('button', {onclick: () => this.modal.close()}, 'Close popup')
+					])
+				])
+			])
+		]
+	}
+}
 
 class Examples extends View {
 	view() {
@@ -107,6 +120,7 @@ class Examples extends View {
 										<Link to="/">Home</Link>
 										<Link to="/slider">Slider</Link>
 										<Link to="/other">Other</Link>
+										<Link to="/modal">Modal</Link>
 										<Link to="/back">Back home</Link>
 									</nav>
 									<Switch>
@@ -128,6 +142,7 @@ class Examples extends View {
 												)
 											}}
 										/>
+										<Route path="/modal" render={ModalExample} />
 										<Route render={() => <div>Match all</div>} />
 									</Switch>
 								</HistoryRouter>
