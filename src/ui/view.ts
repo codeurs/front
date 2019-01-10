@@ -1,4 +1,5 @@
 import m, {Component, CVnode, CVnodeDOM, Children} from 'mithril'
+import {extractChildren} from '../util/children'
 
 declare global {
 	namespace JSX {
@@ -34,14 +35,12 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onBeforeUpdate(attrs: Attr): void | boolean {}
 	abstract view(): Children
 
-	// Todo: redrawing array views is too hard
-	// Todo: check going from array to single element - should fail
-	protected redraw(e?) {
+	/*protected redraw(e?) {
 		if (e) e.redraw = false
 		const view = this.view()
 		if (Array.isArray(view)) m.redraw()
 		else this.dom && m.render(this.dom, this.view())
-	}
+	}*/
 
 	// Mithril connection
 
@@ -86,12 +85,7 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 		if ('dom' in vnode) this.dom = vnode.dom as Dom
 		this.attrs = {
 			...vnode.attrs,
-			children:
-				vnode.children &&
-				vnode.children[0] &&
-				typeof vnode.children[0].children == 'function'
-					? vnode.children[0].children
-					: vnode.children
+			children: extractChildren(vnode.children)
 		}
 	}
 }

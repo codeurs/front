@@ -43,13 +43,13 @@
 		"hex-to-rgb": "^1.0.1",
 		"jump.js": "codeurs/jump.js",
 		"matchmediaquery": "^0.2.1",
-		"mithril": "^1.1.6",
+		"mithril": "^2.0.0-rc.3",
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.1.10",
 		"scrollbar-width": "^3.1.1"
 	},
 	"devDependencies": {
-		"@codeurs/packer": "^0.7.1",
+		"@codeurs/packer": "^0.7.4",
 		"copyfiles": "^2.0.0",
 		"cross-env": "^5.2.0",
 		"husky": "^1.2.0",

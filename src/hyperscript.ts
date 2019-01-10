@@ -1,29 +1,31 @@
 import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
 import hyperscript from 'mithril'
 
-type ExtendedHyperscript = typeof hyperscript & {
+type ChildAttr<T> = {children: T} | {children?: T}
+
+type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Vnode<any, any>
 	(selector: string, attributes: Attributes, ...children: Children[]): Vnode<
 		any,
 		any
 	>
-	<Attrs, State>(
-		component: ComponentTypes<Attrs, State>,
-		...args: Children[]
+	<Attrs, State, Child>(
+		component: ComponentTypes<ChildAttr<Child> & ChildAttr<Child>, State>,
+		...args: Child[]
 	): Vnode<Attrs, State>
-	<Attrs, State>(
-		component: ComponentTypes<Attrs, State>,
+	<Attrs, State, Child>(
+		component: ComponentTypes<ChildAttr<Child> & Attrs, State>,
 		attributes: Attrs & Lifecycle<Attrs, State> & {key?: string | number},
-		...args: Children[]
+		...args: Child[]
 	): Vnode<Attrs, State>
-	(
-		component: (attrs: {children?: Children}) => Children,
-		...args: Children[]
+	<Child>(
+		component: (attrs: ChildAttr<Child>) => Children,
+		...args: Child[]
 	): Vnode<{}>
-	<Attrs>(
-		component: (attrs: {children?: Children} & Attrs) => Children,
+	<Attrs, Child>(
+		component: (attrs: ChildAttr<Child> & Attrs) => Children,
 		attributes: Attrs & {key?: string | number},
-		...args: Children[]
+		...args: Child[]
 	): Vnode<Attrs>
 }
 

@@ -1,27 +1,16 @@
 import m from 'mithril'
-import {Component} from './component'
-import redrawApi from 'mithril/redraw'
+import {View} from './view'
 
-// Type signature is incomplete
-const redrawService = redrawApi as any
-
-export class Portal extends Component {
+export class Portal extends View {
 	node = document.createElement('div')
 
-	oncreate(vnode) {
+	onCreate() {
 		document.body.appendChild(this.node)
-		redrawService.subscribe(this.node, m.redraw)
-		const comp = this as any
-		comp.onupdate(vnode)
+		m.mount(this.node, {view: () => this.children})
 	}
 
-	onupdate() {
-		redrawService.render(this.node, this.children)
-	}
-
-	onremove() {
-		redrawService.render(this.node, [])
-		redrawService.unsubscribe(this.node)
+	onRemove() {
+		m.mount(this.node, {view: () => null})
 		document.body.removeChild(this.node)
 	}
 

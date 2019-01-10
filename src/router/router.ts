@@ -36,9 +36,14 @@ type RouterAttrs = {
 }
 
 export class Router extends View<RouterAttrs> {
-	onCreate = () => (window.onpopstate = m.redraw)
+	static instances = 0
 
-	onRemove = () => (window.onpopstate = null)
+	onCreate() {
+		if (!Router.instances++) window.addEventListener('popstate', m.redraw)
+		this.onRemove = () => {
+			if (!--Router.instances) window.removeEventListener('popstate', m.redraw)
+		}
+	}
 
 	view() {
 		const {
