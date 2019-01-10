@@ -20,9 +20,9 @@ export type History = {
 
 export type Matcher = (location: LocationData, route: RouteAttrs) => Match
 
-type ContextValue = LocationData & History & RouterAttrs
+export type RouterContext = LocationData & History & RouterAttrs
 
-const {Provider, Consumer} = createContext<ContextValue>()
+const {Provider, Consumer} = createContext<RouterContext>()
 
 export const Location = Consumer
 

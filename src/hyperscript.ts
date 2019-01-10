@@ -3,6 +3,8 @@ import hyperscript from 'mithril'
 
 type ChildAttr<T> = {children: T} | {children?: T}
 
+const mithrilStatic = {...hyperscript}
+
 type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Vnode<any, any>
 	(selector: string, attributes: Attributes, ...children: Children[]): Vnode<
@@ -27,7 +29,7 @@ type ExtendedHyperscript = {
 		attributes: Attrs & {key?: string | number},
 		...args: Child[]
 	): Vnode<Attrs>
-}
+} & typeof mithrilStatic
 
 const isPlainFunction = input =>
 	typeof input === 'function' && typeof input.prototype.view !== 'function'

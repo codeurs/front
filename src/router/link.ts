@@ -12,7 +12,6 @@ export class Link extends View<{
 }> {
 	view() {
 		const {to, target, onclick, children, ...attrs} = this.attrs
-		m(Location, (num: number) => 123)
 		return m(Location, location => {
 			const href = location.formatPath(to)
 			const anchorAttrs = {
