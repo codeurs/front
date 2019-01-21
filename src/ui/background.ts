@@ -1,6 +1,5 @@
 import m from 'mithril'
 import {Component} from './component'
-import classnames from 'classnames'
 import {getResizedUrl} from './picture'
 
 import './background.less'
@@ -14,6 +13,7 @@ export type Img = {
 export class Background extends Component<
 	{
 		img: string | Img
+		class?: string
 		[key: string]: any
 	},
 	HTMLDivElement
@@ -46,10 +46,11 @@ export class Background extends Component<
 	}
 
 	view() {
-		const {img, ...attrs} = this.attrs
+		const {img, class: className, ...attrs} = this.attrs
 		return m('.background',
 			{
 				key: this.image().src,
+				className,
 				...attrs
 			},
 			this.children
