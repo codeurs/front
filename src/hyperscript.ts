@@ -41,7 +41,7 @@ export const m: ExtendedHyperscript = Object.assign(
 				attrs &&
 				(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
 			)
-				return selector({children: [...attrs, ...children]})
+				return selector({children: [].concat(attrs).concat(children)})
 			return selector({...attrs, children})
 		}
 		return hyperscript(selector, attrs, ...children)
