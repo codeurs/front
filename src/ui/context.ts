@@ -14,6 +14,7 @@ export type Consumer<T> = {
 export type Context<T> = {
 	Provider: Provider<T>
 	Consumer: Consumer<T>
+	__get: () => T
 }
 
 export const createContext = <T>(context?: T): Context<T> => ({
@@ -37,5 +38,6 @@ export const createContext = <T>(context?: T): Context<T> => ({
 			const {children} = this.attrs
 			return children(context)
 		}
-	}
+	},
+	__get: () => context
 })
