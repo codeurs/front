@@ -32,7 +32,6 @@ const pathnameMatcher: Matcher = (location, route) =>
 type RouterAttrs = {
 	matcher?: Matcher
 	formatPath?: (path: string) => string
-	language?: string
 }
 
 export class Router extends View<RouterAttrs> {
@@ -46,17 +45,12 @@ export class Router extends View<RouterAttrs> {
 	}
 
 	view() {
-		const {
-			matcher = pathnameMatcher,
-			formatPath = v => v,
-			language
-		} = this.attrs
+		const {matcher = pathnameMatcher, formatPath = v => v} = this.attrs
 		const {location, history} = window
 		const {protocol, hostname, port, search, hash, pathname} = location
 		return m(Provider,
 			{
 				value: {
-					language,
 					protocol,
 					hostname,
 					port,
