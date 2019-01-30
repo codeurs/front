@@ -103,8 +103,7 @@ class Examples extends View {
 								...route,
 								path: route.path && `/${language}${route.path}`
 							}),
-							formatPath: path => hashFormatter(`/${language}${path}`),
-							language
+							formatPath: path => hashFormatter(`/${language}${path}`)
 						}, [
 							m('', m(LanguagesNav)),
 							`Language: ${language}`,
