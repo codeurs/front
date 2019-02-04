@@ -33,7 +33,7 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onBeforeRemove(): void | Promise<any> {}
 	onRemove() {}
 	onBeforeUpdate(attrs: Attr): void | boolean {}
-	abstract view(): Children
+	abstract render(): Children
 
 	/*protected redraw(e?) {
 		if (e) e.redraw = false
@@ -43,6 +43,13 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	}*/
 
 	// Mithril connection
+
+	// Cannot mark view as internal because that wouldn't match mithril externs.
+	// Method is stubbed because we might need it later on to bypass mithril
+	// error handling.
+	view(): Children {
+		return this.render()
+	}
 
 	/** @internal */
 	oninit(vnode: CVnode<Attr>) {

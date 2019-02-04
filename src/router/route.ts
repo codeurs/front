@@ -9,7 +9,7 @@ export type RouteAttrs = {
 }
 
 export class Route extends View<RouteAttrs> {
-	view() {
+	render() {
 		const {render = this.children} = this.attrs
 		return m(Location, location => {
 			const match = location.match(this.attrs)

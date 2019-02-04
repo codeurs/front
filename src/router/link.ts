@@ -10,7 +10,7 @@ export class Link extends View<{
 	onclick?: Function
 	[key: string]: any
 }> {
-	view() {
+	render() {
 		const {to, target, onclick, children, ...attrs} = this.attrs
 		return m(Location, location => {
 			const href = location.formatPath(to)

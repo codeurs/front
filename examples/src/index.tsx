@@ -25,7 +25,7 @@ const Button = () =>
 
 class SliderExample extends View {
 	slider = new SliderStore()
-	view() {
+	render() {
 		return m('div', [
 			m('h1', '@codeurs/front'),
 			m('.examples-slider', 
@@ -70,7 +70,7 @@ const LanguagesNav = () =>
 	
 class ModalExample extends View {
 	modal = new ModalStore()
-	view() {
+	render() {
 		return [
 			m('button', {onclick: this.modal.open}, 'Open modal'),
 			m(Portal, [
@@ -87,7 +87,7 @@ class ModalExample extends View {
 }
 
 class Examples extends View {
-	view() {
+	render() {
 		return m(HashRouter, 
 			m(Switch, [
 				m(Route, {

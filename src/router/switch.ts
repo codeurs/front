@@ -8,7 +8,7 @@ import {extractChildren} from '../util/children'
 export class Switch extends View<{
 	children: Array<Vnode<RouteAttrs>>
 }> {
-	view() {
+	render() {
 		const {children} = this.attrs
 		return m(Location, location => {
 			for (const child of children) {

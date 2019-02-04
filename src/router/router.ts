@@ -44,7 +44,7 @@ export class Router extends View<RouterAttrs> {
 		}
 	}
 
-	view() {
+	render() {
 		const {matcher = pathnameMatcher, formatPath = v => v} = this.attrs
 		const {location, history} = window
 		const {protocol, hostname, port, search, hash, pathname} = location
