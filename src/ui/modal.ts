@@ -59,6 +59,7 @@ export class Modal extends Component<{
 						)
 						dom.classList.remove('is-open')
 					}),
+				onremove: () => lockScroll(false),
 				...classes({mod}),
 				style: {zIndex}
 			},
