@@ -1,5 +1,6 @@
 import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
 import hyperscript from 'mithril'
+import {createContext} from './ui/context'
 
 type ChildAttr<T> = {children: T} | {children?: T}
 
@@ -34,17 +35,33 @@ type ExtendedHyperscript = {
 const isPlainFunction = input =>
 	typeof input === 'function' && typeof input.prototype.view !== 'function'
 
-export const m: ExtendedHyperscript = Object.assign(
-	(selector, attrs, ...children) => {
-		if (isPlainFunction(selector)) {
-			if (
-				attrs &&
-				(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
+const withFunctional = (selector, attrs?, ...children) => {
+	if (isPlainFunction(selector)) {
+		if (
+			attrs &&
+			(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
+		)
+			return selector({children: [].concat(attrs).concat(children)})
+		return selector({...attrs, children})
+	}
+	return hyperscript(selector, attrs, ...children)
+}
+
+const SelectorContext = createContext<string>()
+
+const withSelector = (selector, ...attrs) => {
+	const m = withFunctional
+	if (typeof selector !== 'string') return m(selector, ...attrs)
+	if (selector[0] === '.')
+		return m(SelectorContext.Provider, {value: selector}, m(selector, ...attrs))
+	if (selector[0] === '-')
+		return m(SelectorContext.Consumer, parent =>
+			m(SelectorContext.Provider,
+				{value: parent + selector},
+				m(parent + selector, ...attrs)
 			)
-				return selector({children: [].concat(attrs).concat(children)})
-			return selector({...attrs, children})
-		}
-		return hyperscript(selector, attrs, ...children)
-	},
-	hyperscript
-)
+		)
+	return m(selector, ...attrs)
+}
+
+export const m: ExtendedHyperscript = Object.assign(withSelector, hyperscript)
