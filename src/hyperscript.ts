@@ -52,8 +52,6 @@ const SelectorContext = createContext<string>()
 const withSelector = (selector, ...attrs) => {
 	const m = withFunctional
 	if (typeof selector !== 'string') return m(selector, ...attrs)
-	if (selector[0] === '.')
-		return m(SelectorContext.Provider, {value: selector}, m(selector, ...attrs))
 	if (selector[0] === '-')
 		return m(SelectorContext.Consumer, parent =>
 			m(SelectorContext.Provider,
@@ -61,7 +59,7 @@ const withSelector = (selector, ...attrs) => {
 				m(parent + selector, ...attrs)
 			)
 		)
-	return m(selector, ...attrs)
+	return m(SelectorContext.Provider, {value: selector}, m(selector, ...attrs))
 }
 
 export const m: ExtendedHyperscript = Object.assign(withSelector, hyperscript)
