@@ -1,8 +1,8 @@
+import './textarea.less'
+
 import classnames from 'classnames'
 import m from 'mithril'
 import {Component} from '../component'
-
-import './textarea.less'
 
 export class Textarea extends Component<{
 	name: string

@@ -1,8 +1,9 @@
+import './icon.less'
+
 import m from 'mithril'
 import {Component} from './component'
 import classnames from 'classnames'
 
-import './icon.less'
 export class Icon extends Component<{
 	icon: string
 	class?: any

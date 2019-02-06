@@ -1,3 +1,5 @@
+import './picture.less'
+
 import m from 'mithril'
 import {Component} from './component'
 import classnames from 'classnames'
@@ -17,7 +19,6 @@ export function getResizedUrl(url, width, height) {
 	return `/cache/${w}/${h}${url}`
 }
 
-import './picture.less'
 export class Picture extends Component<{
 	empty?: boolean
 	width?: number

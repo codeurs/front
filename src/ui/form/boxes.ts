@@ -1,8 +1,9 @@
+import './boxes.less'
+
 import m from 'mithril'
 import {Options, cleanupOptions} from '../../util/formutils'
 import {Component} from './../component'
 import {Checkbox} from './checkbox'
-import './boxes.less'
 
 export class Boxes extends Component<{
 	name: string

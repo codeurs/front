@@ -1,7 +1,8 @@
+import './masonry.less'
+
 import m from 'mithril'
 import {Component} from './component'
 
-import './masonry.less'
 export class Masonry extends Component<{
 	cols: number
 	addClass?: (i: number, j: number) => string

@@ -1,8 +1,8 @@
+import './background.less'
+
 import m from 'mithril'
 import {Component} from './component'
 import {getResizedUrl} from './picture'
-
-import './background.less'
 
 export type Img = {
 	src: string

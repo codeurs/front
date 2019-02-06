@@ -1,8 +1,8 @@
+import './checkbox.less'
+
 import m from 'mithril'
 import {randomKey} from '../../util/formutils'
 import {Component} from '../component'
-
-import './checkbox.less'
 
 export class Checkbox extends Component<{
 	name?: string

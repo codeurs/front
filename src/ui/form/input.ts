@@ -1,9 +1,9 @@
+import './input.less'
+
 import classnames from 'classnames'
 import m from 'mithril'
 import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'
-
-import './input.less'
 
 export class Input extends Component<{
 	name: string

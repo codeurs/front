@@ -1,9 +1,9 @@
+import './field.less'
+
 import m from 'mithril'
 import classnames from 'classnames'
 import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'
-
-import './field.less'
 
 export class Field extends Component<{
 	unstyled?: boolean

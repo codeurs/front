@@ -1,3 +1,5 @@
+import './modal.less'
+
 import m from 'mithril'
 import {Component} from './component'
 import {subComponent} from '../util/subcomponent'
@@ -6,7 +8,6 @@ import {classes} from '../util/classes'
 
 export const ModalOverlay = subComponent('.modal-overlay')
 
-import './modal.less'
 export class Modal extends Component<{
 	isOpen: boolean
 	close: () => void

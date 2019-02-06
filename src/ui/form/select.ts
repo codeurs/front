@@ -1,9 +1,9 @@
+import './select.less'
+
 import classnames from 'classnames'
 import m from 'mithril'
 import {cleanupOptions} from '../../util/formutils'
 import {Component} from '../component'
-
-import './select.less'
 
 export class Select extends Component<{
 	name: string

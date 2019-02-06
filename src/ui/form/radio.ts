@@ -1,8 +1,8 @@
+import './radio.less'
+
 import m from 'mithril'
 import {randomKey} from '../../util/formutils'
 import {Component} from '../component'
-
-import './radio.less'
 
 export class Radio extends Component<{
 	name: string
