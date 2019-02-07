@@ -39,6 +39,7 @@
 		"@types/classnames": "^2.2.6",
 		"@types/mithril": "codeurs/mithril.d.ts",
 		"classnames": "^2.2.5",
+		"contain-cover": "^0.2.1",
 		"fast-deep-equal": "^2.0.1",
 		"hex-to-rgb": "^1.0.1",
 		"jump.js": "codeurs/jump.js",
@@ -46,7 +47,8 @@
 		"mithril": "^2.0.0-rc.3",
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.1.10",
-		"scrollbar-width": "^3.1.1"
+		"scrollbar-width": "^3.1.1",
+		"sizeof-loader": "^1.1.1"
 	},
 	"devDependencies": {
 		"@codeurs/packer": "^0.7.4",

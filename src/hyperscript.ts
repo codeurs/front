@@ -1,7 +1,7 @@
 import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
 import hyperscript from 'mithril'
 
-type ChildAttr<T> = {children: T} | {children?: T}
+export type ChildAttr<T> = {children: T} | {children?: T}
 
 const mithrilStatic = {...hyperscript}
 
@@ -34,8 +34,13 @@ type ExtendedHyperscript = {
 const isPlainFunction = input =>
 	typeof input === 'function' && typeof input.prototype.view !== 'function'
 
+export type Attrs<T extends Element = Element> = Partial<T> & {
+	[key: string]: any
+}
+
 export const m: ExtendedHyperscript = Object.assign(
 	(selector, attrs, ...children) => {
+		const normalize = children => (children.length > 0 ? children : undefined)
 		if (isPlainFunction(selector)) {
 			if (
 				attrs &&

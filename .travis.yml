@@ -12,7 +12,7 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
-  local-dir: examples
+  local-dir: examples/dist
   on:
     branch: next
 

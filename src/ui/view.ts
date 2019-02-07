@@ -12,6 +12,11 @@ declare global {
 	}
 }
 
+export type StatelessView<Attr = {}> = {
+	(attr: Attr): Children
+	//(strings: Array<string>, ...args: Array<string>): Component<Attr>
+}
+
 export abstract class View<Attr = {}, Dom extends Element = Element>
 	implements Component<Attr> {
 	attrs: Readonly<{children?: Children}> & Readonly<Attr>
@@ -34,13 +39,6 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onRemove() {}
 	onBeforeUpdate(attrs: Attr): void | boolean {}
 	abstract view(): Children
-
-	/*protected redraw(e?) {
-		if (e) e.redraw = false
-		const view = this.view()
-		if (Array.isArray(view)) m.redraw()
-		else this.dom && m.render(this.dom, this.view())
-	}*/
 
 	// Mithril connection
 

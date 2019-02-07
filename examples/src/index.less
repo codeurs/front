@@ -1,5 +1,23 @@
+@font-face {
+  font-family: 'Inter';
+  font-weight: 300;
+  src: url("./assets/Inter-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  src: url("./assets/Inter-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  src: url("./assets/Inter-Bold.woff") format("woff");
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .examples {
@@ -33,4 +51,23 @@ a {
 	border-radius: 10px;
 	margin: 50px;
 	padding: 200px;
+}
+
+.images {
+	&-portrait {
+		outline: 1px solid red;
+		width: 150px;
+		height: 250px;
+	}
+
+	&-landscape {
+		outline: 1px solid red;
+		width: 200px;
+		height: 100px;
+	}
+
+	&-fixedheight {
+		height: 200px;
+		display: flex;
+	}
 }

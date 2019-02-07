@@ -8,6 +8,7 @@ import {
 	SliderStore,
 	Link,
 	Route,
+	Image,
 	parseRoute,
 	Switch,
 	Redirect,
@@ -16,8 +17,12 @@ import {
 	ModalStore,
 	Modal,
 	ModalOverlay,
-	Portal
+	Portal,
+	style,
+	ImageResizer
 } from '../../dist'
+import svgImage from 'assets/test.svg'
+import testImage from 'assets/test.jpg'
 
 const Theme = createContext('green')
 
@@ -87,6 +92,79 @@ class ModalExample extends View {
 	}
 }
 
+const Images = ({children}) => 
+	m('.images', 
+		m('h3', 'Server resize'),
+		m('.images-landscape', {style: {width: '400px', height: 'auto'}}, 
+			m(ImageResizer, {
+				resize: (attrs, container) => {
+					console.log(attrs, container)
+					return {...attrs}
+				}
+			}, 
+				m(Image, svgImage)
+			)
+		),
+		m('h3', 'No crop'),
+		m('.images-landscape', {style: {width: '400px', height: 'auto'}}, 
+			m(Image, svgImage)
+		),
+		m('.images-portrait',
+			m(Image, testImage)
+		), 
+		m('h3', 'Cover'),
+		m('.images-landscape',
+			m(Image, {
+				alt: 'ok',
+				fit: 'cover',
+				src: 'https://picsum.photos/600/200'
+			})
+		),
+		m('.images-portrait', 
+			m(Image, {
+				fit: 'cover',
+				width: 200,
+				height: 100,
+				src: 'https://picsum.photos/200/100'
+			})
+		), 
+		m('.images-portrait', 
+		m(Image, {
+			fit: 'cover',
+			position: {x: .8, y: .8},
+			src: 'https://picsum.photos/800/400'
+		})
+	), 
+		m('h3', 'Contain'),
+		m('.images-landscape',
+			m(Image, {
+				fit: 'contain',
+				src: 'https://picsum.photos/600/200'
+			})
+		),
+		m('.images-portrait', 
+			m(Image, {
+				fit: 'contain',
+				src: 'https://picsum.photos/600/200'
+			})
+		),
+		m('h3', 'Fixed height'),
+		m('.images-fixedheight', [
+			m(Image, {
+				fit: 'portrait',
+				src: 'https://picsum.photos/600/200'
+			}),
+			m(Image, {
+				fit: 'portrait',
+				src: 'https://picsum.photos/300/300'
+			}),
+			m(Image, {
+				fit: 'portrait',
+				src: 'https://picsum.photos/100/200'
+			})
+		])
+	)
+
 class Examples extends View {
 	view() {
 		return m(HashRouter, 
@@ -113,11 +191,13 @@ class Examples extends View {
 								m(Link, {to: '/slider'}, 'Slider'),
 								m(Link, {to: '/other'}, 'Other'),
 								m(Link, {to: '/modal'}, 'Modal'),
+								m(Link, {to: '/images'}, 'Images'),
 								m(Link, {to: '/back'}, 'Back home')
 							]),
 							m(Switch, [
 								m(Route, {path: '/slider'}, SliderExample),
 								m(Route, {path: '/other'}, () => m('', 'Other')),
+								m(Route, {path: '/images'}, Images),
 								m(Route, {path: '/back'},
 									() => m('', [
 										'Back home',

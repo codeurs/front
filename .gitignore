@@ -1,4 +1,6 @@
 dist/
+examples/dist/*
+!examples/dist/index.html
 node_modules/
 .idea/**/*
 !.idea/codeStyleSettings.xml
