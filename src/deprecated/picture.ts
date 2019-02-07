@@ -31,7 +31,7 @@ export class Picture extends View<
 			{
 				resize: (attrs, container) => {
 					const {src} = attrs
-					const url = getResizedUrl(src, container.width, container.height)
+					const url = getResizedUrl(src, container.width, Infinity)
 					return {...attrs, src: url}
 				}
 			},
