@@ -1,4 +1,4 @@
-dist/
+/dist
 examples/dist/*
 !examples/dist/index.html
 node_modules/
