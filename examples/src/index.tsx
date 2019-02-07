@@ -129,12 +129,12 @@ const Images = ({children}) =>
 			})
 		), 
 		m('.images-portrait', 
-		m(Image, {
-			fit: 'cover',
-			position: {x: .8, y: .8},
-			src: 'https://picsum.photos/800/400'
-		})
-	), 
+			m(Image, {
+				fit: 'cover',
+				position: {x: .8, y: .8},
+				src: 'https://picsum.photos/800/400'
+			})
+		), 
 		m('h3', 'Contain'),
 		m('.images-landscape',
 			m(Image, {

@@ -21,6 +21,7 @@ export class Picture extends View<
 		height?: number
 		inline?: boolean
 		max?: number
+		[key: string]: any
 	},
 	HTMLDivElement
 > {
