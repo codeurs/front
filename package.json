@@ -1,6 +1,6 @@
 {
 	"name": "@codeurs/front",
-	"version": "0.5.2",
+	"version": "0.6.0",
 	"description": "Collection of mithril utilities and components",
 	"sideEffects": false,
 	"module": "dist/index.js",
