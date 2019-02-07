@@ -14,6 +14,7 @@ export class Input extends Component<{
 	label?: string
 	modifier?: any
 	required?: boolean
+	disabled?: boolean
 	options: Array<{key: string; label: string}> | {[key: string]: string}
 	onchange?: (v: string) => void
 	onfocus?: (e: Event) => void
@@ -33,6 +34,7 @@ export class Input extends Component<{
 			onfocus,
 			type = 'text',
 			required,
+			disabled,
 			placeholder
 		} = this.attrs
 
@@ -42,6 +44,7 @@ export class Input extends Component<{
 				m(`input.${this.className}-input`, {
 					type,
 					required,
+					disabled,
 					name,
 					value,
 					placeholder,
