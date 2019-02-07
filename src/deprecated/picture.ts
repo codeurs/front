@@ -1,6 +1,7 @@
 import m from 'mithril'
 import {View} from '../ui/view'
 import {Image, ImageResizer} from '../ui/image'
+import {classes} from '../util/classes'
 
 const WIDTHS = [100, 200, 400, 600, 800]
 const HEIGHTS = [100, 200, 400, 600, 800]
@@ -26,7 +27,7 @@ export class Picture extends View<
 	HTMLDivElement
 > {
 	view() {
-		const {children, inline, max, empty, ...rest} = this.attrs
+		const {children, inline, class: className, max, empty, ...rest} = this.attrs
 		if (empty) return
 		return m(ImageResizer,
 			{
@@ -38,6 +39,7 @@ export class Picture extends View<
 			},
 			m(Image, {
 				style: {display: inline && 'inline'},
+				...classes('picture', className),
 				...rest
 			})
 		)

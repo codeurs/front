@@ -2,6 +2,7 @@ import m from 'mithril'
 import {View} from '../ui/view'
 import {getResizedUrl} from './picture'
 import {Image, ImageResizer} from '../ui/image'
+import {classes} from '../util/classes'
 
 export type Img = {
 	src: string
@@ -18,7 +19,7 @@ export class Background extends View<
 	HTMLDivElement
 > {
 	view() {
-		const {children, img, ...rest} = this.attrs
+		const {children, img, class: className, ...rest} = this.attrs
 		const src = typeof img === 'string' ? img : img.src
 		const position = typeof img !== 'string' && img.focus
 		return m(ImageResizer,
@@ -34,6 +35,7 @@ export class Background extends View<
 				background: true,
 				fit: 'cover',
 				position,
+				...classes('background', className),
 				...rest
 			})
 		)
