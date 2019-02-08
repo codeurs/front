@@ -137,7 +137,17 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 	cached: string
 	resolved: ImageAttrs
 	view() {
-		const {children, src, width, height, fit, position, ...rest} = this.attrs
+		const {
+			children,
+			src,
+			width,
+			height,
+			fit,
+			position,
+			type,
+			bytes,
+			...rest
+		} = this.attrs
 		return m(ImageResizerContext.Consumer, resize => {
 			if (!resize) return m(ImageBase, this.attrs)
 			const resolve = (dom: HTMLElement) => {

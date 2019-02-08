@@ -14,7 +14,6 @@ declare global {
 
 export type StatelessView<Attr = {}> = {
 	(attr: Attr): Children
-	//(strings: Array<string>, ...args: Array<string>): Component<Attr>
 }
 
 export abstract class View<Attr = {}, Dom extends Element = Element>
@@ -80,7 +79,7 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 
 	/** @internal */
 	private __update(vnode: CVnode<Attr> | CVnodeDOM<Attr>) {
-		if ('dom' in vnode) this.dom = vnode.dom as Dom
+		if ('dom' in vnode && vnode.dom) this.dom = vnode.dom as Dom
 		this.attrs = {
 			...vnode.attrs,
 			children: extractChildren(vnode.children)
