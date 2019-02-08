@@ -133,26 +133,29 @@ export class ImageResizer extends View<{
 	}
 }
 
-export class Image extends View<ImageAttrs> {
+export class Image extends View<ImageAttrs, HTMLElement> {
 	cached: string
 	resolved: ImageAttrs
 	view() {
 		const {children, src, width, height, fit, position, ...rest} = this.attrs
 		return m(ImageResizerContext.Consumer, resize => {
 			if (!resize) return m(ImageBase, this.attrs)
-			if (this.cached !== src)
+			const resolve = (dom: HTMLElement) => {
+				this.resolved = resize(this.attrs, {
+					width: dom.offsetWidth,
+					height: dom.offsetHeight
+				})
+				this.cached = src
+			}
+			if (!this.dom)
 				return m('div', {
 					...rest,
 					oncreate: vnode => {
-						const dom = vnode.dom as HTMLDivElement
-						this.resolved = resize(this.attrs, {
-							width: dom.offsetWidth,
-							height: dom.offsetHeight
-						})
-						this.cached = src
+						resolve(vnode.dom as HTMLElement)
 						m.redraw()
 					}
 				})
+			if (this.cached !== src) resolve(this.dom)
 			return m(ImageBase, this.resolved)
 		})
 	}
