@@ -1,5 +1,6 @@
 import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
 import hyperscript from 'mithril'
+import {extractChildren} from './util/children'
 
 export type ChildAttr<T> = {children: T} | {children?: T}
 
@@ -40,14 +41,15 @@ export type Attrs<T extends Element = Element> = Partial<T> & {
 
 export const m: ExtendedHyperscript = Object.assign(
 	(selector, attrs, ...children) => {
-		const normalize = children => (children.length > 0 ? children : undefined)
+		const makeChildren = children =>
+			!children ? {} : {children: extractChildren(children)}
 		if (isPlainFunction(selector)) {
 			if (
 				attrs &&
 				(typeof attrs !== 'object' || attrs.tag != null || Array.isArray(attrs))
 			)
-				return selector({children: [].concat(attrs).concat(children)})
-			return selector({...attrs, children})
+				return selector(makeChildren([].concat(attrs).concat(children)))
+			return selector({...attrs, ...makeChildren(children)})
 		}
 		return hyperscript(selector, attrs, ...children)
 	},
