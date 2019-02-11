@@ -90,7 +90,10 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 		const focus =
 			typeof position === 'string'
 				? position
-				: `${position.x * 100}% ${position.y * 100}%`
+				: position &&
+				  position.x &&
+				  position.y &&
+				  `${position.x * 100}% ${position.y * 100}%`
 		return m(tag, {
 			...classes('image', cl1, cl2, {mod: {crop}}),
 			...(useBackground
