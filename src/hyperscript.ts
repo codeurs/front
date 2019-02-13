@@ -13,7 +13,7 @@ type ExtendedHyperscript = {
 		any
 	>
 	<Attrs, State, Child>(
-		component: ComponentTypes<ChildAttr<Child> & ChildAttr<Child>, State>,
+		component: ComponentTypes<ChildAttr<Child>, State>,
 		...args: Child[]
 	): Vnode<Attrs, State>
 	<Attrs, State, Child>(
