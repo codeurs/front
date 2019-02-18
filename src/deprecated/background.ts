@@ -39,6 +39,7 @@ export class Background extends View<
 				background: true,
 				fit: 'cover',
 				position,
+				upScale: true,
 				...classes('background', className),
 				...rest
 			})

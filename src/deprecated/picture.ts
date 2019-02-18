@@ -28,7 +28,15 @@ export class Picture extends View<
 	HTMLDivElement
 > {
 	view() {
-		const {children, inline, class: className, max, empty, ...rest} = this.attrs
+		const {
+			children,
+			inline,
+			class: className,
+			max,
+			empty,
+			focus: position,
+			...rest
+		} = this.attrs
 		if (empty) return
 		return m(ImageResizer,
 			{
@@ -42,6 +50,8 @@ export class Picture extends View<
 				}
 			},
 			m(Image, {
+				upScale: true,
+				position,
 				style: {display: inline && 'inline'},
 				...classes('picture', className),
 				...rest
