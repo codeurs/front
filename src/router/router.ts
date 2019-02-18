@@ -1,7 +1,7 @@
 import {m} from '../hyperscript'
-import {View} from '../ui/view'
 import {createContext} from '../ui/context'
-import {parseRoute, Match} from './parseroute'
+import {View} from '../ui/view'
+import {Match, parseRoute} from './parseroute'
 import {RouteAttrs} from './route'
 
 export type LocationData = {
@@ -18,9 +18,17 @@ export type History = {
 	push: (href: string) => void
 }
 
-export type Matcher = (location: LocationData, route: RouteAttrs) => Match
+export type Matcher = (
+	location: LocationData,
+	route: RouteAttrs
+) => undefined | Match
 
-export type RouterContext = LocationData & History & RouterAttrs
+export type RouterContext = LocationData &
+	History &
+	RouterAttrs & {
+		match: (route: RouteAttrs) => Match
+		formatPath: (path: string) => string
+	}
 
 const {Provider, Consumer} = createContext<RouterContext>()
 
@@ -45,7 +53,10 @@ export class Router extends View<RouterAttrs> {
 	}
 
 	view() {
-		const {matcher = pathnameMatcher, formatPath = v => v} = this.attrs
+		const {
+			matcher = pathnameMatcher,
+			formatPath = (v: string) => v
+		} = this.attrs
 		const {location, history} = window
 		const {protocol, hostname, port, search, hash, pathname} = location
 		return m(Provider,
@@ -67,7 +78,7 @@ export class Router extends View<RouterAttrs> {
 					},
 					match: (route: RouteAttrs) => matcher(location, route),
 					formatPath
-				}
+				} as RouterContext
 			},
 			this.children
 		)

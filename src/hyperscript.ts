@@ -1,10 +1,19 @@
-import {Attributes, ComponentTypes, Lifecycle, Children, Vnode} from 'mithril'
-import hyperscript from 'mithril'
+import hyperscript, {
+	Attributes,
+	Children,
+	ComponentTypes,
+	CVnode,
+	Lifecycle,
+	Vnode
+} from 'mithril'
+import {View} from 'ui'
 import {extractChildren} from './util/children'
 
 export type ChildAttr<T> = {children: T} | {children?: T}
 
 const mithrilStatic = {...hyperscript}
+
+type Components<A> = ComponentTypes<A>
 
 type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Vnode<any, any>
@@ -12,17 +21,8 @@ type ExtendedHyperscript = {
 		any,
 		any
 	>
-	<Attrs, State, Child>(
-		component: ComponentTypes<ChildAttr<Child>, State>,
-		...args: Child[]
-	): Vnode<Attrs, State>
-	<Attrs, State, Child>(
-		component: ComponentTypes<ChildAttr<Child> & Attrs, State>,
-		attributes: Attrs & Lifecycle<Attrs, State> & {key?: string | number},
-		...args: Child[]
-	): Vnode<Attrs, State>
 	<Child>(
-		component: (attrs: ChildAttr<Child>) => Children,
+		component: (attrs: {children: Child} | {}) => Children,
 		...args: Child[]
 	): Vnode<{}>
 	<Attrs, Child>(
@@ -30,18 +30,31 @@ type ExtendedHyperscript = {
 		attributes: Attrs & {key?: string | number},
 		...args: Child[]
 	): Vnode<Attrs>
+	<Attrs, State, Child>(
+		component:
+			| Components<{children: Child} & Attrs>
+			| Components<{children?: Child} & Attrs>,
+		attributes: Attrs & Lifecycle<Attrs, State> & {key?: string | number},
+		...args: Child[]
+	): Vnode<Attrs, State>
+	<Attrs, State, Child>(
+		component: Components<{children: Child}> | Components<{children?: Child}>,
+		...args: Array<Child>
+	): Vnode<Attrs, State>
 } & typeof mithrilStatic
 
-const isPlainFunction = input =>
+const isPlainFunction = (input: Function) =>
 	typeof input === 'function' && typeof input.prototype.view !== 'function'
 
 export type Attrs<T extends Element = Element> = Partial<T> & {
 	[key: string]: any
 }
 
+export type DOMAttrs = {[key: string]: any}
+
 export const m: ExtendedHyperscript = Object.assign(
-	(selector, attrs, ...children) => {
-		const makeChildren = children =>
+	(selector: any, attrs: any, ...children: any) => {
+		const makeChildren = (children: any) =>
 			!children ? {} : {children: extractChildren(children)}
 		if (isPlainFunction(selector)) {
 			if (

@@ -1,23 +1,21 @@
-import m from 'mithril'
+import m, {CVnode} from 'mithril'
 import {Component} from '../ui/component'
 
-export class Page<T = {}> extends Component<
-	{
-		route: {
-			href: string
-			path: string
-			params: {}
-		}
-	} & T
-> {
-	currentRoute = null
+type Route = {
+	href: string
+	path: string
+	params: {}
+}
 
-	constructor(vnode) {
+export class Page<T = {}> extends Component<{route: Route} & T> {
+	currentRoute: Route
+
+	constructor(vnode: CVnode<{route: Route} & T>) {
 		super(vnode)
 		this.currentRoute = this.attrs.route
 	}
 
-	oninit(vnode) {
+	oninit(vnode: CVnode<{route: Route} & T>) {
 		super.oninit(vnode)
 		this.onroutechange()
 	}
@@ -30,7 +28,7 @@ export class Page<T = {}> extends Component<
 
 	onroutechange() {}
 
-	static render(attrs) {
+	static render(attrs: any) {
 		return m(this, attrs)
 	}
 }

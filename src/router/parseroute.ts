@@ -7,10 +7,15 @@ export type Match = {
 	params?: {}
 }
 
-function createMatch(isExact: boolean, path: string, url: string, params?: {}) {
+function createMatch(
+	isExact: boolean,
+	path: undefined | string,
+	url: string,
+	params?: {}
+): Match {
 	return {
 		isExact,
-		path,
+		path: path || '',
 		url,
 		params
 	}
@@ -41,7 +46,14 @@ export const parseRoute = (
 	if (paths.length > urls.length || (exact && paths.length < urls.length))
 		return
 
-	for (var i = 0, params = {}, len = paths.length, url = ''; i < len; i++) {
+	for (
+		var i = 0,
+			params: {[key: string]: string} = {},
+			len = paths.length,
+			url = '';
+		i < len;
+		i++
+	) {
 		if (':' === paths[i][0]) {
 			params[paths[i].slice(1)] = urls[i] = decodeParam(urls[i])
 		} else if (paths[i] !== urls[i]) {

@@ -2,8 +2,8 @@ import './input.less'
 
 import classnames from 'classnames'
 import m from 'mithril'
-import {Component} from '../component'
 import {getErrorMessage} from '../../util/formutils'
+import {Component} from '../component'
 
 export class Input extends Component<{
 	name: string
@@ -22,7 +22,7 @@ export class Input extends Component<{
 }> {
 	className =
 		this.attrs.className || (this.attrs.unstyled && 'input') || 'input-front'
-	inputDom = null
+	inputDom: null | HTMLElement = null
 
 	view() {
 		const {
@@ -49,9 +49,9 @@ export class Input extends Component<{
 					value,
 					placeholder,
 					onfocus,
-					oncreate: vnode => (this.inputDom = vnode.dom),
-					oninput: onchange && (e => onchange(e.target.value)),
-					onchange: onchange && (e => onchange(e.target.value))
+					oncreate: vnode => (this.inputDom = vnode.dom as HTMLElement),
+					oninput: onchange && ((e: any) => onchange(e.target.value)),
+					onchange: onchange && ((e: any) => onchange(e.target.value))
 				}),
 				label && m(`label.${this.className}-label`, label)
 			]

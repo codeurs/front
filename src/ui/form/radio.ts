@@ -32,7 +32,7 @@ export class Radio extends Component<{
 				checked: value ? true : false,
 				required,
 				name: name,
-				onclick: onchange && (_ => onchange(!value)),
+				onclick: onchange && (() => onchange(!value)),
 				id: this.id
 			}),
 			m(`label.${this.className}-label`, {for: this.id}, [

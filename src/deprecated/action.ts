@@ -1,13 +1,17 @@
-function trimSlashes(str) {
+function trimSlashes(str: string) {
 	return str.replace(/^\/|\/$/g, '')
 }
 
-function startsWith(a, b) {
+function startsWith(a: string, b: string) {
 	return a.substr(0, b.length) == b
 }
 
 export const action = Object.assign(
-	(data, cb = null, replace = false) => {
+	(
+		data: string | {url: string; target?: string},
+		cb: null | Function = null,
+		replace = false
+	): any => {
 		if (typeof data == 'string') return action({url: data}, cb, replace)
 		if (!data || !data.url) return {}
 		const {url, target} = data
@@ -24,14 +28,14 @@ export const action = Object.assign(
 			return {
 				href: url,
 				target,
-				onclick: e => {
+				onclick: (e: MouseEvent) => {
 					if (cb) cb()
 					action.anchorClick(e, url, replace)
 				}
 			}
 	},
 	{
-		isActive(data, exact = false) {
+		isActive(data: any, exact = false): boolean {
 			if (typeof data == 'string') return action.isActive({url: data}, exact)
 			const {pathname} = window.location
 			const path = trimSlashes(pathname)
@@ -39,18 +43,18 @@ export const action = Object.assign(
 			if (exact) return path == url
 			return startsWith(path, url)
 		},
-		anchorClick(e, href, replace = false) {
+		anchorClick(e: MouseEvent, href: string, replace = false) {
 			if (e.which == 2) return
 			e.preventDefault()
 			action.navigate(href, replace)
 		},
-		navigate(url, replace = false) {
+		navigate(url: string | {url: string}, replace = false): void {
 			if (!url) return
 			if (typeof url != 'string' && 'url' in url)
 				return action.navigate(url.url, replace)
-			if (replace) history.replaceState(null, null, url)
-			else history.pushState(null, null, url)
-			window.onpopstate({state: null} as any)
+			if (replace) history.replaceState(null, '', url)
+			else history.pushState(null, '', url)
+			window.onpopstate && window.onpopstate({state: null} as any)
 		}
 	}
 )

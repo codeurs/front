@@ -23,7 +23,7 @@ export function randomKey(prefix = '') {
 	)
 }
 
-export function getErrorMessage(errors) {
+export function getErrorMessage(errors: any) {
 	if (errors === undefined) return ''
 	const errorsList = typeof errors == 'string' ? [errors] : errors
 

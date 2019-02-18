@@ -1,25 +1,20 @@
-import {
-	Component as MithrilComponent,
-	CVnode,
-	CVnodeDOM,
-	Children
-} from 'mithril'
+import {Children, ClassComponent, CVnode, CVnodeDOM} from 'mithril'
 import {extractChildren} from '../util/children'
 
 declare var process: {env: {NODE_ENV: string}}
 
 export class Component<Attr = {}, El = Element>
-	implements MithrilComponent<Attr> {
+	implements ClassComponent<Attr> {
 	// Following are references to properties on mithril's vnode
 	attrs: Attr
-	dom: El
+	dom!: El
 	children: Children
 
 	constructor(vnode: CVnode<Attr>) {
 		this.attrs = vnode.attrs
 	}
 
-	oninit(_) {
+	oninit(vnode: CVnode<Attr>) {
 		this.patch(this.update, 'oncreate', 'onupdate', 'view')
 	}
 
@@ -31,7 +26,7 @@ export class Component<Attr = {}, El = Element>
 		const comp: any = this
 		methods.forEach(method => {
 			const original = comp[method] && comp[method].bind(comp)
-			comp[method] = (...args) => {
+			comp[method] = (...args: Array<any>) => {
 				return to.apply(comp, args.concat(original))
 			}
 		})

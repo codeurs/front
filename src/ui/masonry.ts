@@ -1,14 +1,15 @@
 import './masonry.less'
 
-import m from 'mithril'
+import m, {Child} from 'mithril'
 import {Component} from './component'
 
 export class Masonry extends Component<{
 	cols: number
 	addClass?: (i: number, j: number) => string
+	children: Array<Child>
 }> {
-	divide(items, colsCount) {
-		const cols = Array(colsCount)
+	divide(items: Array<Child>, colsCount: number) {
+		const cols: Array<Array<Child>> = Array(colsCount)
 			.fill(null)
 			.map(_ => [])
 		items.forEach((item, i) => {
@@ -19,10 +20,8 @@ export class Masonry extends Component<{
 	}
 
 	view() {
-		const {cols: colsCount, addClass} = this.attrs
-		const items = this.children
-		if (!(items instanceof Array)) throw 'Array expected'
-		const cols = this.divide(items, colsCount)
+		const {children, cols: colsCount, addClass} = this.attrs
+		const cols = this.divide(children, colsCount)
 		return m('.masonry',
 			cols.map((children, i) =>
 				m('.masonry-col',

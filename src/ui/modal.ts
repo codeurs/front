@@ -1,12 +1,16 @@
 import './modal.less'
 
+import {DOMAttrs} from 'hyperscript'
 import m from 'mithril'
-import {Component} from './component'
-import {subComponent} from '../util/subcomponent'
-import lockScroll from '../util/lockscroll'
 import {classes} from '../util/classes'
+import lockScroll from '../util/lockscroll'
+import {Component} from './component'
 
-export const ModalOverlay = subComponent('.modal-overlay')
+export class ModalOverlay extends Component<DOMAttrs> {
+	view() {
+		return m('.modal-overlay', this.attrs, this.children)
+	}
+}
 
 export class Modal extends Component<{
 	isOpen: boolean
@@ -30,7 +34,7 @@ export class Modal extends Component<{
 		window.removeEventListener('keydown', this.closeByKey)
 	}
 
-	closeByKey = e => {
+	closeByKey = (e: KeyboardEvent) => {
 		const {close} = this.attrs
 		if (e.keyCode !== 27) return
 		close()
@@ -66,7 +70,8 @@ export class Modal extends Component<{
 			},
 			m('.modal-container',
 				{
-					onclick: ({target}) => {
+					onclick: (e: MouseEvent) => {
+						const target = e.target as HTMLElement
 						if (target && target.classList.contains('modal-container')) close()
 					}
 				},

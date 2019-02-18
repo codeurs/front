@@ -1,8 +1,9 @@
+import {DOMAttrs} from 'hyperscript'
 import m from 'mithril'
-import {View} from '../ui/view'
-import {getResizedUrl} from './picture'
 import {Image, ImageResizer} from '../ui/image'
+import {View} from '../ui/view'
 import {classes} from '../util/classes'
+import {getResizedUrl} from './picture'
 
 export type Img = {
 	src: string
@@ -14,8 +15,7 @@ export class Background extends View<
 	{
 		img: string | Img
 		class?: string
-		[key: string]: any
-	},
+	} & DOMAttrs,
 	HTMLDivElement
 > {
 	view() {
@@ -25,7 +25,10 @@ export class Background extends View<
 		const position = typeof img == 'object' && img.focus
 		return m(ImageResizer,
 			{
-				resize: (attrs, container) => {
+				resize: (
+					attrs: DOMAttrs,
+					container: {width: number; height: number}
+				) => {
 					const {src} = attrs
 					const url = getResizedUrl(src, container.width, container.height)
 					return {...attrs, src: url}

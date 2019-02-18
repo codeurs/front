@@ -1,12 +1,13 @@
+import {DOMAttrs} from 'hyperscript'
 import m from 'mithril'
-import {View} from '../ui/view'
 import {Image, ImageResizer} from '../ui/image'
+import {View} from '../ui/view'
 import {classes} from '../util/classes'
 
 const WIDTHS = [100, 200, 400, 600, 800]
 const HEIGHTS = [100, 200, 400, 600, 800]
 
-export function getResizedUrl(url, width, height) {
+export function getResizedUrl(url: string, width: number, height: number) {
 	let w = WIDTHS.find(w => w > width)
 	let h = HEIGHTS.find(h => h > height)
 	if (!w) w = WIDTHS[WIDTHS.length - 1]
@@ -31,7 +32,10 @@ export class Picture extends View<
 		if (empty) return
 		return m(ImageResizer,
 			{
-				resize: (attrs, container) => {
+				resize: (
+					attrs: DOMAttrs,
+					container: {width: number; height: number}
+				) => {
 					const {src} = attrs
 					const url = getResizedUrl(src, container.width, Infinity)
 					return {...attrs, src: url}

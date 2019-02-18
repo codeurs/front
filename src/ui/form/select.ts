@@ -41,8 +41,8 @@ export class Select extends Component<{
 				name,
 				required,
 				onfocus,
-				onchange: onchange && (e => onchange(e.target.value)),
-				oninput: onchange && (e => onchange(e.target.value))
+				onchange: onchange && ((e: any) => onchange(e.target.value)),
+				oninput: onchange && ((e: any) => onchange(e.target.value))
 			},
 			[
 				label && m('option[disabled]', {selected: !value}, fullLabel),

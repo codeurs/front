@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"strict": true,
 		"target": "es5",
 		"declaration": true,
 		"sourceMap": true,
@@ -12,7 +13,8 @@
 		"preserveWatchOutput": true,
 		"experimentalDecorators": true,
 		"stripInternal": true,
-		"lib": ["es2017", "dom"]
+		"lib": ["es2017", "dom"],
+		"typeRoots": ["./types", "./node_modules/@types"]
 	},
 	"files": ["./src/index.ts"]
 }

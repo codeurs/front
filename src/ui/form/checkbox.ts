@@ -8,7 +8,7 @@ export class Checkbox extends Component<{
 	name?: string
 	unstyled?: boolean
 	className?: string
-	value: string | boolean
+	value?: null | string | boolean
 	label?: string
 	required?: boolean
 	onchange?: (v: boolean) => void

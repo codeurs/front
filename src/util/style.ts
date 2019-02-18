@@ -1,6 +1,6 @@
-import {m, ChildAttr} from '../hyperscript'
-import {View, StatelessView} from '../ui/view'
 import {CVnode} from 'mithril'
+import {ChildAttr, m} from '../hyperscript'
+import {StatelessView, View} from '../ui/view'
 
 type ViewType<Attr, Dom extends Element = Element> =
 	| StatelessView<Attr>
@@ -8,7 +8,7 @@ type ViewType<Attr, Dom extends Element = Element> =
 
 export const style = <A, C>(
 	component: ViewType<ChildAttr<C> & A>,
-	selector?: string
+	selector: string
 ): StatelessView<ChildAttr<C> & A> => {
 	const styles = m(selector).attrs
 	return ({children, ...attrs}) =>

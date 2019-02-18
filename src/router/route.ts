@@ -1,6 +1,6 @@
-import {View} from '../ui/view'
 import {m} from '../hyperscript'
-import {Location} from './router'
+import {View} from '../ui/view'
+import {Location, RouterContext} from './router'
 
 export type RouteAttrs = {
 	path?: string
@@ -11,7 +11,7 @@ export type RouteAttrs = {
 export class Route extends View<RouteAttrs> {
 	view() {
 		const {render = this.children} = this.attrs
-		return m(Location, location => {
+		return m(Location, (location: RouterContext) => {
 			const match = location.match(this.attrs)
 			return match && m(render, {match, location})
 		})

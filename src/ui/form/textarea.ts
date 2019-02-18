@@ -39,8 +39,8 @@ export class Textarea extends Component<{
 					name,
 					onfocus,
 					value,
-					oninput: onchange && (e => onchange(e.target.value)),
-					onchange: onchange && (e => onchange(e.target.value))
+					oninput: onchange && ((e: any) => onchange(e.target.value)),
+					onchange: onchange && ((e: any) => onchange(e.target.value))
 				}),
 				label && m(`label.${this.className}-label`, label)
 			]

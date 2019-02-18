@@ -1,11 +1,10 @@
 import './image.less'
 
-import m from 'mithril'
-import {View} from './view'
-import {Attrs} from '../hyperscript'
+import {DOMAttrs, m} from '../hyperscript'
 import {classes} from '../util/classes'
 import {contain, cover} from '../util/fit'
 import {createContext} from './context'
+import {View} from './view'
 
 export type ImageFit = 'portrait' | 'landscape' | 'cover' | 'contain'
 
@@ -33,9 +32,9 @@ export type ImageAttrs = {
 	height?: number
 	fit?: ImageFit
 	upScale?: boolean
-	position?: string | {x: number; y: number}
+	position?: undefined | false | string | {x: number; y: number}
 	background?: boolean
-} & Attrs
+} & DOMAttrs
 
 class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 	onCreate() {
@@ -55,8 +54,8 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 	}
 
 	scale() {
-		const {width, height, fit, background} = this.attrs
-		if (!this.shouldCheckScale()) return
+		const {width = 0, height = 0, fit, background} = this.attrs
+		if (!this.dom || !this.shouldCheckScale()) return
 		const useBackground = background || !supportsObjectFit
 		const container = this.dom.getBoundingClientRect()
 		if (canUpscale(fit as any, container, {width, height})) return
@@ -135,8 +134,8 @@ export class ImageResizer extends View<{
 }
 
 export class Image extends View<ImageAttrs, HTMLElement> {
-	cached: string
-	resolved: ImageAttrs
+	cached: undefined | string
+	resolved: undefined | ImageAttrs
 	view() {
 		const {
 			children,
@@ -149,7 +148,7 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			bytes,
 			...rest
 		} = this.attrs
-		return m(ImageResizerContext.Consumer, resize => {
+		return m(ImageResizerContext.Consumer, (resize: Resizer) => {
 			if (!resize) return m(ImageBase, this.attrs)
 			const resolve = (dom: HTMLElement) => {
 				this.resolved = resize(this.attrs, {
@@ -167,7 +166,7 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 					}
 				})
 			if (this.cached !== src) resolve(this.dom)
-			return m(ImageBase, this.resolved)
+			return this.resolved && m(ImageBase, this.resolved)
 		})
 	}
 }

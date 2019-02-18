@@ -796,9 +796,14 @@
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
 
-"@types/mithril@codeurs/mithril.d.ts":
+"@types/jump.js@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/jump.js/-/jump.js-1.0.2.tgz#9eb1cf571e406bb3514a062008b6889ab9984160"
+  integrity sha1-nrHPVx5Aa7NRSgYgCLaImrmYQWA=
+
+"@types/mithril@codeurs/mithril.d.ts#eb997dc":
   version "1.1.12"
-  resolved "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/e1fa3d5c5d8098f839e130fbaf9a1d742276d959"
+  resolved "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/eb997dceb36359e39a9910d9cbc9c9c6a3c1cf7c"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"

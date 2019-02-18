@@ -1,8 +1,8 @@
 import './boxes.less'
 
 import m from 'mithril'
-import {Options, cleanupOptions} from '../../util/formutils'
-import {Component} from './../component'
+import {cleanupOptions, Options} from '../../util/formutils'
+import {Component} from '../component'
 import {Checkbox} from './checkbox'
 
 export class Boxes extends Component<{
@@ -20,8 +20,8 @@ export class Boxes extends Component<{
 	className =
 		this.attrs.className || (this.attrs.unstyled && 'boxes') || 'boxes-front'
 
-	setValue(key, active) {
-		const {value = [], onchange} = this.attrs
+	setValue(key: string, active: boolean) {
+		const {value = [], onchange = () => {}} = this.attrs
 
 		if (active) {
 			if (!value.find(v => v == key)) onchange([...value, key])
@@ -43,7 +43,7 @@ export class Boxes extends Component<{
 						unstyled,
 						required: required && value.length == 0,
 						value: value.find(v => v == o.key),
-						onchange: d => this.setValue(o.key, d),
+						onchange: (d: boolean) => this.setValue(o.key, d),
 						label: o.label
 					})
 				)
@@ -54,7 +54,7 @@ export class Boxes extends Component<{
 						unstyled,
 						required: required && value.length == 0,
 						value: value.find(v => v == o.key),
-						onchange: d => this.setValue(o.key, d),
+						onchange: (d: boolean) => this.setValue(o.key, d),
 						label: o.label
 					})
 				)

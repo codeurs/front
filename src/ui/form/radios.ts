@@ -39,7 +39,7 @@ export class Radios extends Component<{
 					unstyled,
 					required,
 					value: value == option.key,
-					onchange: onchange && (_ => onchange(option.key))
+					onchange: onchange && (() => onchange(option.key))
 				})
 			)
 		)

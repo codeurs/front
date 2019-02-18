@@ -2,10 +2,19 @@ import './slider.less'
 
 import m from 'mithril'
 import {Stream} from 'mithril/stream'
-import {styler, spring, listen, pointer, value, tween, calc} from 'popmotion'
-import {Component} from './component'
+import {
+	ColdSubscription,
+	listen,
+	pointer,
+	spring,
+	styler,
+	tween,
+	value,
+	ValueReaction
+} from 'popmotion'
+import {View} from './view'
 
-export class Slider extends Component<
+export class Slider extends View<
 	{
 		index: Stream<number>
 		total: Stream<number>
@@ -17,17 +26,17 @@ export class Slider extends Component<
 > {
 	size = 0
 	total = 0
-	pos = null
+	pos!: ValueReaction
 	// scroll = scroll()
 	// Todo: add proper scroll decay after
 	// https://github.com/Popmotion/stylefire/pull/8 is merged
-	slides = []
-	tween = null
+	slides: Array<number> = []
+	tween?: ColdSubscription
 
-	oncreate() {
-		const contentStyler = (styler as any)(this.dom.firstChild)
+	onCreate(dom: HTMLDivElement) {
+		const contentStyler = (styler as any)(dom.firstChild)
 		this.pos = value(0, contentStyler.set('x'))
-		const listener = this.listen()
+		const listener = this.listen(dom)
 		const size = () => this.setSize(true)
 		window.addEventListener('resize', size)
 		size()
@@ -35,35 +44,35 @@ export class Slider extends Component<
 		// active state is only now available
 		setTimeout(m.redraw)
 		this['onremove'] = () => {
-			listener.stop()
+			listener.stop && listener.stop()
 			window.removeEventListener('resize', size)
 		}
 	}
 
 	// Todo: rewrite this to properly to use popmotion's actions and reactions
-	private listen() {
-		return listen(this.dom, 'mousedown touchstart').start(e => {
+	private listen(dom: HTMLDivElement): ColdSubscription {
+		return listen(dom, 'mousedown touchstart').start(() => {
 			const {animating} = this.attrs
-			if (this.tween) this.tween.stop()
+			if (this.tween) this.tween.stop && this.tween.stop()
 			animating(true)
-			let start,
-				isHorizontal = null
+			let start: {x: number; y: number},
+				isHorizontal: null | boolean = null
 			const track = pointer({
-				x: this.pos.get(),
+				x: this.pos.get() as number,
 				preventDefault: false
-			}).start(p => {
+			}).start((p: {x: number; y: number}) => {
 				if (!start) return (start = {x: p.x, y: p.y})
 				if (isHorizontal === null) {
 					isHorizontal = Math.abs(start.x - p.x) > Math.abs(start.y - p.y)
-					this.dom.style.pointerEvents = 'none'
+					this.dom && (this.dom.style.pointerEvents = 'none')
 				}
 				if (isHorizontal) this.pos.update(p.x)
 			})
-			listen(document, 'mouseup touchend', {once: true}).start(e => {
+			listen(document, 'mouseup touchend', {once: true}).start(() => {
 				const {total, index} = this.attrs
 				const velocity = this.pos.getVelocity()
-				track.stop()
-				this.dom.style.pointerEvents = ''
+				track.stop && track.stop()
+				this.dom && (this.dom.style.pointerEvents = '')
 				if (!isHorizontal) return
 				if (Math.abs(velocity) > 0.2 * this.size) {
 					const next = velocity > 0 ? index() - 1 : index() + 1
@@ -80,7 +89,7 @@ export class Slider extends Component<
 	// Bounce back to current slide
 	bounce() {
 		const {index, animating} = this.attrs
-		if (this.tween) this.tween.stop()
+		if (this.tween) this.tween.stop && this.tween.stop()
 		animating(true)
 		this.tween = spring({
 			from: this.pos.get(),
@@ -89,20 +98,21 @@ export class Slider extends Component<
 			stiffness: 100,
 			damping: 20
 		}).start({
-			update: v => this.pos.update(v),
+			update: (v: number) => this.pos.update(v),
 			complete: () => animating(false)
 		})
 	}
 
 	setSize(resized = false) {
 		const {index} = this.attrs
-		const size = this.dom.getBoundingClientRect().width
-		this.size = size
+		if (!this.dom) return
+		this.size = this.dom.getBoundingClientRect().width
 		this.calcSlides()
 		if (resized) this.pos.update(this.slides[index()])
 	}
 
 	calcSlides() {
+		if (!this.dom) return
 		const {index, total, actives} = this.attrs
 		const content = this.dom.firstChild as HTMLElement
 		const children = content.children
@@ -152,16 +162,15 @@ export class Slider extends Component<
 				to: this.slides[index()]
 				//stiffness: 200
 			}).start({
-				update: v => this.pos.update(v),
+				update: (v: number) => this.pos.update(v),
 				complete: () => animating(false)
 			})
 	}
 
 	view() {
 		const {unstyled = false} = this.attrs
-		const style = styles => ({style: unstyled || styles})
 		return m('.slider',
-			style({overflow: 'hidden'}),
+			{style: unstyled || {overflow: 'hidden'}},
 			m('.slider-content', this.children)
 		)
 	}

@@ -1,7 +1,12 @@
 // Source: https://github.com/sroucheray/contain-cover/blob/master/contain-cover.js
 
-function fit(contains) {
-	return function(containerWidth, containerHeight, width, height) {
+function fit(contains: boolean) {
+	return function(
+		containerWidth: number,
+		containerHeight: number,
+		width: number,
+		height: number
+	) {
 		let doRatio = width / height
 		let cRatio = containerWidth / containerHeight
 		let targetWidth = 0

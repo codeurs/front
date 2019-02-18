@@ -1,11 +1,11 @@
-import m from 'mithril'
 import jump from 'jump.js'
+import m from 'mithril'
 
 export class Router {
-	transport = null
+	transport: null | XMLHttpRequest = null
 	data: any = {}
 
-	constructor(initialState) {
+	constructor(initialState: any) {
 		this.data = initialState
 	}
 
@@ -13,7 +13,7 @@ export class Router {
 		return this.data.url
 	}
 
-	view(vnode) {
+	view(vnode: any) {
 		const {href} = window.location
 		const params =
 			href.indexOf('?') > -1 ? m.parseQueryString(href.split('?')[1]) : {}
@@ -21,7 +21,7 @@ export class Router {
 		return this.resolve(this.data, route)
 	}
 
-	mount(element) {
+	mount(element: HTMLElement) {
 		window.onpopstate = e => {
 			if (e.state) {
 				this.setData(e.state.data)
@@ -33,11 +33,11 @@ export class Router {
 		m.mount(element, this)
 	}
 
-	getPageTitle(data) {
+	getPageTitle(data: any) {
 		return data.title
 	}
 
-	setData(data) {
+	setData(data: any) {
 		this.data = data
 		const {hash, href} = window.location
 		const queryIndex = href.indexOf('?')
@@ -52,20 +52,20 @@ export class Router {
 		this.transport = null
 	}
 
-	scroll(hash) {
+	scroll(hash?: string) {
 		if (hash) jump(hash)
 		else window.scrollTo(0, 0)
 	}
 
-	fetch(path) {
+	fetch(path: string) {
 		return Promise.reject('implement')
 	}
 
-	resolve(data, route) {
+	resolve(data: any, route: any) {
 		throw 'implement'
 	}
 
-	navigate(path) {
+	navigate(path: string) {
 		const {hash} = window.location
 		if (path == this.url()) {
 			if (hash) this.scroll(hash)

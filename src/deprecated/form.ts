@@ -1,24 +1,18 @@
-import m from 'mithril'
-import {FormStatus, FormStore} from '../store/formstore'
+import m, {RequestOptions} from 'mithril'
 import objectToFormData from 'object-to-formdata'
+import {FormStatus, FormStore} from '../store/formstore'
 import {
+	Boxes,
+	Checkbox,
 	Fields,
 	Input,
-	Select,
-	Textarea,
 	Radios,
-	Checkbox,
-	Boxes
+	Select,
+	Textarea
 } from '../ui/form/fields'
 
 export class FormBase {
-	store: FormStore
-	fields: Fields
-
-	constructor(store, fields) {
-		this.store = store
-		this.fields = fields
-	}
+	constructor(protected store: FormStore, protected fields: Fields) {}
 
 	status() {
 		return this.store.status.type
@@ -28,19 +22,20 @@ export class FormBase {
 		return this.status() == FormStatus.Success
 	}
 
-	formSubmit(e, options = {}) {
+	formSubmit(e: Event, options = {}) {
 		e.preventDefault()
-		const form = e.target
+		const form = e.target as HTMLFormElement
 		const {action: url, method} = form
 		const type = form.getAttribute('enctype') || 'application/json'
 		return this.submit(type, {url, method, ...options})
 	}
 
-	submit(type, {url, method, headers = {}, ...options}) {
+	submit(type: string, options: {url: string} & RequestOptions<any>) {
+		const {url, method, headers = {}, ...rest} = options
 		switch (this.store.status.type) {
 			case 'sending':
 			case 'success':
-				return
+				return Promise.resolve()
 			default:
 				return this.transfer({
 					url,
@@ -51,7 +46,7 @@ export class FormBase {
 							? headers
 							: {'Content-Type': type, ...headers},
 					serialize: v => v,
-					...options
+					...rest
 				}).then(
 					response => Promise.resolve(this.store.success(response)),
 					errors => Promise.reject(this.store.fail(errors))
@@ -59,7 +54,7 @@ export class FormBase {
 		}
 	}
 
-	formatData(type) {
+	formatData(type: string) {
 		switch (type) {
 			case 'application/x-www-form-urlencoded':
 				return m.buildQueryString(this.store.data)
@@ -70,21 +65,23 @@ export class FormBase {
 		}
 	}
 
-	transfer(request) {
+	transfer(request: RequestOptions<any> & {url: string}) {
 		return m.request({
 			...request,
-			config: xhr => this.store.send(xhr)
+			config: (xhr: XMLHttpRequest) => {
+				this.store.send(xhr)
+			}
 		})
 	}
 
-	text = config => this.fields.asField(Input, {...config})
-	email = config => this.text({...config, type: 'email'})
-	password = config => this.text({...config, type: 'password'})
-	textarea = config => this.fields.asField(Textarea, {...config})
-	select = config => this.fields.asField(Select, config)
-	radio = config => this.fields.asField(Radios, config)
-	checkbox = config => this.fields.asField(Checkbox, config)
-	boxes = config => this.fields.asField(Boxes, config)
+	text = (config: any) => this.fields.asField(Input, {...config})
+	email = (config: any) => this.text({...config, type: 'email'})
+	password = (config: any) => this.text({...config, type: 'password'})
+	textarea = (config: any) => this.fields.asField(Textarea, {...config})
+	select = (config: any) => this.fields.asField(Select, config)
+	radio = (config: any) => this.fields.asField(Radios, config)
+	checkbox = (config: any) => this.fields.asField(Checkbox, config)
+	boxes = (config: any) => this.fields.asField(Boxes, config)
 }
 
 /**
@@ -122,7 +119,7 @@ export class Form extends FormBase {
 		super(store, fields)
 	}
 
-	formSubmit(e, options = {}) {
+	formSubmit(e: Event, options: {url: string} & RequestOptions<any>) {
 		return super.formSubmit(e, options).catch(errors => {
 			const [firstKey] = Object.keys(errors)
 			if (firstKey) this.fields.focusField(firstKey)
