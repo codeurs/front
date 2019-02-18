@@ -119,7 +119,7 @@ export class Form extends FormBase {
 		super(store, fields)
 	}
 
-	formSubmit(e: Event, options: {url: string} & RequestOptions<any>) {
+	formSubmit(e: Event, options: any) {
 		return super.formSubmit(e, options).catch(errors => {
 			const [firstKey] = Object.keys(errors)
 			if (firstKey) this.fields.focusField(firstKey)
