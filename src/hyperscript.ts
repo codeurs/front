@@ -1,5 +1,6 @@
 import hyperscript, {
 	Attributes,
+	Child,
 	Children,
 	ComponentTypes,
 	CVnode,
@@ -21,21 +22,22 @@ type ExtendedHyperscript = {
 		any,
 		any
 	>
+	(component: (attrs: {}) => Children, ...args: Array<Child>): Vnode<{}>
 	<Child>(
-		component: (attrs: {children: Child} | {}) => Children,
-		...args: Child[]
+		component: (attrs: {children: Child}) => Children,
+		...args: Array<Child>
 	): Vnode<{}>
 	<Attrs, Child>(
 		component: (attrs: ChildAttr<Child> & Attrs) => Children,
 		attributes: Attrs & {key?: string | number},
-		...args: Child[]
+		...args: Array<Child>
 	): Vnode<Attrs>
 	<Attrs, State, Child>(
 		component:
 			| Components<{children: Child} & Attrs>
 			| Components<{children?: Child} & Attrs>,
 		attributes: Attrs & Lifecycle<Attrs, State> & {key?: string | number},
-		...args: Child[]
+		...args: Array<Child>
 	): Vnode<Attrs, State>
 	<Attrs, State, Child>(
 		component: Components<{children: Child}> | Components<{children?: Child}>,

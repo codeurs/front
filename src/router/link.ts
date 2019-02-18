@@ -46,12 +46,14 @@ const ignoreClick = (e: MouseEvent) =>
 	e.ctrlKey ||
 	e.shiftKey
 
-type Location = {protocol: string; hostname: string; port?: string}
+type LocationProperties = {protocol: string; hostname: string; port?: string}
 
-const isExternal = (location: Location, anchorElement: HTMLAnchorElement) =>
-	getOrigin(location) !== getOrigin(anchorElement)
+const isExternal = (
+	location: LocationProperties,
+	anchorElement: HTMLAnchorElement
+) => getOrigin(location) !== getOrigin(anchorElement)
 
-const getOrigin: (location: Location) => string = ({
+const getOrigin: (location: LocationProperties) => string = ({
 	protocol,
 	hostname,
 	port = ''

@@ -6,7 +6,7 @@ export type ProviderAttrs<T> = {value: T}
 export type Provider<T> = {
 	new (vnode: CVnode<ProviderAttrs<T>>): ClassComponent<ProviderAttrs<T>>
 }
-export type ConsumerAttrs<T> = {children: (value: T) => Children}
+export type ConsumerAttrs<T> = {children: (value: undefined | T) => Children}
 export type Consumer<T> = {
 	new (vnode: CVnode<ConsumerAttrs<T>>): ClassComponent<ConsumerAttrs<T>>
 }
@@ -36,7 +36,7 @@ export const createContext = <T>(context?: T): Context<T> => ({
 	Consumer: class Consumer extends View<ConsumerAttrs<T>> {
 		view() {
 			const {children} = this.attrs
-			return typeof context !== 'undefined' && children(context)
+			return children(context)
 		}
 	},
 	__get: () => context

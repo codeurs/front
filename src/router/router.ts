@@ -1,6 +1,7 @@
+import {Children} from 'mithril'
 import {m} from '../hyperscript'
 import {createContext} from '../ui/context'
-import {View} from '../ui/view'
+import {StatelessView, View} from '../ui/view'
 import {Match, parseRoute} from './parseroute'
 import {RouteAttrs} from './route'
 
@@ -32,7 +33,12 @@ export type RouterContext = LocationData &
 
 const {Provider, Consumer} = createContext<RouterContext>()
 
-export const Location = Consumer
+export const Location: StatelessView<{
+	children: (location: RouterContext) => Children
+}> = ({children}) =>
+	m(Consumer,
+		(location: undefined | RouterContext) => location && children(location)
+	)
 
 const pathnameMatcher: Matcher = (location, route) =>
 	parseRoute(location.pathname, route)
