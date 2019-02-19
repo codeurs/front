@@ -21,7 +21,7 @@ declare global {
 }
 
 export type StatelessView<Attr = {}> = {
-	(attr: Attr): Children
+	(attr: {children?: Children} & Attr): Children
 }
 
 export abstract class View<Attr = {}, Dom extends Element = Element>
