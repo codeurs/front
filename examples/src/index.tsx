@@ -1,28 +1,11 @@
 import './index.less'
 
-import {
-	m,
-	createContext,
-	View,
-	Slider,
-	SliderStore,
-	Link,
-	Route,
-	Image,
-	parseRoute,
-	Switch,
-	Redirect,
-	HistoryRouter,
-	classes,
-	ModalStore,
-	Modal,
-	ModalOverlay,
-	Portal,
-	style,
-	ImageResizer
-} from '../../dist'
-import svgImage from 'assets/test.svg'
 import testImage from 'assets/test.jpg'
+import svgImage from 'assets/test.svg'
+import {
+    classes, createContext, HistoryRouter, Image, ImageResizer, Link, m, Modal, ModalOverlay,
+    ModalStore, parseRoute, Portal, Redirect, Route, Slider, SliderStore, style, Switch, View
+} from '../../dist'
 
 const Theme = createContext('green')
 
