@@ -1,12 +1,10 @@
-import m from 'mithril'
-import {Vnode} from 'mithril'
+import m, {Children} from 'mithril'
 import {Component} from './component'
-import matchMedia from 'matchmediaquery'
 
 export class MediaQuery extends Component<{
 	minWidth?: number
 	maxWidth?: number
-	view: () => Vnode
+	view: () => Children
 }> {
 	matcher = this.createMatcher()
 
