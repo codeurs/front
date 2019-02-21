@@ -7,7 +7,7 @@ import hyperscript, {
 	Lifecycle,
 	Vnode
 } from 'mithril'
-import {View} from 'ui'
+import {Component, View} from 'ui'
 import {extractChildren} from './util/children'
 
 export type ChildAttr<T> = {children: T} | {children?: T}
@@ -16,22 +16,15 @@ const mithrilStatic = {...hyperscript}
 
 type Components<A> = ComponentTypes<A>
 
+export type ComponentConstructors<Attrs> =
+	| {(attrs: Attrs): Children}
+	| {new (vnode: CVnode<Attrs>): View<Attrs>}
+	| {new (vnode: CVnode<Attrs>): Component<Attrs>}
+
 type ExtendedHyperscript = {
-	(selector: string, ...children: Children[]): Vnode<any, any>
-	(selector: string, attributes: Attributes, ...children: Children[]): Vnode<
-		any,
-		any
-	>
-	(component: (attrs: {}) => Children, ...args: Array<Child>): Vnode<{}>
-	<Child>(
-		component: (attrs: {children: Child}) => Children,
-		...args: Array<Child>
-	): Vnode<{}>
-	<Attrs, Child>(
-		component: (attrs: ChildAttr<Child> & Attrs) => Children,
-		attributes: Attrs & {key?: string | number},
-		...args: Array<Child>
-	): Vnode<Attrs>
+	(selector: string, ...children: Children[]): Children
+	(selector: string, attributes: Attributes, ...children: Children[]): Children
+
 	<Attrs, State, Child>(
 		component:
 			| Components<{children: Child} & Attrs>
@@ -43,6 +36,22 @@ type ExtendedHyperscript = {
 		component: Components<{children: Child}> | Components<{children?: Child}>,
 		...args: Array<Child>
 	): Vnode<Attrs, State>
+
+	// Makes debugging easier
+	<Child>(
+		component: ComponentConstructors<{children: Child}>,
+		...args: Array<Child>
+	): Children
+	<Attrs, Child>(
+		component: ComponentConstructors<Attrs & {children?: Child}>,
+		attributes: Attrs & {key?: any},
+		...args: Array<Child>
+	): Children
+	<Attrs, Child>(
+		component: ComponentConstructors<Attrs & {children: Child}>,
+		attributes: Attrs & {key?: any},
+		...args: Array<Child>
+	): Children
 } & typeof mithrilStatic
 
 const isPlainFunction = (input: Function) =>

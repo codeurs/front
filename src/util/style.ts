@@ -10,7 +10,7 @@ export const style = <A, C>(
 	component: ViewType<ChildAttr<C> & A>,
 	selector: string
 ): StatelessView<ChildAttr<C> & A> => {
-	const styles = m(selector).attrs
+	const styles = (m(selector) as CVnode).attrs
 	return ({children, ...attrs}) =>
 		m(component as any, {...styles, ...attrs}, children)
 }

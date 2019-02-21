@@ -2,9 +2,11 @@ import './index.less'
 
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
+import {Children} from 'mithril'
 import {
-    classes, createContext, HistoryRouter, Image, ImageResizer, Link, m, Modal, ModalOverlay,
-    ModalStore, parseRoute, Portal, Redirect, Route, Slider, SliderStore, style, Switch, View
+    classes, Component, createContext, DOMAttrs, HistoryRouter, Image, ImageResizer, Link, m, Modal,
+    ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, Slider, SliderStore,
+    StatelessView, style, styled, Switch, View
 } from '../../dist'
 
 const Theme = createContext('green')
@@ -148,17 +150,37 @@ const Images = ({children}) =>
 		])
 	)
 
+const Nav = styled('nav')`
+	background: red; 
+`
+
+const Nav2 = styled(Nav)`
+	color: white;
+`
+
+const Nav3 = styled(Nav2)`
+	color: blue;
+`
+
+const A = styled(Link)`
+	color: inherit;
+	${attrs => attrs.to === '/' && `
+		color: gold;
+	`}
+	&:hover {
+		color: yellow;
+	}
+`
+
 class Examples extends View {
 	view() {
 		return m(HashRouter, 
 			m(Switch, [
 				m(Route, {
 					path: '/:language',
-					render: ({
-						match: {
-							params: {language}
-						}
-					}) => m('', [
+				}, ({match}) => {
+					const {params: {language}} = match
+					return m('', [
 						m(HistoryRouter, {
 							matcher: (location, route) =>
 							hashMatcher(location, {
@@ -169,13 +191,13 @@ class Examples extends View {
 						}, [
 							m('', m(LanguagesNav)),
 							`Language: ${language}`,
-							m('nav', [
-								m(Link, {to: '/'}, 'Home'),
-								m(Link, {to: '/slider'}, 'Slider'),
-								m(Link, {to: '/other'}, 'Other'),
-								m(Link, {to: '/modal'}, 'Modal'),
-								m(Link, {to: '/images'}, 'Images'),
-								m(Link, {to: '/back'}, 'Back home')
+							m(Nav3, {as: 'div'}, [
+								m(A, {to: '/'}, 'Home'),
+								m(A, {to: '/slider'}, 'Slider'),
+								m(A, {to: '/other'}, 'Other'),
+								m(A, {to: '/modal'}, 'Modal'),
+								m(A, {to: '/images'}, 'Images'),
+								m(A, {to: '/back'}, 'Back home')
 							]),
 							m(Switch, [
 								m(Route, {path: '/slider'}, SliderExample),
@@ -192,7 +214,8 @@ class Examples extends View {
 							])
 						])
 					])
-				}),
+				}
+				),
 				m(Route, () => m('', 
 					'Choose a language:',
 					m(LanguagesNav)
