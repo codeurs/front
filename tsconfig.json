@@ -4,6 +4,7 @@
 		"target": "es5",
 		"declaration": true,
 		"sourceMap": true,
+		"importHelpers": true,
 		"module": "es6",
 		"moduleResolution": "node",
 		"baseUrl": "./src/",
