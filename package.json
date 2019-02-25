@@ -23,7 +23,7 @@
 		"precommit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
 		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
 		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
-		"postinstall": "symlink-dir dist node_modules/@codeurs/front"
+		"prepare": "symlink-dir dist node_modules/@codeurs/front"
 	},
 	"lint-staged": {
 		"src/**/*.ts": [
