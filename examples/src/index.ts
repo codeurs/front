@@ -2,13 +2,12 @@ import './index.less'
 
 import {
     Breakpoint, classes, Component, createContext, DOMAttrs, HistoryRouter, Image, ImageResizer,
-    Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, Slider,
+    lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route,
     SliderStore, StatelessView, style, styled, Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
 import {Children} from 'mithril'
-import {SliderPage} from 'views/sliderpage'
 
 const Theme = createContext('green')
 
@@ -148,6 +147,8 @@ const breakpoints = {
 	ipadPort: '(min-width: 800px)'
 }
 
+const Slider = lazy(() => import('./views/sliderpage'))
+
 class Examples extends View {
 	view() {
 		return m(HashRouter, 
@@ -176,7 +177,7 @@ class Examples extends View {
 								m(A, {to: '/back'}, 'Back home')
 							]),
 							m(Switch, [
-								m(Route, {path: '/slider'}, SliderPage),
+								m(Route, {path: '/slider'}, Slider),
 								m(Route, {path: '/other'}, () => m('', 'Other')),
 								m(Route, {path: '/images'}, Images),
 								m(Route, {path: '/back'},

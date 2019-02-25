@@ -1,13 +1,20 @@
-/*import {ComponentConstructors, m} from '../hyperscript'
+import {ComponentConstructors, m} from '../hyperscript'
+import {View} from '../ui/view'
 
-class LazyLoad<T> extends View<T> {
-	component
-	view() {
-
+export const lazy = <T>(
+	fetch: () => Promise<{default: ComponentConstructors<T>}>
+) => {
+	let component: null | ComponentConstructors<T> = null
+	return class LazyLoad<T> extends View<T> {
+		onInit() {
+			fetch()
+				.then(loaded => (component = loaded.default))
+				.then(m.redraw)
+				.catch(console.error)
+		}
+		view() {
+			const {children, ...attrs} = this.attrs
+			return component && m(component as any, attrs, children)
+		}
 	}
 }
-
-export const lazy = <T>(fetch: () => Promise<ComponentConstructors<T>>) =>
-	m(LazyLoad, {fetch}
-
-*/

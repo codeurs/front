@@ -86,7 +86,7 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	}
 
 	/** @internal */
-	private __update(vnode: Vnode<Attr, this> | VnodeDOM<Attr, this>) {
+	__update(vnode: Vnode<Attr, this> | VnodeDOM<Attr, this>) {
 		if ('dom' in vnode && vnode.dom) this.dom = vnode.dom as Dom
 		this.attrs = {
 			...vnode.attrs,
