@@ -39,6 +39,10 @@ type ExtendedHyperscript = {
 
 	// Makes debugging easier
 	<Child>(
+		component: ComponentConstructors<{children?: Child}>,
+		...args: Array<Child>
+	): Children
+	<Child>(
 		component: ComponentConstructors<{children: Child}>,
 		...args: Array<Child>
 	): Children
