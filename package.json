@@ -45,7 +45,6 @@
 		"@types/mithril": "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/911e3bb343b77dc6839debc911e9829de2cefbcf",
 		"classnames": "^2.2.5",
 		"jump.js": "codeurs/jump.js",
-		"matchmediaquery": "^0.2.1",
 		"mithril": "^2.0.0-rc.3",
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.1.10",
