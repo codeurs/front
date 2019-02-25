@@ -14,7 +14,7 @@ export class Portal extends View {
 		document.body.removeChild(this.node)
 	}
 
-	view() {
+	render() {
 		return null
 	}
 }

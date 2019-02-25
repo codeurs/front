@@ -6,7 +6,6 @@ import {
 	Vnode,
 	VnodeDOM
 } from 'mithril'
-import {ChildAttr} from '../hyperscript'
 import {extractChildren} from '../util/children'
 
 declare global {
@@ -45,7 +44,7 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onBeforeRemove(dom: Dom): void | Promise<any> {}
 	onRemove() {}
 	onBeforeUpdate(attrs: Attr): void | boolean {}
-	abstract view(): Children | null | void
+	abstract render(): Children | null | void
 
 	// Mithril connection
 
@@ -83,6 +82,10 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onbeforeupdate(vnode: Vnode<Attr, this>, old: CVnodeDOM<Attr>) {
 		this.__update(vnode)
 		return this.onBeforeUpdate(old.attrs)
+	}
+
+	view(vnode: Vnode<Attr, this>) {
+		return this.render()
 	}
 
 	/** @internal */

@@ -1,30 +1,18 @@
 import m, {Children} from 'mithril'
-import {Component} from './component'
+import {Breakpoint} from './breakpoint'
+import {View} from './view'
 
-export class MediaQuery extends Component<{
+export class MediaQuery extends View<{
 	minWidth?: number
 	maxWidth?: number
 	view: () => Children
 }> {
-	matcher = this.createMatcher()
-
-	createMatcher() {
-		const {minWidth, maxWidth} = this.attrs
+	render() {
+		const {view, minWidth, maxWidth} = this.attrs
 		const rules = []
 		if (minWidth) rules.push(`(min-width: ${minWidth}px)`)
 		if (maxWidth) rules.push(`(max-width: ${maxWidth}px)`)
 		const query = rules.join(' and ')
-		const matcher = matchMedia(query)
-		matcher.addListener(m.redraw)
-		return matcher
-	}
-
-	onremove() {
-		this.matcher.removeListener(m.redraw)
-	}
-
-	view() {
-		const {view} = this.attrs
-		return this.matcher.matches && view()
+		return m(Breakpoint, {[query]: true}, (match: boolean) => match && view())
 	}
 }

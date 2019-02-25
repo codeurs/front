@@ -27,7 +27,7 @@ export class Picture extends View<
 	},
 	HTMLDivElement
 > {
-	view() {
+	render() {
 		const {
 			children,
 			inline,

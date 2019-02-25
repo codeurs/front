@@ -167,7 +167,7 @@ export class Slider extends View<
 			})
 	}
 
-	view() {
+	render() {
 		const {unstyled = false} = this.attrs
 		return m('.slider',
 			{style: unstyled || {overflow: 'hidden'}},

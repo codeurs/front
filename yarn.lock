@@ -833,10 +833,22 @@
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.7.tgz#fb68cc9be8487e6ea5b13700e759bfbab7e0fefd"
   integrity sha512-rzOhiQ55WzAiFgXRtitP/ZUT8iVNyllEpylJ5zHzR4vArUvMB39GTk+Zon/uAM0JxEFAWnwsxC2gH8s+tZ3Myg==
 
+"@types/googlemaps@*", "@types/googlemaps@^3.30.16":
+  version "3.30.16"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.16.tgz#3264d5ef7c3a92fab2a9f00e09e3247866ff3532"
+  integrity sha512-6OZ64ahLzYfzuSr71y4jAHZXiwxjvvEM2bfF2tzjIc9KUZVbO30SkYa8WewTsR8aM5BFz/uBiNlZ14eRLXYS0g==
+
 "@types/jump.js@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/jump.js/-/jump.js-1.0.2.tgz#9eb1cf571e406bb3514a062008b6889ab9984160"
   integrity sha1-nrHPVx5Aa7NRSgYgCLaImrmYQWA=
+
+"@types/load-google-maps-api@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/load-google-maps-api/-/load-google-maps-api-1.3.0.tgz#40a610653fb5381579c921136186d27b77946c37"
+  integrity sha512-rUvxFoheh57ast18Cn8haBnonEAPxS/WZIcUcg6Vhgh33rjONVD9oBFqiV/JO7j0IgXPgu54BeKft/nm3UYMsg==
+  dependencies:
+    "@types/googlemaps" "*"
 
 "@types/mithril@https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/911e3bb343b77dc6839debc911e9829de2cefbcf":
   version "1.1.12"
@@ -4015,6 +4027,11 @@ listr@^0.14.2:
     p-map "^2.0.0"
     rxjs "^6.3.3"
 
+load-google-maps-api@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/load-google-maps-api/-/load-google-maps-api-1.3.2.tgz#ae1b0052b9ddf8f5a93486836a9d2b145b9d2205"
+  integrity sha512-uc0kW24xpTtw2g1g3qIXGgFF+u2Rlp+7a1Hze7Esuz24tHkbblJH0LZGjRVZuL7mqIxEWp+lP7ANt1/OiZRJbA==
+
 load-json-file@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-4.0.0.tgz#2f5f45ab91e33216234fd53adab668eb4ec0993b"
@@ -5888,7 +5905,7 @@ rgba-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
   integrity sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
+rimraf@2, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==

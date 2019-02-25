@@ -63,7 +63,7 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 		else this.dom.style.objectFit = 'none'
 	}
 
-	view() {
+	render() {
 		const {
 			src,
 			children,
@@ -127,7 +127,7 @@ const ImageResizerContext = createContext<Resizer>()
 export class ImageResizer extends View<{
 	resize: Resizer
 }> {
-	view() {
+	render() {
 		const {resize} = this.attrs
 		return m(ImageResizerContext.Provider, {value: resize}, this.children)
 	}
@@ -136,7 +136,7 @@ export class ImageResizer extends View<{
 export class Image extends View<ImageAttrs, HTMLElement> {
 	cached: undefined | string
 	resolved: undefined | ImageAttrs
-	view() {
+	render() {
 		const {
 			children,
 			src,

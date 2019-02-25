@@ -1,5 +1,5 @@
-import {m} from '../hyperscript'
 // See: https://github.com/jorgebucaran/hyperapp-router/blob/19f95f843ae2dc5b4d83f9647edc591a6450c4e3/src/Link.js
+import {m} from '../hyperscript'
 import {View} from '../ui/view'
 import {Location, RouterContext} from './router'
 
@@ -9,7 +9,7 @@ export class Link extends View<{
 	onclick?: Function
 	[key: string]: any
 }> {
-	view() {
+	render() {
 		const {to, target, onclick, children, ...attrs} = this.attrs
 		return m(Location, (location: RouterContext) => {
 			const href = location.formatPath(to)

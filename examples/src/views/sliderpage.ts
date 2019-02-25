@@ -2,7 +2,7 @@ import {m, Slider, SliderStore, View} from '@codeurs/front'
 
 export default class SliderPage extends View {
 	slider = new SliderStore()
-	view() {
+	render() {
 		return m('div', [
 			m('h1', '@codeurs/front'),
 			m('.examples-slider', 

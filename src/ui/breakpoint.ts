@@ -1,5 +1,4 @@
 import m, {Children} from 'mithril'
-import {ListenerCache} from '../util/listenercache'
 import {View} from './view'
 
 export class Breakpoint<T> extends View<
@@ -35,7 +34,7 @@ export class Breakpoint<T> extends View<
 		})
 	}
 
-	view() {
+	render() {
 		const {children, ...breakpoints} = this.attrs
 		const keys = Object.keys(breakpoints)
 		const active = Array.from(this.matchers).reduce(

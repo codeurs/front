@@ -18,7 +18,7 @@ export class Background extends View<
 	} & DOMAttrs,
 	HTMLDivElement
 > {
-	view() {
+	render() {
 		const {children, img, class: className, ...rest} = this.attrs
 		if (img && typeof img == 'object' && img.empty) return
 		const src = typeof img === 'string' ? img : img.src

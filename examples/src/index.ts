@@ -1,13 +1,13 @@
 import './index.less'
 
 import {
-    Breakpoint, classes, Component, createContext, DOMAttrs, HistoryRouter, Image, ImageResizer,
-    lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route,
-    SliderStore, StatelessView, style, styled, Switch, View
+    Breakpoint, classes, createContext, HistoryRouter, Image, ImageResizer, lazy, Link, m, Modal,
+    ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled, Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
-import {Children} from 'mithril'
+
+const Map = lazy(() => import('./views/map'))
 
 const Theme = createContext('green')
 
@@ -33,7 +33,7 @@ const LanguagesNav = () =>
 	
 class ModalExample extends View {
 	modal = new ModalStore()
-	view() {
+	render() {
 		return [
 			m('button', {onclick: this.modal.open}, 'Open modal'),
 			m(Portal, [
@@ -150,7 +150,7 @@ const breakpoints = {
 const Slider = lazy(() => import('./views/sliderpage'))
 
 class Examples extends View {
-	view() {
+	render() {
 		return m(HashRouter, 
 			m(Switch, [
 				m(Route, {
@@ -174,6 +174,7 @@ class Examples extends View {
 								m(A, {to: '/other'}, 'Other'),
 								m(A, {to: '/modal'}, 'Modal'),
 								m(A, {to: '/images'}, 'Images'),
+								m(A, {to: '/maps'}, 'Maps'),
 								m(A, {to: '/back'}, 'Back home')
 							]),
 							m(Switch, [
@@ -187,6 +188,7 @@ class Examples extends View {
 									])
 								),
 								m(Route, {path: '/modal'}, ModalExample),
+								m(Route, {path: '/maps'}, Map),
 								m(Route, () => [
 									m(Breakpoint, {
 										'(max-width: 800px)': {cols: 3},

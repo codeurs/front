@@ -14,7 +14,7 @@ export type RouteAttrs = {
 }
 
 export class Route extends View<RouteAttrs> {
-	view() {
+	render() {
 		const {children} = this.attrs
 		return m(Location, (location: RouterContext) => {
 			const match = location.match(this.attrs)

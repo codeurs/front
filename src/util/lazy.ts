@@ -12,7 +12,7 @@ export const lazy = <T>(
 				.then(m.redraw)
 				.catch(console.error)
 		}
-		view() {
+		render() {
 			const {children, ...attrs} = this.attrs
 			return component && m(component as any, attrs, children)
 		}

@@ -1,15 +1,10 @@
-import {View} from 'ui'
 import {m} from '../hyperscript'
+import {View} from '../ui/view'
 
 type ListenerObject = {
-	add(key: string, callback: Function): () => void
+	add(key: string, callback: (...args: Array<any>) => void): () => void
 	hit(key: string, ...args: Array<any>): void
 }
-
-const mods = ['a', 'b', 'c']
-type ValueOf<T> = T[keyof T]
-type Mod = ValueOf<typeof mods>
-const a: Mod = 'g'
 
 export class ListenerCache {
 	attached = new Map()
@@ -32,6 +27,7 @@ export class ListenerCache {
 			Array.from(this.attached.keys()).filter(key => events.indexOf(key) === -1)
 		)
 	}
+
 	remove(selected?: Array<string>) {
 		Array.from(this.attached.keys())
 			.filter(key => !selected || selected.indexOf(key) > -1)

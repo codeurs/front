@@ -9,7 +9,7 @@ import {Location, RouterContext} from './router'
 export class Switch extends View<{
 	children: Array<Vnode<RouteAttrs>>
 }> {
-	view() {
+	render() {
 		const {children} = this.attrs
 		return m(Location, (location: RouterContext) => {
 			for (const child of children) {

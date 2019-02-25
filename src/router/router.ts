@@ -64,7 +64,7 @@ export class Router extends View<RouterAttrs> {
 		}
 	}
 
-	view() {
+	render() {
 		const {
 			matcher = pathnameMatcher,
 			formatPath = (v: string) => v
