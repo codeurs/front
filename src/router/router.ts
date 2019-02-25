@@ -52,9 +52,15 @@ export class Router extends View<RouterAttrs> {
 	static instances = 0
 
 	onCreate() {
-		if (!Router.instances++) window.addEventListener('popstate', m.redraw)
+		if (!Router.instances++) {
+			window.addEventListener('popstate', m.redraw)
+			window.addEventListener('hashchange', m.redraw)
+		}
 		this.onRemove = () => {
-			if (!--Router.instances) window.removeEventListener('popstate', m.redraw)
+			if (!--Router.instances) {
+				window.removeEventListener('popstate', m.redraw)
+				window.removeEventListener('hashchange', m.redraw)
+			}
 		}
 	}
 
