@@ -13,24 +13,23 @@ export class Breakpoint<T> extends View<
 
 	onInit = this.createMatchers
 	onBeforeUpdate = this.createMatchers
+	onRemove = this.removeMatchers
 
 	createMatchers() {
 		const {children, ...breakpoints} = this.attrs
-		Object.keys(breakpoints).forEach(query => {
+		const keys = Object.keys(breakpoints)
+		keys.forEach(query => {
 			if (this.matchers.has(query)) return
 			const matcher = matchMedia(query)
 			matcher.addListener(m.redraw)
 			this.matchers.set(query, matchMedia(query))
 		})
-		this.matchers.forEach((matcher, query) => {
-			if (query in breakpoints) return
-			matcher.removeListener(m.redraw)
-			this.matchers.delete(query)
-		})
+		this.removeMatchers(keys)
 	}
 
-	onRemove() {
+	removeMatchers(except: Array<string> = []) {
 		this.matchers.forEach((matcher, query) => {
+			if (except.indexOf(query) > -1) return
 			matcher.removeListener(m.redraw)
 			this.matchers.delete(query)
 		})
