@@ -25,7 +25,7 @@ type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Children
 	(selector: string, attributes: Attributes, ...children: Children[]): Children
 
-	<Attrs, State, Child>(
+	/*<Attrs, State, Child>(
 		component:
 			| Components<{children: Child} & Attrs>
 			| Components<{children?: Child} & Attrs>,
@@ -35,7 +35,7 @@ type ExtendedHyperscript = {
 	<Attrs, State, Child>(
 		component: Components<{children: Child}> | Components<{children?: Child}>,
 		...args: Array<Child>
-	): Vnode<Attrs, State>
+	): Vnode<Attrs, State>*/
 
 	// Makes debugging easier
 	<Child>(

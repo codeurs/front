@@ -1,43 +1,16 @@
 import './index.less'
 
+import {
+    Breakpoint, classes, Component, createContext, DOMAttrs, HistoryRouter, Image, ImageResizer,
+    Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, Slider,
+    SliderStore, StatelessView, style, styled, Switch, View
+} from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
 import {Children} from 'mithril'
-import {
-    classes, Component, createContext, DOMAttrs, HistoryRouter, Image, ImageResizer, Link, m, Modal,
-    ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, Slider, SliderStore,
-    StatelessView, style, styled, Switch, View
-} from '../../dist'
+import {SliderPage} from 'views/sliderpage'
 
 const Theme = createContext('green')
-
-const Button = () => 
-	m(Theme.Consumer, color => m('button', color))
-
-class SliderExample extends View {
-	slider = new SliderStore()
-	view() {
-		return m('div', [
-			m('h1', '@codeurs/front'),
-			m('.examples-slider', 
-				m(Slider, this.slider, 
-					[1, 2, 3, 4, 5, 6, 7].map(slide => 
-						m('.examples-slider-slide', slide)
-					)
-				)
-			),
-			m(Button),
-			m(Theme.Provider, {value: 'red'}, [
-				m(Button),
-				m(Button),
-				m(Theme.Provider, {value: 'blue'}, 
-					m(Button)
-				),
-				m(Button)
-			])
-		])
-	}
-}
 
 const hashMatcher = (location, route) =>
 	parseRoute(location.hash.substr(1), route)
@@ -171,6 +144,9 @@ const A = styled(Link)`
 		color: yellow;
 	}
 `
+const breakpoints = {
+	ipadPort: '(min-width: 800px)'
+}
 
 class Examples extends View {
 	view() {
@@ -200,7 +176,7 @@ class Examples extends View {
 								m(A, {to: '/back'}, 'Back home')
 							]),
 							m(Switch, [
-								m(Route, {path: '/slider'}, SliderExample),
+								m(Route, {path: '/slider'}, SliderPage),
 								m(Route, {path: '/other'}, () => m('', 'Other')),
 								m(Route, {path: '/images'}, Images),
 								m(Route, {path: '/back'},
@@ -210,7 +186,13 @@ class Examples extends View {
 									])
 								),
 								m(Route, {path: '/modal'}, ModalExample),
-								m(Route, () => m('', 'Match all'))
+								m(Route, () => [
+									m(Breakpoint, {
+										'(max-width: 800px)': {cols: 3},
+										'(min-width: 800px)': {cols: 5},
+										'(min-width: 1000px)': {cols: 10}
+									}, ({cols}) => m('', 'cols: '+cols))
+								])
 							])
 						])
 					])

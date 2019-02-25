@@ -1,4 +1,4 @@
 declare module 'matchmediaquery' {
-	type MatchMedia = typeof window.matchMedia
-	export = MatchMedia
+	const matchMedia: typeof window.matchMedia
+	export = matchMedia
 }
