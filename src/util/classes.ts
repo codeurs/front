@@ -22,27 +22,18 @@ function prefixClassNames(prefix: string | null, input: Array<ClassValue>) {
 		.map(name => (prefix ? `${prefix}-${name}` : name))
 }
 
-function prefix(key: string) {
-	switch (key) {
-		case 'class':
-		case 'className':
-			return null
-		default:
-			return key
-	}
-}
-
-function parseClasses(classes: ClassValue): ClassValue | Array<ClassValue> {
-	if (typeof classes == 'string' || Array.isArray(classes) || !classes)
+export function parseClasses(
+	classes: ClassValue
+): ClassValue | Array<ClassValue> {
+	if (!classes || Array.isArray(classes) || typeof classes !== 'object')
 		return classes
-	return (
-		typeof classes == 'object' &&
-		Object.keys(classes).map(key =>
-			prefixClassNames(
-				prefix(key),
-				([] as Array<ClassValue>).concat(parseClasses(classes[key]))
-			)
-		)
+	return Object.keys(classes).map(key =>
+		typeof classes[key] === 'object' || typeof classes[key] === 'string'
+			? prefixClassNames(
+					key,
+					([] as Array<ClassValue>).concat(parseClasses(classes[key]))
+			  )
+			: classNames({[key]: classes[key]})
 	)
 }
 

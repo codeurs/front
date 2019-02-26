@@ -23,7 +23,8 @@
 		"precommit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged",
 		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
 		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
-		"prepare": "symlink-dir dist node_modules/@codeurs/front"
+		"prepare": "symlink-dir dist node_modules/@codeurs/front",
+		"test": "jest"
 	},
 	"lint-staged": {
 		"src/**/*.ts": [
@@ -34,6 +35,22 @@
 		"src/**/*.less": [
 			"prettier --write --tab-width 2 --use-tabs --parser postcss",
 			"git add"
+		]
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.ts?$": "ts-jest"
+		},
+		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
+		"moduleDirectories": [
+			"node_modules",
+			"src"
+		],
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"jsx"
 		]
 	},
 	"dependencies": {
@@ -52,19 +69,22 @@
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.1.10",
 		"scrollbar-width": "^3.1.1",
-		"throttle-debounce": "^2.1.0",
 		"tslib": "^1.9.3"
 	},
 	"devDependencies": {
 		"@codeurs/packer": "^0.9.0",
+		"@types/jest": "^24.0.9",
 		"copyfiles": "^2.0.0",
 		"cross-env": "^5.2.0",
 		"husky": "^1.2.0",
+		"jest": "^24.1.0",
 		"lint-staged": "^8.1.0",
 		"npm-run-all": "^4.1.3",
 		"prettier": "^1.15.3",
 		"rimraf": "^2.6.3",
 		"symlink-dir": "^2.0.2",
-		"typescript": "^3.2.2"
+		"throttle-debounce": "^2.1.0",
+		"ts-jest": "^24.0.0",
+		"typescript": "^3.3.3333"
 	}
 }
