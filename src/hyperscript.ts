@@ -57,7 +57,9 @@ export type DOMAttrs = {[key: string]: any}
 export const m: ExtendedHyperscript = Object.assign(
 	(selector: any, attrs: any, ...children: any) => {
 		const makeChildren = (children: any) =>
-			!children ? {} : {children: extractChildren(children)}
+			!children || children.length === 0
+				? {}
+				: {children: extractChildren(children)}
 		if (isPlainFunction(selector)) {
 			if (
 				attrs &&
