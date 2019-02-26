@@ -1,7 +1,7 @@
 import './image.less'
 
 import {DOMAttrs, m} from '../hyperscript'
-import {classes} from '../util/classes'
+import {addClasses} from '../util/classes'
 import {contain, cover} from '../util/fit'
 import {createContext} from './context'
 import {View} from './view'
@@ -74,8 +74,6 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 			alt = '',
 			width,
 			height,
-			class: cl1,
-			className: cl2,
 			style,
 			// These get passed by sizeof-loader, but we don't want them to be passed
 			// to the dom
@@ -91,7 +89,6 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 				? position
 				: position && `${position.x * 100}% ${position.y * 100}%`
 		return m(tag, {
-			...classes('image', cl1, cl2, {mod: {crop}}),
 			...(useBackground
 				? {
 						role: 'img',
@@ -115,7 +112,7 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 							...style
 						}
 				  }),
-			...attrs
+			...addClasses(attrs, 'image', {mod: {crop}})
 		})
 	}
 }

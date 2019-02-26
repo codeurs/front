@@ -1,15 +1,12 @@
 import './icon.less'
 
-import m from 'mithril'
-import {Component} from './component'
-import classnames from 'classnames'
+import {DOMAttrs, m} from '../hyperscript'
+import {addClasses} from '../util/classes'
+import {View} from './view'
 
-export class Icon extends Component<{
-	icon: string
-	class?: any
-}> {
-	view() {
-		const {icon, class: className} = this.attrs
-		return m('i.icon', {class: classnames(`icon-${icon}`, className)})
+export class Icon extends View<{icon: string} & DOMAttrs> {
+	render() {
+		const {icon} = this.attrs
+		return m('i.icon', addClasses(this.attrs, {icon}))
 	}
 }

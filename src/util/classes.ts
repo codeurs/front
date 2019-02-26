@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import {DOMAttrs} from '../hyperscript'
 
 interface ClassDictionary {
 	[id: string]: any
@@ -51,12 +52,9 @@ export function classes(...classes: Array<ClassValue>) {
 }
 
 export const addClasses = (
-	attrs: {
-		class?: string
-		className?: string
-	},
+	attrs: DOMAttrs,
 	...rest: Array<ClassValue>
-) => {
-	const {class: c1, className: c2} = attrs
-	return classes(c1, c2, ...rest)
+): DOMAttrs => {
+	const {class: c1, className: c2, ...props} = attrs
+	return {...classes(c1, c2, ...rest), ...props}
 }

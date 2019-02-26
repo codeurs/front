@@ -1,9 +1,9 @@
 import './index.less'
 
 import {
-    addClasses, Breakpoint, classes, Component, createContext, HistoryRouter, Image, ImageResizer,
-    lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled,
-    Switch, View
+    addClasses, Breakpoint, classes, Component, createContext, HistoryRouter, Icon, Image,
+    ImageResizer, lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect,
+    Route, styled, Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
@@ -161,6 +161,7 @@ class Examples extends View {
 				}, ({match}) => {
 					const {params: {language}} = match
 					return m('', [
+						m(Icon, {icon: 'test'}),
 						m(HistoryRouter, {
 							matcher: (location, route) =>
 							hashMatcher(location, {
