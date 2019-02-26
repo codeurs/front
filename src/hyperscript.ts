@@ -24,20 +24,7 @@ export type ComponentConstructors<Attrs> =
 type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Children
 	(selector: string, attributes: Attributes, ...children: Children[]): Children
-
-	/*<Attrs, State, Child>(
-		component:
-			| Components<{children: Child} & Attrs>
-			| Components<{children?: Child} & Attrs>,
-		attributes: Attrs & Lifecycle<Attrs, State> & {key?: string | number},
-		...args: Array<Child>
-	): Vnode<Attrs, State>
-	<Attrs, State, Child>(
-		component: Components<{children: Child}> | Components<{children?: Child}>,
-		...args: Array<Child>
-	): Vnode<Attrs, State>*/
-
-	// Makes debugging easier
+	(component: ComponentConstructors<{}>, ...args: Array<Child>): Children
 	<Child>(
 		component: ComponentConstructors<{children?: Child}>,
 		...args: Array<Child>

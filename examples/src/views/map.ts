@@ -1,13 +1,37 @@
 import './map.less'
 
 import {m, Maps, Marker, View} from '@codeurs/front'
+import {debounce} from 'throttle-debounce'
 
 export default class Map extends View {
 	markers = 1
 	zoom = 4.5
 	center = {lat: 50.3115184, lng: 6.3301855}
+
+	setMapProperties = debounce(300, e => {
+		let redraw = false
+		const map = e.target
+		const zoomLevel = map.getZoom()
+    if (zoomLevel !== this.zoom) {
+			redraw = true
+			this.zoom = zoomLevel
+    }
+    const center = map.getCenter()
+    if (!center.equals(new google.maps.LatLng(
+			this.center.lat, this.center.lng
+		))) {
+			redraw = true
+			this.center = center.toJSON()
+		}
+		if (redraw) m.redraw()
+	})
+
+	changeMapProperty = e => {
+		e.redraw = false
+		this.setMapProperties(e)
+	}
+
 	render() {
-		const {} = this.attrs
 		return m('.map',
 			m('label', 
 				'Add markers: ',
@@ -35,19 +59,8 @@ export default class Map extends View {
 						zoom: this.zoom,
 						disableDefaultUI: true,
 						on: {
-							center_changed: e => {
-								const center = e.target.getCenter()
-								if (center.equals(new google.maps.LatLng(
-									this.center.lat, this.center.lng
-								)))
-									return e.redraw = false
-								this.center = center.toJSON()
-							},
-							zoom_changed: e => {
-								if (this.zoom == e.target.getZoom())
-									return e.redraw = false
-								this.zoom = e.target.getZoom()
-							}
+							center_changed: this.changeMapProperty,
+							zoom_changed: this.changeMapProperty
 						}
 					},
 					Array.from(Array(this.markers))

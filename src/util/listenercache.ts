@@ -19,6 +19,7 @@ export class ListenerCache {
 				this.object.add(key, (event = {redraw: true}) => {
 					event.redraw = true
 					this.object.hit(key, event)
+					console.log(event)
 					if (event.redraw) m.redraw()
 				})
 			)

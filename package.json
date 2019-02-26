@@ -52,6 +52,7 @@
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.1.10",
 		"scrollbar-width": "^3.1.1",
+		"throttle-debounce": "^2.1.0",
 		"tslib": "^1.9.3"
 	},
 	"devDependencies": {

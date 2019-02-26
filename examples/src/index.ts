@@ -1,8 +1,8 @@
 import './index.less'
 
 import {
-    Breakpoint, classes, createContext, HistoryRouter, Image, ImageResizer, lazy, Link, m, Modal,
-    ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled, Switch, View
+    Breakpoint, classes, Component, createContext, HistoryRouter, Image, ImageResizer, lazy, Link,
+    m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled, Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
@@ -148,6 +148,7 @@ const breakpoints = {
 }
 
 const Slider = lazy(() => import('./views/sliderpage'))
+
 
 class Examples extends View {
 	render() {
