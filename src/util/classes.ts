@@ -31,18 +31,32 @@ function prefix(key: string) {
 	}
 }
 
-function parseClasses(classes: ClassValue) {
+function parseClasses(classes: ClassValue): ClassValue | Array<ClassValue> {
 	if (typeof classes == 'string' || Array.isArray(classes) || !classes)
 		return classes
 	return (
 		typeof classes == 'object' &&
-		Object.keys(classes).map(key => {
-			return prefixClassNames(prefix(key), classes[key])
-		})
+		Object.keys(classes).map(key =>
+			prefixClassNames(
+				prefix(key),
+				([] as Array<ClassValue>).concat(parseClasses(classes[key]))
+			)
+		)
 	)
 }
 
 export function classes(...classes: Array<ClassValue>) {
 	const names = classNames(classes.map(parseClasses))
 	return names ? {className: names} : {}
+}
+
+export const addClasses = (
+	attrs: {
+		class?: string
+		className?: string
+	},
+	...rest: Array<ClassValue>
+) => {
+	const {class: c1, className: c2} = attrs
+	return classes(c1, c2, ...rest)
 }

@@ -1,11 +1,13 @@
 import './index.less'
 
 import {
-    Breakpoint, classes, Component, createContext, HistoryRouter, Image, ImageResizer, lazy, Link,
-    m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled, Switch, View
+    addClasses, Breakpoint, classes, Component, createContext, HistoryRouter, Image, ImageResizer,
+    lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled,
+    Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
+import classNames from 'classnames'
 
 const Map = lazy(() => import('./views/map'))
 
