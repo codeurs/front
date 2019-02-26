@@ -22,6 +22,9 @@ export class Component<Attr = {}, El = Element>
 		return true
 	}
 
+	onafterupdate() {}
+	onremove() {}
+
 	patch(to: any, ...methods: Array<string>) {
 		const comp: any = this
 		methods.forEach(method => {
@@ -49,14 +52,6 @@ export class Component<Attr = {}, El = Element>
 				return original(vnode)
 			}
 		}
-	}
-
-	onafterupdate() {}
-
-	updatePure(vnode: CVnodeDOM<Attr>, original?: any) {
-		this.attrs = vnode.attrs
-		this.dom = vnode.dom as any
-		if (original) return original(vnode)
 	}
 
 	view(): Children {
