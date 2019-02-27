@@ -10,7 +10,7 @@ export function wrap<L extends {}, T extends Constructors<any>>(
 ): (component: T) => T {
 	return (component: T): T => {
 		const comp: StatelessView<any> = ({children, ...attrs}) =>
-			m(layoutView, options, m(component, attrs, children))
+			m(layoutView, {...attrs, ...options}, m(component, attrs, children))
 		return (comp as any) as T
 	}
 }
