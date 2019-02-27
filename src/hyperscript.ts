@@ -1,20 +1,10 @@
-import hyperscript, {
-	Attributes,
-	Child,
-	Children,
-	ComponentTypes,
-	CVnode,
-	Lifecycle,
-	Vnode
-} from 'mithril'
+import hyperscript, {Attributes, Child, Children, CVnode} from 'mithril'
 import {Component, View} from 'ui'
 import {extractChildren} from './util/children'
 
 export type ChildAttr<T> = {children: T} | {children?: T}
 
 const mithrilStatic = {...hyperscript}
-
-type Components<A> = ComponentTypes<A>
 
 export type ComponentConstructors<Attrs> =
 	| {(attrs: Attrs): Children}
