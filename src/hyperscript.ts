@@ -6,32 +6,34 @@ export type ChildAttr<T> = {children: T} | {children?: T}
 
 const mithrilStatic = {...hyperscript}
 
-export type ComponentConstructors<Attrs> =
-	| {(attrs: Attrs): Children}
+export type ClassComponents<Attrs> =
 	| {new (vnode: CVnode<Attrs>): View<Attrs>}
 	| {new (vnode: CVnode<Attrs>): Component<Attrs>}
+
+export type ComponentConstructors<Attrs> =
+	| {(attrs: Attrs): Children}
+	| ClassComponents<Attrs>
+
+type Without<T, K> = Pick<T, Exclude<keyof T, K>>
+type AttributesArgument<Attrs> = Without<Attrs, 'children'> & {key?: any}
+type OptionalAttrs<Attrs> = {} extends Attrs
+	? {}
+	: {children: any} extends Attrs
+	? {}
+	: never
+export type ChildrenType<Attrs> = ({children?: Children} & Attrs)['children']
 
 type ExtendedHyperscript = {
 	(selector: string, ...children: Children[]): Children
 	(selector: string, attributes: Attributes, ...children: Children[]): Children
-	(component: ComponentConstructors<{}>, ...args: Array<Child>): Children
-	<Child>(
-		component: ComponentConstructors<{children?: Child}>,
-		...args: Array<Child>
+	<Attrs extends OptionalAttrs<Attrs>>(
+		component: ComponentConstructors<Attrs>,
+		...args: Array<ChildrenType<Attrs>>
 	): Children
-	<Child>(
-		component: ComponentConstructors<{children: Child}>,
-		...args: Array<Child>
-	): Children
-	<Attrs, Child>(
-		component: ComponentConstructors<Attrs & {children?: Child}>,
-		attributes: Attrs & {key?: any},
-		...args: Array<Child>
-	): Children
-	<Attrs, Child>(
-		component: ComponentConstructors<Attrs & {children: Child}>,
-		attributes: Attrs & {key?: any},
-		...args: Array<Child>
+	<Attrs>(
+		component: ComponentConstructors<Attrs>,
+		attributes: AttributesArgument<Attrs>,
+		...args: Array<ChildrenType<Attrs>>
 	): Children
 } & typeof mithrilStatic
 
@@ -57,6 +59,15 @@ export const m: ExtendedHyperscript = Object.assign(
 			)
 				return selector(makeChildren([].concat(attrs).concat(children)))
 			return selector({...attrs, ...makeChildren(children)})
+		}
+		if (
+			typeof selector === 'string' &&
+			!Array.isArray(attrs) &&
+			typeof attrs === 'object' &&
+			!('tag' in attrs)
+		) {
+			const {children: childrenAttr, ...rest} = attrs
+			return hyperscript(selector, rest, childrenAttr, ...children)
 		}
 		return hyperscript(selector, attrs, ...children)
 	},

@@ -1,12 +1,10 @@
 import {ComponentConstructors, m} from '../hyperscript'
 import {View} from '../ui/view'
 import {Match} from './parseroute'
-import {Location, RouterContext} from './router'
+import {Location, RouteInfo, RouterContext} from './router'
 
-export type RouteAttrs = {
-	path?: string
-	exact?: boolean
-	children?: ComponentConstructors<{
+export type RouteAttrs = RouteInfo & {
+	children: ComponentConstructors<{
 		match?: Match
 		location?: RouterContext
 		[key: string]: any

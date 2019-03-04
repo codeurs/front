@@ -47,6 +47,10 @@ export class Maps extends View<
 		language?: string
 		class?: string
 		on?: MapsEvents
+		initial?: {
+			zoom?: number
+			center?: google.maps.LatLng | google.maps.LatLngLiteral
+		}
 	} & google.maps.MapOptions
 > {
 	static pool = new MapPool()
@@ -60,16 +64,20 @@ export class Maps extends View<
 			region,
 			language,
 			class: className,
+			initial = {},
 			...options
 		} = this.attrs
 		loadGoogleMapsApi({key: apiKey, region, language})
 			.then(maps => {
 				const map = Maps.pool.create(dom => new maps.Map(dom))
-				map.setOptions({
-					zoom: 7,
-					center: new maps.LatLng(51.0030477, 4.5000955),
-					...options
-				})
+				const {
+					zoom = 7,
+					center = {
+						lat: 51.0030477,
+						lng: 4.5000955
+					}
+				} = initial
+				map.setOptions({zoom, center, ...options})
 				if (this.dom) this.dom.appendChild(map.getDiv())
 				this.onRemove = () => {
 					Maps.pool.release(map)

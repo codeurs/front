@@ -1,0 +1,25 @@
+.autocomplete {
+	display: inline-block;
+	position: relative;
+
+	&-item {
+		&.is-active {
+			background: red;
+		}
+	}
+
+	&-menu {
+		max-height: 300px;
+		overflow: auto;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: white;
+		box-shadow: 0 3px 30px rgba(0, 0, 0, .2);
+
+		&:empty {
+			display: none;
+		}
+	}
+}

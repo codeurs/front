@@ -1,3 +1,4 @@
+export * from './container'
 export * from './hyperscript'
 export * from './router'
 export * from './store'

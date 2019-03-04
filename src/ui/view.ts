@@ -1,3 +1,4 @@
+import {ChildrenType} from 'hyperscript'
 import {
 	Children,
 	ClassComponent,
@@ -23,17 +24,17 @@ export type StatelessView<Attr = {}> = {
 	(attr: {children?: Children} & Attr): Children
 }
 
-export abstract class View<Attr = {}, Dom extends Element = Element>
-	implements ClassComponent<Attr> {
-	attrs!: Readonly<{children?: Children}> & Readonly<Attr>
+export abstract class View<Attrs = {}, Dom extends Element = Element>
+	implements ClassComponent<Attrs> {
+	attrs!: Readonly<{children?: Children}> & Readonly<Attrs>
 	dom: undefined | Dom
 
-	constructor(vnode: CVnode<Attr>) {
-		this.__update(vnode as Vnode<Attr, this>)
+	constructor(vnode: CVnode<Attrs>) {
+		this.__update(vnode as Vnode<Attrs, this>)
 	}
 
-	get children() {
-		return this.attrs.children
+	get children(): ChildrenType<Attrs> {
+		return this.attrs.children as ChildrenType<Attrs>
 	}
 
 	// Public API
@@ -43,53 +44,53 @@ export abstract class View<Attr = {}, Dom extends Element = Element>
 	onUpdate(dom: Dom) {}
 	onBeforeRemove(dom: Dom): void | Promise<any> {}
 	onRemove() {}
-	onBeforeUpdate(attrs: Attr): void | boolean {}
+	onBeforeUpdate(attrs: Attrs): void | boolean {}
 	abstract render(): Children | null | void
 
 	// Mithril connection
 
 	/** @internal */
-	oninit(vnode: Vnode<Attr, this>) {
+	oninit(vnode: Vnode<Attrs, this>) {
 		this.__update(vnode)
 		return this.onInit()
 	}
 
 	/** @internal */
-	oncreate(vnode: VnodeDOM<Attr, this>) {
+	oncreate(vnode: VnodeDOM<Attrs, this>) {
 		this.__update(vnode)
 		return this.onCreate(vnode.dom as Dom)
 	}
 
 	/** @internal */
-	onupdate(vnode: VnodeDOM<Attr, this>) {
+	onupdate(vnode: VnodeDOM<Attrs, this>) {
 		this.__update(vnode)
 		return this.onUpdate(vnode.dom as Dom)
 	}
 
 	/** @internal */
-	onbeforeremove(vnode: VnodeDOM<Attr, this>) {
+	onbeforeremove(vnode: VnodeDOM<Attrs, this>) {
 		this.__update(vnode)
 		return this.onBeforeRemove(vnode.dom as Dom)
 	}
 
 	/** @internal */
-	onremove(vnode: VnodeDOM<Attr, this>) {
+	onremove(vnode: VnodeDOM<Attrs, this>) {
 		this.__update(vnode)
 		return this.onRemove()
 	}
 
 	/** @internal */
-	onbeforeupdate(vnode: Vnode<Attr, this>, old: CVnodeDOM<Attr>) {
+	onbeforeupdate(vnode: Vnode<Attrs, this>, old: CVnodeDOM<Attrs>) {
 		this.__update(vnode)
 		return this.onBeforeUpdate(old.attrs)
 	}
 
-	view(vnode: Vnode<Attr, this>) {
+	view(vnode: Vnode<Attrs, this>) {
 		return this.render()
 	}
 
 	/** @internal */
-	__update(vnode: Vnode<Attr, this> | VnodeDOM<Attr, this>) {
+	__update(vnode: Vnode<Attrs, this> | VnodeDOM<Attrs, this>) {
 		if ('dom' in vnode && vnode.dom) this.dom = vnode.dom as Dom
 		this.attrs = {
 			...vnode.attrs,

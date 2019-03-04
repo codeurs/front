@@ -19,15 +19,20 @@ export type History = {
 	push: (href: string) => void
 }
 
+export type RouteInfo = {
+	path?: string
+	exact?: boolean
+}
+
 export type Matcher = (
 	location: LocationData,
-	route: RouteAttrs
+	route: RouteInfo
 ) => undefined | Match
 
 export type RouterContext = LocationData &
 	History &
 	RouterAttrs & {
-		match: (route: RouteAttrs) => Match
+		match: (route: RouteInfo) => Match
 		formatPath: (path: string) => string
 	}
 

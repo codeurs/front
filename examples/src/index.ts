@@ -1,13 +1,12 @@
 import './index.less'
 
 import {
-    addClasses, Breakpoint, classes, Component, createContext, HistoryRouter, Icon, Image,
-    ImageResizer, lazy, Link, m, Modal, ModalOverlay, ModalStore, parseRoute, Portal, Redirect,
-    Route, styled, Switch, View
+    Breakpoint, createContext, HistoryRouter, Image, ImageResizer, lazy, Link, m, Modal,
+    ModalOverlay, ModalStore, parseRoute, Portal, Redirect, Route, styled, Switch, View
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
-import classNames from 'classnames'
+import Autocomplete from 'views/autocomplete'
 
 const Map = lazy(() => import('./views/map'))
 
@@ -22,9 +21,7 @@ const HashRouter = ({children}) =>
 	m(HistoryRouter, {matcher: hashMatcher, formatPath: hashFormatter}, children)
 
 const LanguageLink = ({lang, children}) =>
-	m(Link, {to: `/${lang}`}, ({active, anchorAttrs}) =>
-		m('a', {...classes({is: {active}}), ...anchorAttrs}, children)
-	)
+	m(Link, {to: `/${lang}`}, children)
 
 const LanguagesNav = () => 
 	m(HashRouter, [
@@ -138,11 +135,11 @@ const Nav3 = styled(Nav2)`
 
 const A = styled(Link)`
 	color: inherit;
-	${attrs => attrs.to === '/' && `
-		color: gold;
-	`}
 	&:hover {
 		color: yellow;
+	}
+	&.is-active {
+		color: gold;
 	}
 `
 const breakpoints = {
@@ -150,7 +147,6 @@ const breakpoints = {
 }
 
 const Slider = lazy(() => import('./views/sliderpage'))
-
 
 class Examples extends View {
 	render() {
@@ -161,7 +157,6 @@ class Examples extends View {
 				}, ({match}) => {
 					const {params: {language}} = match
 					return m('', [
-						m(Icon, {icon: 'test'}),
 						m(HistoryRouter, {
 							matcher: (location, route) =>
 							hashMatcher(location, {
@@ -173,9 +168,9 @@ class Examples extends View {
 							m('', m(LanguagesNav)),
 							`Language: ${language}`,
 							m(Nav3, {as: 'div'}, [
-								m(A, {to: '/'}, 'Home'),
+								m(A, {to: '/', exact: true}, 'Home'),
 								m(A, {to: '/slider'}, 'Slider'),
-								m(A, {to: '/other'}, 'Other'),
+								m(A, {to: '/autocomplete'}, 'Autocomplete'),
 								m(A, {to: '/modal'}, 'Modal'),
 								m(A, {to: '/images'}, 'Images'),
 								m(A, {to: '/maps'}, 'Maps'),
@@ -183,7 +178,7 @@ class Examples extends View {
 							]),
 							m(Switch, [
 								m(Route, {path: '/slider'}, Slider),
-								m(Route, {path: '/other'}, () => m('', 'Other')),
+								m(Route, {path: '/autocomplete'}, Autocomplete),
 								m(Route, {path: '/images'}, Images),
 								m(Route, {path: '/back'},
 									() => m('', [
