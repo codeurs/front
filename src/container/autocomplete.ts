@@ -3,7 +3,7 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
 import {View} from '../ui/view'
 
-enum AutocompleteChange {
+export enum AutocompleteChange {
 	MouseUp,
 	KeyArrowUp,
 	KeyArrowDown,
@@ -20,7 +20,7 @@ enum AutocompleteChange {
 	ButtonBlur
 }
 
-type AutocompleteAction<Item> =
+export type AutocompleteAction<Item> =
 	| {type: AutocompleteChange.KeyEscape}
 	| {type: AutocompleteChange.ButtonBlur}
 	| {type: AutocompleteChange.ButtonClick}
@@ -33,26 +33,28 @@ type AutocompleteAction<Item> =
 	| {type: AutocompleteChange.ItemMouseEnter; index: number}
 	| {type: AutocompleteChange.InputChange; value: string}
 
-type AutocompleteState<Item> = {
+export type AutocompleteState<Item> = {
 	highlightedIndex: number | null
 	inputValue: string | null
 	isOpen: boolean
 	selectedItem: Item | null
 }
 
+export type AutocompleteApi<Item> = AutocompleteState<Item> & {
+	inputAttrs: (attrs?: DOMAttrs) => DOMAttrs
+	menuAttrs: (attrs?: DOMAttrs) => DOMAttrs
+	buttonAttrs: (attrs?: DOMAttrs) => DOMAttrs
+	labelAttrs: (attrs?: DOMAttrs) => DOMAttrs
+	itemAttrs: (attrs: ItemAttrs<Item>) => DOMAttrs
+}
+
+export type AutocompleteRenderApi<Item> = (
+	api: AutocompleteApi<Item>
+) => Children
+
 type ItemAttrs<Item> = {
 	item: Item
 } & DOMAttrs
-
-type AutocompleteApi<Item> = (
-	api: AutocompleteState<Item> & {
-		inputAttrs: (attrs: DOMAttrs) => DOMAttrs
-		menuAttrs: (attrs: DOMAttrs) => DOMAttrs
-		buttonAttrs: (attrs: DOMAttrs) => DOMAttrs
-		labelAttrs: (attrs: DOMAttrs) => DOMAttrs
-		itemAttrs: (attrs: ItemAttrs<Item>) => DOMAttrs
-	}
-) => Children
 
 const callFunctions = (...fns: Array<Function>) => (...args: Array<any>) =>
 	fns.forEach(fn => fn && fn(...args))
@@ -64,8 +66,8 @@ const callHandlers = (...fns: Array<Function>) => (
 	return callFunctions(...fns)(event)
 }
 
-const autocompleteReducer = <Item>(
-	state: AutocompleteState<Item>,
+export const autocompleteReducer = <Item>(
+	state: AutocompleteState<Item> & {items: Array<Item>},
 	action: AutocompleteAction<Item>
 ): AutocompleteState<Item> => {
 	const {highlightedIndex} = state
@@ -108,7 +110,8 @@ export class Autocomplete<Item> extends View<
 	{
 		onselect?: (item: Item) => void
 		itemToString?: (item: Item) => string
-		children: AutocompleteApi<Item>
+		reducer?: typeof autocompleteReducer
+		children: AutocompleteRenderApi<Item>
 	},
 	HTMLElement
 > {
@@ -304,9 +307,10 @@ export class Autocomplete<Item> extends View<
 	}
 
 	dispatch(action: AutocompleteAction<Item>, options: {async?: boolean} = {}) {
+		const {reducer = autocompleteReducer} = this.attrs
 		const {async} = options
 		const oldState = this.state
-		this.state = autocompleteReducer(oldState, action)
+		this.state = reducer({...oldState, items: this.items}, action)
 		if (oldState != this.state) {
 			const {onselect, itemToString} = this.attrs
 			const {selectedItem} = this.state
@@ -321,7 +325,7 @@ export class Autocomplete<Item> extends View<
 		}
 	}
 
-	labelAttrs = (attrs: DOMAttrs) => {
+	labelAttrs = (attrs: DOMAttrs = {}) => {
 		return {
 			for: this.inputId,
 			id: this.labelId,
