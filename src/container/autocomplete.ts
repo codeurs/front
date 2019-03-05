@@ -49,8 +49,7 @@ const isOrContainsNode = (parent: HTMLElement, child: HTMLElement) =>
 export class Autocomplete<Item> extends View<
 	{
 		store?: AutocompleteStore<Item>
-		onselect?: (item: Item) => void
-		onreset?: () => void
+		onselect?: (item: null | Item) => void
 		itemToString?: (item: Item) => string
 		children: AutocompleteRenderApi<Item>
 	},
@@ -247,17 +246,15 @@ export class Autocomplete<Item> extends View<
 	}
 
 	dispatch(action: AutocompleteAction<Item>, options: {async?: boolean} = {}) {
-		const {itemToString = (item: Item) => `${item}`, onselect, onreset} = this.attrs
+		const {itemToString = (item: Item) => `${item}`, onselect} = this.attrs
 		const {async} = options
 		const {selectedItem: wasSelected} = this.store
 		this.store.dispatch(action, {
 			items: this.items, itemToString
 		})
 		const {selectedItem} = this.store
-		if (wasSelected != selectedItem && selectedItem)
+		if (wasSelected != selectedItem)
 			if (onselect) onselect(selectedItem)
-		if (wasSelected !== null && selectedItem === null)
-			if (onreset) onreset()
 		if (async) m.redraw()
 		else (m.redraw as any).sync()
 	}
