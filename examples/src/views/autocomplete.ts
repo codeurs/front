@@ -1,8 +1,7 @@
 import './autocomplete.less'
 
-import {Autocomplete, classes, m, View} from '@codeurs/front'
+import {Autocomplete, AutocompleteStore, classes, m, View} from '@codeurs/front'
 import countries from './countries'
-import { AutocompleteStore } from '@codeurs/front/store/autocompletestore';
 
 export default class extends View {
 	autocomplete = new AutocompleteStore()
