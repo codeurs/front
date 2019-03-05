@@ -47,7 +47,7 @@ type AutocompleteReducer<Item> = (
 	props: AutocompleteProps<Item>
 ) => AutocompleteState<Item>
 
-export const defaultReducer = <Item>(
+export const autocompleteReducer = <Item>(
 	state: AutocompleteState<Item>,
 	action: AutocompleteAction<Item>,
 	props: {
@@ -92,7 +92,7 @@ export class AutocompleteStore<Item> implements AutocompleteState<Item> {
 	selectedItem: Item | null = null
 	private reducer: AutocompleteReducer<Item>
 
-	constructor(reducer: AutocompleteReducer<Item> = defaultReducer) {
+	constructor(reducer: AutocompleteReducer<Item> = autocompleteReducer) {
 		this.reducer = reducer
 	}
 
