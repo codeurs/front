@@ -4,20 +4,20 @@ import {DOMAttrs, m} from '../hyperscript'
 import {View} from '../ui/view'
 
 export enum AutocompleteChange {
-	MouseUp,
-	KeyArrowUp,
-	KeyArrowDown,
-	KeyEscape,
-	KeyHome,
-	KeyEnd,
-	KeySpace,
-	KeyEnter,
-	ItemMouseEnter,
-	ItemClick,
-	InputBlur,
-	InputChange,
-	ButtonClick,
-	ButtonBlur
+	MouseUp = 'MouseUp',
+	KeyArrowUp = 'KeyArrowUp',
+	KeyArrowDown = 'KeyArrowDown',
+	KeyEscape = 'KeyEscape',
+	KeyHome = 'KeyHome',
+	KeyEnd = 'KeyEnd',
+	KeySpace = 'KeySpace',
+	KeyEnter = 'KeyEnter',
+	ItemMouseEnter = 'ItemMouseEnter',
+	ItemClick = 'ItemClick',
+	InputBlur = 'InputBlur',
+	InputChange = 'InputChange',
+	ButtonClick = 'ButtonClick',
+	ButtonBlur = 'ButtonBlur'
 }
 
 export type AutocompleteAction<Item> =
