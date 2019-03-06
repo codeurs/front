@@ -1,13 +1,20 @@
 import './autocomplete.less'
 
-import {Autocomplete, classes, m, View} from '@codeurs/front'
+import {Autocomplete, AutocompleteStore, classes, m, View} from '@codeurs/front'
 import countries from './countries'
 
 export default class extends View {
+	autocomplete = new AutocompleteStore()
 	render() {
 		return m('div', [
 			m('h2', 'autocomplete'),
+			m('button', {
+				onclick: e => {
+					this.autocomplete.inputValue = 'Belgium'
+				}
+			}, 'Select Belgium'),
 			m(Autocomplete, {
+				store: this.autocomplete,
 				onselect: country => console.log(country),
 				itemToString: country => country.name
 			}, ({
