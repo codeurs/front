@@ -2,43 +2,12 @@ import {Children, VnodeDOM} from 'mithril'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
 import {View} from '../ui/view'
-
-export enum AutocompleteChange {
-	MouseUp,
-	KeyArrowUp,
-	KeyArrowDown,
-	KeyEscape,
-	KeyHome,
-	KeyEnd,
-	KeySpace,
-	KeyEnter,
-	ItemMouseEnter,
-	ItemClick,
-	InputBlur,
-	InputChange,
-	ButtonClick,
-	ButtonBlur
-}
-
-export type AutocompleteAction<Item> =
-	| {type: AutocompleteChange.KeyEscape}
-	| {type: AutocompleteChange.ButtonBlur}
-	| {type: AutocompleteChange.ButtonClick}
-	| {type: AutocompleteChange.InputBlur}
-	| {type: AutocompleteChange.MouseUp}
-	| {type: AutocompleteChange.KeyArrowDown; amount: number; total: number}
-	| {type: AutocompleteChange.KeyArrowUp; amount: number; total: number}
-	| {type: AutocompleteChange.KeyEnter; item: Item}
-	| {type: AutocompleteChange.ItemClick; item: Item}
-	| {type: AutocompleteChange.ItemMouseEnter; index: number}
-	| {type: AutocompleteChange.InputChange; value: string}
-
-export type AutocompleteState<Item> = {
-	highlightedIndex: number | null
-	inputValue: string | null
-	isOpen: boolean
-	selectedItem: Item | null
-}
+import {
+	AutocompleteState,
+	AutocompleteStore,
+	AutocompleteChange,
+	AutocompleteAction
+} from '../store/autocompletestore'
 
 export type AutocompleteApi<Item> = AutocompleteState<Item> & {
 	inputAttrs: (attrs?: DOMAttrs) => DOMAttrs
@@ -66,36 +35,6 @@ const callHandlers = (...fns: Array<Function>) => (
 	return callFunctions(...fns)(event)
 }
 
-export const autocompleteReducer = <Item>(
-	state: AutocompleteState<Item> & {items: Array<Item>},
-	action: AutocompleteAction<Item>
-): AutocompleteState<Item> => {
-	const {highlightedIndex} = state
-	const reset = {highlightedIndex: null, selectedItem: null}
-	switch (action.type) {
-		case AutocompleteChange.ButtonClick:
-			return {...state, ...reset, isOpen: !state.isOpen}
-		case AutocompleteChange.KeyEscape:
-		case AutocompleteChange.ButtonBlur:
-		case AutocompleteChange.InputBlur:
-		case AutocompleteChange.MouseUp:
-			return {...state, ...reset, isOpen: false}
-		case AutocompleteChange.ItemClick:
-		case AutocompleteChange.KeyEnter:
-			return {...state, isOpen: false, selectedItem: action.item}
-		case AutocompleteChange.KeyArrowDown:
-		case AutocompleteChange.KeyArrowUp:
-			const next =
-				(highlightedIndex === null ? -1 : highlightedIndex) + action.amount
-			if (next < 0 || next >= action.total) return state
-			return {...state, highlightedIndex: next}
-		case AutocompleteChange.ItemMouseEnter:
-			return {...state, highlightedIndex: action.index}
-		case AutocompleteChange.InputChange:
-			return {...state, ...reset, isOpen: true, inputValue: action.value}
-	}
-}
-
 const normalizeArrowKey = (event: KeyboardEvent) => {
 	const {key, keyCode} = event
 	if (keyCode >= 37 && keyCode <= 40 && key.indexOf('Arrow') !== 0)
@@ -108,21 +47,16 @@ const isOrContainsNode = (parent: HTMLElement, child: HTMLElement) =>
 
 export class Autocomplete<Item> extends View<
 	{
-		onselect?: (item: Item) => void
+		store?: AutocompleteStore<Item>
+		onselect?: (item: null | Item) => void
 		itemToString?: (item: Item) => string
-		reducer?: typeof autocompleteReducer
 		children: AutocompleteRenderApi<Item>
 	},
 	HTMLElement
 > {
 	static instanceCount = 0
 
-	state: AutocompleteState<Item> = {
-		highlightedIndex: null,
-		inputValue: null,
-		isOpen: false,
-		selectedItem: null
-	}
+	state: AutocompleteStore<Item> = new AutocompleteStore()
 
 	private items: Array<Item> = []
 	private id = `autocomplete-${Autocomplete.instanceCount++}`
@@ -135,11 +69,15 @@ export class Autocomplete<Item> extends View<
 	private avoidScrolling = false
 	private interacting = false
 
+	get store() {
+		return this.attrs.store || this.state
+	}
+
 	onCreate(dom: HTMLElement) {
 		const onMouseDown = () => (this.interacting = true)
 		const onMouseUp = (event: Event) => {
 			const target = event.target as HTMLElement
-			const {isOpen} = this.state
+			const {isOpen} = this.store
 			this.interacting = false
 			if (isOpen && !isOrContainsNode(dom, target))
 				this.dispatch({type: AutocompleteChange.MouseUp})
@@ -159,7 +97,7 @@ export class Autocomplete<Item> extends View<
 
 	inputAttrs = (attrs: DOMAttrs = {}) => {
 		const {onkeydown, onblur, oninput, ...rest} = attrs
-		const {inputValue, isOpen, highlightedIndex} = this.state
+		const {inputValue, isOpen, highlightedIndex} = this.store
 		const events = {
 			oninput: callHandlers(oninput, this.inputChange),
 			onblur: callHandlers(oninput, this.inputBlur),
@@ -217,7 +155,7 @@ export class Autocomplete<Item> extends View<
 
 	buttonAttrs = (attrs: DOMAttrs = {}) => {
 		const {onclick, onkeydown, onblur, ...rest} = attrs
-		const {isOpen} = this.state
+		const {isOpen} = this.store
 		const events = {
 			onclick: callHandlers(onclick, this.buttonClick),
 			onkeydown: callHandlers(onkeydown, this.keyDown),
@@ -275,7 +213,7 @@ export class Autocomplete<Item> extends View<
 	}
 
 	keyEnter(event: KeyboardEvent) {
-		const {isOpen, highlightedIndex} = this.state
+		const {isOpen, highlightedIndex} = this.store
 		if (!isOpen || highlightedIndex === null) return
 		event.preventDefault()
 		const item = this.items[highlightedIndex]
@@ -307,22 +245,17 @@ export class Autocomplete<Item> extends View<
 	}
 
 	dispatch(action: AutocompleteAction<Item>, options: {async?: boolean} = {}) {
-		const {reducer = autocompleteReducer} = this.attrs
+		const {itemToString = (item: Item) => `${item}`, onselect} = this.attrs
 		const {async} = options
-		const oldState = this.state
-		this.state = reducer({...oldState, items: this.items}, action)
-		if (oldState != this.state) {
-			const {onselect, itemToString} = this.attrs
-			const {selectedItem} = this.state
-			if (oldState.selectedItem != selectedItem && selectedItem) {
-				if (onselect) onselect(selectedItem)
-				this.state.inputValue = itemToString
-					? itemToString(selectedItem)
-					: `${selectedItem}`
-			}
-			if (async) m.redraw()
-			else (m.redraw as any).sync()
-		}
+		const {selectedItem: wasSelected} = this.store
+		this.store.dispatch(action, {
+			items: this.items,
+			itemToString
+		})
+		const {selectedItem} = this.store
+		if (wasSelected != selectedItem) if (onselect) onselect(selectedItem)
+		if (async) m.redraw()
+		else (m.redraw as any).sync()
 	}
 
 	labelAttrs = (attrs: DOMAttrs = {}) => {
@@ -335,7 +268,7 @@ export class Autocomplete<Item> extends View<
 
 	itemAttrs = (attrs: {item: Item} & DOMAttrs) => {
 		const {item, onclick, onmousemove, onmousedown, onkeydown, ...rest} = attrs
-		const {highlightedIndex} = this.state
+		const {highlightedIndex} = this.store
 		const index = this.items.length
 		this.items.push(item)
 		const events = {
@@ -361,7 +294,7 @@ export class Autocomplete<Item> extends View<
 	}
 
 	itemMouseMove(index: number) {
-		const {highlightedIndex} = this.state
+		const {highlightedIndex} = this.store
 		if (index === highlightedIndex) return
 		this.avoidScrolling = true
 		this.dispatch({
@@ -380,10 +313,9 @@ export class Autocomplete<Item> extends View<
 	}
 
 	render() {
-		const {children} = this.attrs
 		this.items = []
-		return children({
-			...this.state,
+		return this.children({
+			...this.store,
 			inputAttrs: this.inputAttrs,
 			menuAttrs: this.menuAttrs,
 			buttonAttrs: this.buttonAttrs,

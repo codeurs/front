@@ -62,9 +62,10 @@ export const m: ExtendedHyperscript = Object.assign(
 		}
 		if (
 			typeof selector === 'string' &&
+			attrs &&
 			!Array.isArray(attrs) &&
 			typeof attrs === 'object' &&
-			!('tag' in attrs)
+			!attrs.tag
 		) {
 			const {children: childrenAttr, ...rest} = attrs
 			return hyperscript(selector, rest, childrenAttr, ...children)
