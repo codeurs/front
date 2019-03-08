@@ -4,6 +4,7 @@ import {EmotionCache, getRegisteredStyles, insertStyles} from '@emotion/utils'
 import {StatelessView} from 'ui'
 import {DOMAttrs, m} from '../hyperscript'
 import {createContext} from '../ui/context'
+import {addClasses} from '../util/classes'
 
 const EmotionCacheContext = createContext<EmotionCache>(createCache())
 
@@ -59,7 +60,7 @@ export const styled: Styled = (tag: any): any => {
 					tag = attrs.as
 					delete attrs.as
 				}
-				return m(tag, {...attrs, className}, children)
+				return m(tag, addClasses(attrs, className), children)
 			})
 
 		const Styled: any = component
