@@ -3,7 +3,7 @@ import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
 import {View} from '../ui/view'
 import {
-	AutocompleteState, 
+	AutocompleteState,
 	AutocompleteStore,
 	AutocompleteChange,
 	AutocompleteAction
@@ -35,7 +35,6 @@ const callHandlers = (...fns: Array<Function>) => (
 	return callFunctions(...fns)(event)
 }
 
-
 const normalizeArrowKey = (event: KeyboardEvent) => {
 	const {key, keyCode} = event
 	if (keyCode >= 37 && keyCode <= 40 && key.indexOf('Arrow') !== 0)
@@ -58,7 +57,7 @@ export class Autocomplete<Item> extends View<
 	static instanceCount = 0
 
 	state: AutocompleteStore<Item> = new AutocompleteStore()
-	
+
 	private items: Array<Item> = []
 	private id = `autocomplete-${Autocomplete.instanceCount++}`
 	private menuId = `${this.id}-menu`
@@ -250,11 +249,11 @@ export class Autocomplete<Item> extends View<
 		const {async} = options
 		const {selectedItem: wasSelected} = this.store
 		this.store.dispatch(action, {
-			items: this.items, itemToString
+			items: this.items,
+			itemToString
 		})
 		const {selectedItem} = this.store
-		if (wasSelected != selectedItem)
-			if (onselect) onselect(selectedItem)
+		if (wasSelected != selectedItem) if (onselect) onselect(selectedItem)
 		if (async) m.redraw()
 		else (m.redraw as any).sync()
 	}

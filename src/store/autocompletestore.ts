@@ -1,18 +1,18 @@
 export enum AutocompleteChange {
-	MouseUp,
-	KeyArrowUp,
-	KeyArrowDown,
-	KeyEscape,
-	KeyHome,
-	KeyEnd,
-	KeySpace,
-	KeyEnter,
-	ItemMouseEnter,
-	ItemClick,
-	InputBlur,
-	InputChange,
-	ButtonClick,
-	ButtonBlur
+	MouseUp = 'MouseUp',
+	KeyArrowUp = 'KeyArrowUp',
+	KeyArrowDown = 'KeyArrowDown',
+	KeyEscape = 'KeyEscape',
+	KeyHome = 'KeyHome',
+	KeyEnd = 'KeyEnd',
+	KeySpace = 'KeySpace',
+	KeyEnter = 'KeyEnter',
+	ItemMouseEnter = 'ItemMouseEnter',
+	ItemClick = 'ItemClick',
+	InputBlur = 'InputBlur',
+	InputChange = 'InputChange',
+	ButtonClick = 'ButtonClick',
+	ButtonBlur = 'ButtonBlur'
 }
 
 export type AutocompleteAction<Item> =
@@ -27,7 +27,6 @@ export type AutocompleteAction<Item> =
 	| {type: AutocompleteChange.ItemClick; item: Item}
 	| {type: AutocompleteChange.ItemMouseEnter; index: number}
 	| {type: AutocompleteChange.InputChange; value: string}
-
 
 export interface AutocompleteState<Item> {
 	highlightedIndex: number | null
@@ -67,9 +66,10 @@ export const autocompleteReducer = <Item>(
 			return {...state, ...reset, isOpen: false}
 		case AutocompleteChange.ItemClick:
 		case AutocompleteChange.KeyEnter:
-			return {...state, 
-				isOpen: false, 
-				inputValue: props.itemToString(action.item), 
+			return {
+				...state,
+				isOpen: false,
+				inputValue: props.itemToString(action.item),
 				selectedItem: action.item
 			}
 		case AutocompleteChange.KeyArrowDown:
@@ -96,9 +96,10 @@ export class AutocompleteStore<Item> implements AutocompleteState<Item> {
 		this.reducer = reducer
 	}
 
-	dispatch = (action: AutocompleteAction<Item>, props: AutocompleteProps<Item>) => {
-		return Object.assign(this, this.reducer(
-			this, action, props
-		))
+	dispatch = (
+		action: AutocompleteAction<Item>,
+		props: AutocompleteProps<Item>
+	) => {
+		return Object.assign(this, this.reducer(this, action, props))
 	}
 }
