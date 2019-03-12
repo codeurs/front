@@ -15,7 +15,7 @@ export type ComponentConstructors<Attrs> =
 	| ClassComponents<Attrs>
 
 type Without<T, K> = Pick<T, Exclude<keyof T, K>>
-type AttributesArgument<Attrs> = Without<Attrs, 'children'> & {key?: any}
+type AttributesArgument<Attrs> = Without<Attrs, 'children' | 'key'> & {key?: any}
 type OptionalAttrs<Attrs> = {} extends Attrs
 	? {}
 	: {children: any} extends Attrs
