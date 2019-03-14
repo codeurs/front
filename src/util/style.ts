@@ -1,16 +1,30 @@
-import {CVnode} from 'mithril'
-import {ChildAttr, m} from '../hyperscript'
-import {StatelessView, View} from '../ui/view'
+import classnames from 'classnames';
+import { Children, Vnode } from 'mithril';
+import { ComponentConstructors, DOMAttrs, m } from '../hyperscript';
+import { StatelessView } from '../ui/view';
 
-type ViewType<Attr, Dom extends Element = Element> =
-	| StatelessView<Attr>
-	| {new (vnode: CVnode<Attr>): View<Attr, Dom>}
+type Styler = {
+	(from: string): StatelessView<DOMAttrs>
+	<T>(from: ComponentConstructors<T>, add: string): StatelessView<T>
+}
 
-export const style = <A, C>(
-	component: ViewType<ChildAttr<C> & A>,
-	selector: string
-): StatelessView<ChildAttr<C> & A> => {
-	const styles = (m(selector) as CVnode).attrs
-	return ({children, ...attrs}) =>
-		m(component as any, {...styles, ...attrs}, children)
+const combineClasses = <T extends {className?: string, class?: string}>(...attrs: T[]) =>
+	attrs.reduce((res, attr) => ({
+		...res, 
+			className: classnames(
+				res.className, res.class, attr.className, attr.class)
+	}), {} as T)
+
+export const style: Styler = <T extends {as?: string, children?: Children} = DOMAttrs>(from: string | ComponentConstructors<T>, add?: string):StatelessView<T> => {
+	const extend = add || from
+	if (typeof extend !== 'string') throw 'String selector expected'
+	const vnode = m(extend) as Vnode<any, any>
+	const {tag: as, attrs: parsed} = vnode
+	return typeof from !== 'string' 
+			?	({children, ...attrs}) => m(from, {
+				as, ...combineClasses(parsed, attrs)
+			}, children)
+			: ({children, ...attrs}) => m((attrs.as || as) as any, {
+				...combineClasses(parsed, attrs)
+			}, children)
 }
