@@ -15,7 +15,7 @@ deploy:
   keep-history: true
   local-dir: examples/dist
   on:
-    branch: next
+    branch: master
 
 cache:
   yarn: true
