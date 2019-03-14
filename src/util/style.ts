@@ -1,7 +1,7 @@
-import classnames from 'classnames';
-import { Children, Vnode } from 'mithril';
-import { ComponentConstructors, DOMAttrs, m } from '../hyperscript';
-import { StatelessView } from '../ui/view';
+import classnames from 'classnames'
+import {Children, Vnode} from 'mithril'
+import {ComponentConstructors, DOMAttrs, m} from '../hyperscript'
+import {StatelessView} from '../ui/view'
 
 type Styler = {
 	(from: string): StatelessView<DOMAttrs>
