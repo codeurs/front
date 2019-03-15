@@ -55,10 +55,11 @@ export const autocompleteReducer = <Item>(
 	}
 ): AutocompleteState<Item> => {
 	const {highlightedIndex} = state
-	const reset = {highlightedIndex: null, selectedItem: null}
+	const reset = {selectedItem: null}
 	switch (action.type) {
 		case AutocompleteChange.ButtonClick:
-			return {...state, ...reset, isOpen: !state.isOpen}
+			if (state.isOpen) return {...state, ...reset, isOpen: false}
+			return {...state, ...reset, highlightedIndex: null, isOpen: true}
 		case AutocompleteChange.KeyEscape:
 		case AutocompleteChange.ButtonBlur:
 		case AutocompleteChange.InputBlur:
@@ -81,7 +82,7 @@ export const autocompleteReducer = <Item>(
 		case AutocompleteChange.ItemMouseEnter:
 			return {...state, highlightedIndex: action.index}
 		case AutocompleteChange.InputChange:
-			return {...state, ...reset, isOpen: true, inputValue: action.value}
+			return {...state, ...reset, highlightedIndex: null, isOpen: true, inputValue: action.value}
 	}
 }
 
