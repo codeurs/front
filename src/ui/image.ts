@@ -113,7 +113,7 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 						}
 				  }),
 			...addClasses(attrs, 'image', {mod: {crop}})
-		})
+		}, children)
 	}
 }
 
@@ -146,7 +146,7 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			...rest
 		} = this.attrs
 		return m(ImageResizerContext.Consumer, (resize: Resizer | undefined) => {
-			if (!resize) return m(ImageBase, this.attrs)
+			if (!resize) return m(ImageBase, this.attrs, children)
 			const resolve = (dom: HTMLElement) => {
 				this.resolved = resize(this.attrs, {
 					width: dom.offsetWidth,
@@ -161,9 +161,9 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 						resolve(vnode.dom as HTMLElement)
 						m.redraw()
 					}
-				})
+				}, children)
 			if (this.cached !== src) resolve(this.dom)
-			return this.resolved && m(ImageBase, this.resolved)
+			return this.resolved && m(ImageBase, this.resolved, children)
 		})
 	}
 }

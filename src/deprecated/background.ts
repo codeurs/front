@@ -42,7 +42,7 @@ export class Background extends View<
 				upScale: true,
 				...classes('background', className),
 				...rest
-			})
+			}, children)
 		)
 	}
 }
