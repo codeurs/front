@@ -10,7 +10,10 @@ export type FetcherState<T> = {
 
 export type FetcherRender<T> = (state: FetcherState<T>) => Children
 
-type RequestData<T> = {url: string} & RequestOptions<T>
+type RequestData<T> = {
+	url: string
+	hydrate?: T
+} & RequestOptions<T>
 
 export class Fetcher<T> extends View<
 	RequestData<T> & {children: FetcherRender<T>}
@@ -20,12 +23,18 @@ export class Fetcher<T> extends View<
 	data?: T
 	transport?: XMLHttpRequest
 	cache?: RequestData<T>
+	hydrated = false
 
 	onInit = this.load
 	onBeforeUpdate = this.load
 
 	load() {
-		const {children, ...request} = this.attrs
+		const {children, hydrate, ...request} = this.attrs
+		if (hydrate && !this.hydrated) {
+			this.data = hydrate
+			this.hydrated = true
+			this.cache = request
+		}
 		if (deepEqual(this.cache, request)) return
 		this.cache = request
 		this.isLoading = true
