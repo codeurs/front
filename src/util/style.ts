@@ -5,7 +5,7 @@ import {StatelessView} from '../ui/view'
 
 type Styler = {
 	(from: string): StatelessView<DOMAttrs>
-	<T>(from: ComponentConstructors<T>, add: string): StatelessView<T>
+	<T = DOMAttrs>(from: string | ComponentConstructors<T>, add: string): StatelessView<T>
 }
 
 const combineClasses = <T extends {className?: string, class?: string}>(...attrs: T[]) =>
@@ -20,6 +20,10 @@ export const style: Styler = <T extends {as?: string, children?: Children} = DOM
 	if (typeof extend !== 'string') throw 'String selector expected'
 	const vnode = m(extend) as Vnode<any, any>
 	const {tag: as, attrs: parsed} = vnode
+	if (typeof from === 'string' && add)
+	 return style(
+		({children, ...attrs}) => m(from, attrs, children), add
+	 )
 	return typeof from !== 'string' 
 			?	({children, ...attrs}) => m(from, {
 				as, ...combineClasses(parsed, attrs)
