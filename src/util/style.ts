@@ -12,7 +12,7 @@ const combineClasses = <T extends {className?: string, class?: string}>(...attrs
 	attrs.reduce((res, attr) => ({
 		...res, 
 			className: classnames(
-				res.className, res.class, attr.className, attr.class)
+				res && res.className, res && res.class, attr && attr.className, attr && attr.class)
 	}), {} as T)
 
 export const style: Styler = <T extends {as?: string, children?: Children} = DOMAttrs>(from: string | ComponentConstructors<T>, add?: string):StatelessView<T> => {

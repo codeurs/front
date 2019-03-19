@@ -86,7 +86,11 @@ export class Carousel extends View<
 			this.spring(snap)
 		}
 			
-		const clearMove = listen(this.dom, 'mousedown touchstart').start(() => {
+		const clearMove = listen(
+			this.dom, 
+			'mousedown touchstart',
+			{passive: true}
+		).start(() => {
 			this.preventClick = false
 			const start = this.x
 			pointer({
