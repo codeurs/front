@@ -11,7 +11,7 @@ import {View} from './view'
 // Todo:
 // https://www.w3.org/WAI/tutorials/carousels/structure/
 // http://w3c.github.io/aria-practices/examples/carousel/carousel-1/carousel-1.html
-// infinite scroll - lazy load
+// infinite scroll - lazy load - autoplay
 
 const mix = calc.getValueFromProgress
 

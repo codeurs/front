@@ -1,13 +1,10 @@
 import {Children, VnodeDOM} from 'mithril'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
-import {View} from '../ui/view'
 import {
-	AutocompleteState,
-	AutocompleteStore,
-	AutocompleteChange,
-	AutocompleteAction
+	AutocompleteAction, AutocompleteChange, AutocompleteState, AutocompleteStore
 } from '../store/autocompletestore'
+import {View} from '../ui/view'
 
 export type AutocompleteApi<Item> = AutocompleteState<Item> & {
 	inputAttrs: (attrs?: DOMAttrs) => DOMAttrs
@@ -84,7 +81,7 @@ export class Autocomplete<Item> extends View<
 		}
 		dom.addEventListener('mousedown', onMouseDown)
 		window.addEventListener('mouseup', onMouseUp)
-		dom.addEventListener('touchstart', onMouseDown)
+		dom.addEventListener('touchstart', onMouseDown, {passive: true})
 		window.addEventListener('touchend', onMouseUp)
 		this.onRemove = () => {
 			dom.removeEventListener('mousedown', onMouseDown)
