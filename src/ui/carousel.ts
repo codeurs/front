@@ -100,8 +100,11 @@ export class Carousel extends View<
 				.start(() => snapToPoint(start))
 		}).stop
 
-		const onClick = (e: MouseEvent) =>
-			this.preventClick && e.stopPropagation()
+		const onClick = (e: MouseEvent) => {
+			if (!this.preventClick) return
+			e.stopPropagation()
+			e.preventDefault()
+		}
 
 		this.dom.addEventListener('click', onClick, true)
 		const clearClick = () =>
@@ -227,6 +230,8 @@ export class Carousel extends View<
 		return m('.carousel', {
 			style: {overflow: !(overflow || unstyled) && 'hidden'},
 			className
-		}, m('.carousel-content', this.children))
+		}, m('.carousel-content', {
+			ondragstart: (e: Event) => e.preventDefault()
+		}, this.children))
 	}
 }
