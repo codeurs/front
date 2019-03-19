@@ -1,20 +1,17 @@
 import './carousel.less'
 
-import {Children, Vnode} from 'mithril'
-import {
-	calc, listen, pointer, spring, styler, value, ValueReaction
-} from 'popmotion'
+import deepEqual from 'deep-equal'
+import {Children} from 'mithril'
+import {calc, listen, pointer, spring, styler, value} from 'popmotion'
+import {debounce} from 'throttle-debounce'
 import {m} from '../hyperscript'
 import {Lethargy} from '../util/lethargy'
 import {View} from './view'
 
-// Todo: 
-// x https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action (pan-x)
-// https://codesandbox.io/s/0094879v40
-// Macbook swipe
+// Todo:
 // https://www.w3.org/WAI/tutorials/carousels/structure/
 // http://w3c.github.io/aria-practices/examples/carousel/carousel-1/carousel-1.html
-// https://popmotion.io/pose/api/dom-pose/
+// infinite scroll - lazy load
 
 const mix = calc.getValueFromProgress
 
@@ -25,43 +22,33 @@ const closest = (snaps: Array<number>, value: number) =>
 		(Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev)
 	)
 
-type CarouselApi = {
-	totalPages: number
-	activePage: number
-	goTo(pageIndex: number): void
-	goToElement(elementIndex: number): void
-	isActive(elementIndex: number): boolean
+const angleIsVertical = (angle: number) => {
+  const isUp = angle <= -90 + 45 && angle >= -90 - 45
+  const isDown = angle <= 90 + 45 && angle >= 90 - 45
+  return isUp || isDown
 }
 
-type CarouselRenderApi = (api: CarouselApi) => Children
-
-function angleIsVertical(angle: number) {
-  const isUp = (
-    angle <= -90 + 45 &&
-    angle >= -90 - 45
-  )
-  const isDown = (
-    angle <= 90 + 45 &&
-    angle >= 90 - 45
-  )
-  return (isUp || isDown)
-}
-
-const clamp = (min: number, max: number, value: number) => 
-	Math.min(Math.max(value, min), max)
-
-export class Carousel extends View<{
+export type CarouselAttrs = {
 	snapTo?: 'elements' | 'pages'
 	infinite?: boolean
 	tug?: number
 	power?: number
-	children: CarouselRenderApi
-}, HTMLDivElement> {
+	overflow?: boolean
+	// Backwards compatibility
+	unstyled?: boolean
+	connect?: (instance: Carousel) => void
+}
+
+export class Carousel extends View<
+	CarouselAttrs & {className?: string}, 
+	HTMLDivElement
+> {
 	dom!: HTMLDivElement
 	offset = value(0)
 	snaps: Snaps = {pages: [0], elements: [0]}
 	activePage = 0
 	preventClick = false
+	destination: number = 0
 
 	get content(): HTMLDivElement {
 		return this.dom.firstChild as HTMLDivElement
@@ -96,7 +83,6 @@ export class Carousel extends View<{
 			const idealTarget = Math.round(from + amplitude)
 			const snap = closest(snaps, -idealTarget)
 			this.preventClick = Math.abs(distance) > 1
-			// Set active page/element
 			this.spring(snap)
 		}
 			
@@ -121,52 +107,54 @@ export class Carousel extends View<{
 		const clearClick = () =>
 			this.dom.removeEventListener('click', onClick, true)
 
-		const lethargy = new Lethargy()
-		let wheelTimeout: any, wheelStart: null | number = null,
-			lastScroll = performance.now()
-		const onWheel = (e: MouseWheelEvent) => {
-			if (wheelStart === null) wheelStart = this.x
-			const angle = calc.angle({
-				x: e.deltaX,
-				y: e.deltaY
-			})
-			if (angleIsVertical(angle)) return
-			e.stopPropagation()
-			e.preventDefault()
-			console.log(lethargy.check(e.deltaX))
-			const now = performance.now()
-			const diff = now - lastScroll
-			lastScroll = now
-			//console.log({now, diff})
-			const infl = clamp(0, 1, calc.getProgressFromValue(0, 100, diff))
-			if (infl > .01) {
-				this.offset.stop()
-				this.offset.update(this.x - e.deltaX * infl)
-			} else {
-				if (wheelStart !== null) {
-					console.log(wheelStart)
-					snapToPoint(wheelStart)
-				}
-				wheelStart = null
-				clearTimeout(wheelTimeout)
-			}
-		}
-		this.dom.addEventListener('wheel', onWheel)
+		this.dom.addEventListener('wheel', this.onWheel)
 		const clearWheel = () =>
-			this.dom.removeEventListener('wheel', onWheel)
+			this.dom.removeEventListener('wheel', this.onWheel)
+
+		window.addEventListener('resize', this.onResize)
+		const clearResize = () =>
+			window.removeEventListener('resize', this.onResize)
 
 		this.onRemove = () => {
 			clearSubscription()
 			clearMove()
 			clearClick()
 			clearWheel()
+			clearResize()
 		}
 
 		this.redraw()
 	}
 
+	lethargy = new Lethargy()
+	wheelStart: null | number = null
+	wheelPanning = false
+	onWheel = (e: MouseWheelEvent) => {
+		if (this.wheelStart === null) this.wheelStart = this.x
+		const angle = calc.angle({
+			x: e.deltaX,
+			y: e.deltaY
+		})
+		const direction = this.lethargy.check(e.deltaX)
+		if (angleIsVertical(angle)) return
+		e.stopPropagation()
+		e.preventDefault()
+		if (direction === false) return
+		if (this.wheelPanning) return
+		this.goTo(this.activePage + direction)
+		this.wheelPanning = true
+		setTimeout(() => this.wheelPanning = false, 500)
+	}
+
+	onResize = debounce(250, () => this.onUpdate())
+
 	onUpdate() {
+		const {connect} = this.attrs
+		if (connect) connect(this)
+		const oldSnaps = {...this.snaps}
 		this.snaps = this.calcSnaps()
+		if (deepEqual(oldSnaps, this.snaps)) return
+		this.spring(this.snaps.pages[this.activePage])
 	}
 
 	overDrag = (v: number) => {
@@ -194,7 +182,8 @@ export class Carousel extends View<{
 
 	spring(destination: number) {
 		const from = this.offset.get()
-		const to = -Math.min(destination, this.max)
+		this.destination = Math.min(destination, this.max)
+		const to = -this.destination
 		this.setActivePage(destination)
 		spring({
 			from,
@@ -210,28 +199,34 @@ export class Carousel extends View<{
 		const {pages} = this.snaps
 		this.activePage = pages.indexOf(closest(pages, destination))
 	}
+
+	goTo = (pageIndex: number) => {
+		const {pages} = this.snaps
+		if (pageIndex < 0) return
+		if (pageIndex > pages.length - 1) return
+		this.spring(pages[pageIndex])
+	}
+
+	goToElement = (elementIndex: number) => {
+		const {elements} = this.snaps
+		this.spring(elements[elementIndex])
+	}
+
+	isActive = (elementIndex: number) => {
+		const width = this.dom.offsetWidth
+		const x = this.destination
+		const pos = this.snaps.elements[elementIndex]
+		const next = this.snaps.elements[elementIndex + 1]
+		// The 5 here accounts for rounding errors on high dpi screens,
+		// there's possibly a better way but I don't see it at this time
+		return pos >= x && next - 5 <= x + width
+	}
 	
 	render() {
-		const current = this.x
-		const {pages, elements} = this.snaps
-		const activePage = this.activePage
-		return m('.carousel', 
-			m('.carousel-content', this.children({
-				activePage,
-				totalPages: pages.length,
-				goTo: (pageIndex: number) => {
-					this.spring(pages[pageIndex])
-				},
-				goToElement: (elementIndex: number) => {
-					this.spring(elements[elementIndex])
-				},
-				isActive: (elementIndex: number) => {
-					const from = pages[activePage]
-					const to = pages[activePage + 1] || this.max
-					const pos = elements[elementIndex]
-					return pos >= from && pos <= to
-				}
-			}))
-		)
+		const {overflow, unstyled, className} = this.attrs
+		return m('.carousel', {
+			style: {overflow: !(overflow && unstyled) && 'hidden'},
+			className
+		}, m('.carousel-content', this.children))
 	}
 }
