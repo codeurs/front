@@ -225,7 +225,7 @@ export class Carousel extends View<
 	render() {
 		const {overflow, unstyled, className} = this.attrs
 		return m('.carousel', {
-			style: {overflow: !(overflow && unstyled) && 'hidden'},
+			style: {overflow: !(overflow || unstyled) && 'hidden'},
 			className
 		}, m('.carousel-content', this.children))
 	}
