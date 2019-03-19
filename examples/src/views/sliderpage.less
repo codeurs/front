@@ -1,0 +1,27 @@
+
+.sliderpage {
+	height: 400px;
+	background: #eee;
+	margin-top: 50px;
+	
+	&.is-animating {
+		background: red;
+	}
+	
+	&-slide {
+		display: inline-flex;
+		min-width: 100%;
+		justify-content: center;
+		align-items: center;
+		font-size: 50px;
+		outline: 1px solid red;
+
+		&-link {
+			font-size: 15px;
+			display: block;
+			text-decoration: underline;
+			color: blue;
+			cursor: pointer;
+		}
+	}
+}
