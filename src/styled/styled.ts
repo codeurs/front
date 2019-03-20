@@ -1,4 +1,5 @@
 import createCache from '@emotion/cache'
+import isPropValid from '@emotion/is-prop-valid'
 import {serializeStyles} from '@emotion/serialize'
 import {EmotionCache, getRegisteredStyles, insertStyles} from '@emotion/utils'
 import {StatelessView} from 'ui'
@@ -11,6 +12,14 @@ const EmotionCacheContext = createContext<EmotionCache>(createCache())
 type Styled = {
 	(tag: string): (...args: any[]) => StatelessView<DOMAttrs>
 	<T>(tag: T): (...args: any[]) => T
+}
+
+const filterProps = (props: DOMAttrs) => {
+	const res: DOMAttrs = {}
+	for (const key in props)
+		if (isPropValid(key))
+			res[key] = props[key]
+	return res
 }
 
 export const styled: Styled = (tag: any): any => {
@@ -60,7 +69,10 @@ export const styled: Styled = (tag: any): any => {
 					tag = attrs.as
 					delete attrs.as
 				}
-				return m(tag, addClasses(attrs, className), children)
+				const props = typeof tag === 'string'
+					? filterProps(addClasses(attrs, className))
+					: addClasses(attrs, className)
+				return m(tag, props, children)
 			})
 
 		const Styled: any = component
