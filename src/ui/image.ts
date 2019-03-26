@@ -141,10 +141,15 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			height,
 			fit,
 			position,
+			upScale,
+			background,
+			alt = '',
 			type,
 			bytes,
+			style,
 			...rest
 		} = this.attrs
+		const crop = background || fit === 'cover' || fit === 'contain'
 		return m(ImageResizerContext.Consumer, (resize: Resizer | undefined) => {
 			if (!resize) return m(ImageBase, this.attrs)
 			const resolve = (dom: HTMLElement) => {
@@ -156,7 +161,7 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			}
 			if (!this.dom)
 				return m('div', {
-					...rest,
+					...addClasses(rest, 'image', {mod: {crop}}),
 					oncreate: vnode => {
 						resolve(vnode.dom as HTMLElement)
 						m.redraw()
