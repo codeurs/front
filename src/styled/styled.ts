@@ -16,9 +16,7 @@ type Styled = {
 
 const filterProps = (props: DOMAttrs) => {
 	const res: DOMAttrs = {}
-	for (const key in props)
-		if (isPropValid(key))
-			res[key] = props[key]
+	for (const key in props) if (isPropValid(key)) res[key] = props[key]
 	return res
 }
 
@@ -46,15 +44,19 @@ export const styled: Styled = (tag: any): any => {
 			}
 		}
 
-		const component: StatelessView<DOMAttrs> = ({children, ...attrs}) =>
+		const component: StatelessView<DOMAttrs> = ({
+			children,
+			className: extra,
+			...attrs
+		}) =>
 			m(EmotionCacheContext.Consumer, (cache: EmotionCache) => {
 				let className = ''
 				const classInterpolations: Array<string> = []
-				if (typeof attrs.className === 'string') {
+				if (typeof extra === 'string') {
 					className += getRegisteredStyles(
 						cache.registered,
 						classInterpolations,
-						attrs.className
+						extra
 					)
 				}
 				// Todo: typescript typings are wrong, first two arguments are switched
@@ -69,9 +71,10 @@ export const styled: Styled = (tag: any): any => {
 					tag = attrs.as
 					delete attrs.as
 				}
-				const props = typeof tag === 'string'
-					? filterProps(addClasses(attrs, className))
-					: addClasses(attrs, className)
+				const props =
+					typeof tag === 'string'
+						? filterProps(addClasses(attrs, className))
+						: addClasses(attrs, className)
 				return m(tag, props, children)
 			})
 
