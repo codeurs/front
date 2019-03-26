@@ -92,6 +92,27 @@ export class Autocomplete<Item> extends View<
 		}
 	}
 
+	schedule(work: () => void, time?: number) {
+		const id = setTimeout(work, time)
+		this.clearCallbacks.push(() => clearTimeout(id))
+	}
+
+	dispatch(action: AutocompleteAction<Item>, options: {async?: boolean} = {}) {
+		const {itemToString = (item: Item) => `${item}`, onselect} = this.attrs
+		const {async} = options
+		const {selectedItem: wasSelected} = this.store
+		this.store.dispatch(action, {
+			items: this.items,
+			itemToString
+		})
+		const {selectedItem} = this.store
+		if (wasSelected != selectedItem) if (onselect) onselect(selectedItem)
+		if (async) m.redraw()
+		else (m.redraw as any).sync()
+	}
+
+	// -- Input -------------------
+
 	inputAttrs = (attrs: DOMAttrs = {}) => {
 		const {onkeydown, onblur, oninput, ...rest} = attrs
 		const {inputValue, isOpen, highlightedIndex} = this.store
@@ -135,133 +156,8 @@ export class Autocomplete<Item> extends View<
 				this.dispatch({type: AutocompleteChange.InputBlur})
 		})
 	}
-
-	menuAttrs = (attrs: DOMAttrs = {}) => {
-		return {
-			role: 'listbox',
-			'aria-labelledby': this.labelId,
-			id: this.menuId,
-			...attrs
-		}
-	}
-
-	schedule(work: () => void, time?: number) {
-		const id = setTimeout(work, time)
-		this.clearCallbacks.push(() => clearTimeout(id))
-	}
-
-	buttonAttrs = (attrs: DOMAttrs = {}) => {
-		const {onclick, onkeydown, onblur, ...rest} = attrs
-		const {isOpen} = this.store
-		const events = {
-			onclick: callHandlers(onclick, this.buttonClick),
-			onkeydown: callHandlers(onkeydown, this.keyDown),
-			onblur: callHandlers(onblur, this.buttonBlur)
-		}
-		return {
-			id: this.buttonId,
-			type: 'button',
-			role: 'button',
-			'aria-label': isOpen ? 'close menu' : 'open menu',
-			'aria-haspopup': true,
-			...events,
-			...rest
-		}
-	}
-
-	buttonClick = (event: MouseEvent) => {
-		const button = event.target as HTMLElement
-		event.preventDefault()
-		if (document.activeElement === document.body) button.focus()
-		this.dispatch({type: AutocompleteChange.ButtonClick}, {async: true})
-	}
-
-	buttonBlur = (event: Event) => {
-		const blurTarget = event.target
-		this.schedule(() => {
-			if (
-				!this.interacting &&
-				(document.activeElement == null ||
-					document.activeElement.id !== this.inputId) &&
-				document.activeElement !== blurTarget
-			)
-				this.dispatch({type: AutocompleteChange.ButtonBlur})
-		})
-	}
-
-	keyArrowdown(event: KeyboardEvent) {
-		event.preventDefault()
-		const amount = event.shiftKey ? 5 : 1
-		this.dispatch({
-			type: AutocompleteChange.KeyArrowDown,
-			amount,
-			total: this.items.length
-		})
-	}
-
-	keyArrowup(event: KeyboardEvent) {
-		event.preventDefault()
-		const amount = event.shiftKey ? -5 : -1
-		this.dispatch({
-			type: AutocompleteChange.KeyArrowUp,
-			amount,
-			total: this.items.length
-		})
-	}
-
-	keyEnter(event: KeyboardEvent) {
-		const {isOpen, highlightedIndex} = this.store
-		if (!isOpen || highlightedIndex === null) return
-		event.preventDefault()
-		const item = this.items[highlightedIndex]
-		// Todo: don't enable disabled items
-		this.dispatch({
-			type: AutocompleteChange.KeyEnter,
-			item
-		})
-	}
-
-	keyEscape(event: KeyboardEvent) {
-		event.preventDefault()
-		this.dispatch({
-			type: AutocompleteChange.KeyEscape
-		})
-	}
-
-	keyDown = (event: KeyboardEvent) => {
-		switch (normalizeArrowKey(event)) {
-			case 'ArrowUp':
-				return this.keyArrowup(event)
-			case 'ArrowDown':
-				return this.keyArrowdown(event)
-			case 'Escape':
-				return this.keyEscape(event)
-			case 'Enter':
-				return this.keyEnter(event)
-		}
-	}
-
-	dispatch(action: AutocompleteAction<Item>, options: {async?: boolean} = {}) {
-		const {itemToString = (item: Item) => `${item}`, onselect} = this.attrs
-		const {async} = options
-		const {selectedItem: wasSelected} = this.store
-		this.store.dispatch(action, {
-			items: this.items,
-			itemToString
-		})
-		const {selectedItem} = this.store
-		if (wasSelected != selectedItem) if (onselect) onselect(selectedItem)
-		if (async) m.redraw()
-		else (m.redraw as any).sync()
-	}
-
-	labelAttrs = (attrs: DOMAttrs = {}) => {
-		return {
-			for: this.inputId,
-			id: this.labelId,
-			...attrs
-		}
-	}
+	
+	// -- Item -------------------
 
 	itemAttrs = (attrs: {item: Item} & DOMAttrs) => {
 		const {item, onclick, onmousemove, onmousedown, onkeydown, ...rest} = attrs
@@ -308,6 +204,124 @@ export class Autocomplete<Item> extends View<
 			item
 		})
 	}
+	
+	// -- Label -------------------
+
+	labelAttrs = (attrs: DOMAttrs = {}) => {
+		return {
+			for: this.inputId,
+			id: this.labelId,
+			...attrs
+		}
+	}
+
+	// -- Menu -------------------
+
+	menuAttrs = (attrs: DOMAttrs = {}) => {
+		return {
+			role: 'listbox',
+			'aria-labelledby': this.labelId,
+			id: this.menuId,
+			...attrs
+		}
+	}
+	
+	// -- Button -------------------
+
+	buttonAttrs = (attrs: DOMAttrs = {}) => {
+		const {onclick, onkeydown, onblur, ...rest} = attrs
+		const {isOpen} = this.store
+		const events = {
+			onclick: callHandlers(onclick, this.buttonClick),
+			onkeydown: callHandlers(onkeydown, this.keyDown),
+			onblur: callHandlers(onblur, this.buttonBlur)
+		}
+		return {
+			id: this.buttonId,
+			type: 'button',
+			role: 'button',
+			'aria-label': isOpen ? 'close menu' : 'open menu',
+			'aria-haspopup': true,
+			...events,
+			...rest
+		}
+	}
+
+	buttonClick = (event: MouseEvent) => {
+		const button = event.target as HTMLElement
+		event.preventDefault()
+		if (document.activeElement === document.body) button.focus()
+		this.dispatch({type: AutocompleteChange.ButtonClick}, {async: true})
+	}
+
+	buttonBlur = (event: Event) => {
+		const blurTarget = event.target
+		this.schedule(() => {
+			if (
+				!this.interacting &&
+				(document.activeElement == null ||
+					document.activeElement.id !== this.inputId) &&
+				document.activeElement !== blurTarget
+			)
+				this.dispatch({type: AutocompleteChange.ButtonBlur})
+		})
+	}
+	
+	// -- Key down handlers -------------------
+
+	keyDown = (event: KeyboardEvent) => {
+		switch (normalizeArrowKey(event)) {
+			case 'ArrowUp':
+				return this.keyArrowup(event)
+			case 'ArrowDown':
+				return this.keyArrowdown(event)
+			case 'Escape':
+				return this.keyEscape(event)
+			case 'Enter':
+				return this.keyEnter(event)
+		}
+	}
+
+	keyArrowdown(event: KeyboardEvent) {
+		event.preventDefault()
+		const amount = event.shiftKey ? 5 : 1
+		this.dispatch({
+			type: AutocompleteChange.KeyArrowDown,
+			amount,
+			total: this.items.length
+		})
+	}
+
+	keyArrowup(event: KeyboardEvent) {
+		event.preventDefault()
+		const amount = event.shiftKey ? -5 : -1
+		this.dispatch({
+			type: AutocompleteChange.KeyArrowUp,
+			amount,
+			total: this.items.length
+		})
+	}
+
+	keyEnter(event: KeyboardEvent) {
+		const {isOpen, highlightedIndex} = this.store
+		if (!isOpen || highlightedIndex === null) return
+		event.preventDefault()
+		const item = this.items[highlightedIndex]
+		// Todo: don't trigger for disabled items
+		this.dispatch({
+			type: AutocompleteChange.KeyEnter,
+			item
+		})
+	}
+
+	keyEscape(event: KeyboardEvent) {
+		event.preventDefault()
+		this.dispatch({
+			type: AutocompleteChange.KeyEscape
+		})
+	}
+	
+	// -- View -------------------
 
 	render() {
 		this.items = []
