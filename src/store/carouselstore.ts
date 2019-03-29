@@ -7,18 +7,21 @@ export class CarouselStore implements CarouselAttrs {
 	tug?: number
 	power?: number
 	overflow?: boolean
+	protected initialPage: number = 0
 
-	constructor(options?: CarouselAttrs) {
+	constructor(options?: CarouselAttrs & {initialPage?: number}) {
 		Object.assign(this, options)
 	}
 
 	/** @internal */
 	connect = (carousel: Carousel) => {
+		if (!this.carousel && this.initialPage !== 0)
+			carousel.preselectPage(this.initialPage)
 		this.carousel = carousel
 	}
 
 	get activePage() {
-		if (!this.carousel) return 0
+		if (!this.carousel) return this.initialPage
 		return this.carousel.activePage
 	}
 
@@ -40,7 +43,7 @@ export class CarouselStore implements CarouselAttrs {
 	}
 
 	goTo(index: number) {
-		if (!this.carousel) return
+		if (!this.carousel) return (this.initialPage = index)
 		return this.has(index) && this.carousel.goTo(index)
 	}
 

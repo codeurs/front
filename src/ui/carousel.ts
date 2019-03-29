@@ -15,17 +15,17 @@ import {View} from './view'
 
 const mix = calc.getValueFromProgress
 
-type Snaps = {pages: Array<number>, elements: Array<number>}
+type Snaps = {pages: Array<number>; elements: Array<number>}
 
 const closest = (snaps: Array<number>, value: number) =>
 	snaps.reduce((prev, curr) =>
-		(Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev)
+		Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev
 	)
 
 const angleIsVertical = (angle: number) => {
-  const isUp = angle <= -90 + 45 && angle >= -90 - 45
-  const isDown = angle <= 90 + 45 && angle >= 90 - 45
-  return isUp || isDown
+	const isUp = angle <= -90 + 45 && angle >= -90 - 45
+	const isDown = angle <= 90 + 45 && angle >= 90 - 45
+	return isUp || isDown
 }
 
 export type CarouselAttrs = {
@@ -40,7 +40,7 @@ export type CarouselAttrs = {
 }
 
 export class Carousel extends View<
-	CarouselAttrs & {className?: string}, 
+	CarouselAttrs & {className?: string},
 	HTMLDivElement
 > {
 	dom!: HTMLDivElement
@@ -74,7 +74,7 @@ export class Carousel extends View<
 		}).unsubscribe
 
 		const snapToPoint = (start: number) => {
-			const {snapTo = 'pages', power = .25} = this.attrs
+			const {snapTo = 'pages', power = 0.25} = this.attrs
 			const snaps = this.snaps[snapTo]
 			const from = this.x
 			const velocity = this.offset.getVelocity()
@@ -85,21 +85,24 @@ export class Carousel extends View<
 			this.preventClick = Math.abs(distance) > 1
 			this.spring(snap)
 		}
-			
-		const clearMove = listen(this.dom, 'mousedown touchstart')
-			.start(() => {
-				this.preventClick = false
-				const start = this.x
-				pointer({
-					x: start,
-					preventDefault: false
-				})
-					.pipe((pos: {x: number}) => pos.x, this.overDrag)
-					.start(this.offset)
 
-				listen(document, 'mouseup touchend', {once: true})
-					.start(() => snapToPoint(start))
-			}).stop
+		const clearMove = listen(this.dom, 'mousedown touchstart').start(() => {
+			this.preventClick = false
+			const start = this.x
+			pointer({
+				x: start,
+				preventDefault: false
+			})
+				.pipe(
+					(pos: {x: number}) => pos.x,
+					this.overDrag
+				)
+				.start(this.offset)
+
+			listen(document, 'mouseup touchend', {once: true}).start(() =>
+				snapToPoint(start)
+			)
+		}).stop
 
 		const onClick = (e: MouseEvent) => {
 			if (!this.preventClick) return
@@ -112,8 +115,7 @@ export class Carousel extends View<
 			this.dom.removeEventListener('click', onClick, true)
 
 		this.dom.addEventListener('wheel', this.onWheel)
-		const clearWheel = () =>
-			this.dom.removeEventListener('wheel', this.onWheel)
+		const clearWheel = () => this.dom.removeEventListener('wheel', this.onWheel)
 
 		window.addEventListener('resize', this.onResize)
 		const clearResize = () =>
@@ -147,23 +149,24 @@ export class Carousel extends View<
 		if (this.wheelPanning) return
 		this.goTo(this.activePage + direction)
 		this.wheelPanning = true
-		setTimeout(() => this.wheelPanning = false, 500)
+		setTimeout(() => (this.wheelPanning = false), 500)
 	}
 
 	onResize = debounce(250, () => this.onUpdate())
 
 	onUpdate() {
-		const {connect} = this.attrs
-		if (connect) connect(this)
 		const oldSnaps = {...this.snaps}
 		this.snaps = this.calcSnaps()
+		const {connect} = this.attrs
+		if (connect) connect(this)
 		if (deepEqual(oldSnaps, this.snaps)) return
 		this.spring(this.snaps.pages[this.activePage])
 	}
 
 	overDrag = (v: number) => {
 		const {tug = 0.4} = this.attrs
-		const min = -this.max, max = 0
+		const min = -this.max,
+			max = 0
 		if (v < min) return mix(min, v, tug)
 		if (v > max) return mix(max, v, tug)
 		return v
@@ -172,26 +175,24 @@ export class Carousel extends View<
 	calcSnaps() {
 		const pageWidth = this.dom.offsetWidth
 		const children = Array.from(this.content.children) as Array<HTMLElement>
-		return children.reduce<Snaps>(({pages, elements}, child, i) => {
-			const prevPage = pages[pages.length - 1]
-			const prevElement = elements[elements.length - 1]
-			const width = child.offsetWidth
-			const offset = prevElement + width
-			elements.push(offset)
-			if (prevElement > 0 && offset - prevPage >= pageWidth) 
-				pages.push(prevElement)
-			return {pages, elements}
-		}, {pages: [0], elements: [0]})
+		return children.reduce<Snaps>(
+			({pages, elements}, child, i) => {
+				const prevPage = pages[pages.length - 1]
+				const prevElement = elements[elements.length - 1]
+				const width = child.offsetWidth
+				const offset = prevElement + width
+				elements.push(offset)
+				if (prevElement > 0 && offset - prevPage >= pageWidth)
+					pages.push(prevElement)
+				return {pages, elements}
+			},
+			{pages: [0], elements: [0]}
+		)
 	}
 
-	spring(destination: number) {
-		const from = this.offset.get()
-		this.destination = Math.min(destination, this.max)
-		const to = -this.destination
-		this.setActivePage(destination)
+	snapToAnimation = (options: {from: number; to: number}) => {
 		spring({
-			from,
-			to,
+			...options,
 			velocity: this.offset.getVelocity(),
 			stiffness: 100,
 			damping: 20
@@ -199,9 +200,26 @@ export class Carousel extends View<
 		this.redraw()
 	}
 
+	spring(destination: number, animate = this.snapToAnimation) {
+		const from = this.x
+		this.destination = Math.min(destination, this.max)
+		const to = -this.destination
+		this.setActivePage(destination)
+		if (from !== to) animate({from, to})
+	}
+
 	setActivePage(destination: number) {
 		const {pages} = this.snaps
 		this.activePage = pages.indexOf(closest(pages, destination))
+	}
+
+	preselectPage(index: number) {
+		const {pages} = this.snaps
+		const destination = pages[index]
+		if (destination > 0)
+			this.spring(destination, ({to}) => {
+				this.offset.update(to)
+			})
 	}
 
 	goTo = (pageIndex: number) => {
@@ -225,14 +243,20 @@ export class Carousel extends View<
 		// there's possibly a better way but I don't see it at this time
 		return pos >= x && next - 5 <= x + width
 	}
-	
+
 	render() {
 		const {overflow, unstyled, className} = this.attrs
-		return m('.carousel', {
-			style: {overflow: !(overflow || unstyled) && 'hidden'},
-			className
-		}, m('.carousel-content', {
-			ondragstart: (e: Event) => e.preventDefault()
-		}, this.children))
+		return m('.carousel',
+			{
+				style: {overflow: !(overflow || unstyled) && 'hidden'},
+				className
+			},
+			m('.carousel-content',
+				{
+					ondragstart: (e: Event) => e.preventDefault()
+				},
+				this.children
+			)
+		)
 	}
 }

@@ -9,6 +9,7 @@ export default class SliderPage extends View {
 	width = 1
 	slider = new SliderStore()
 	carousel = new CarouselStore()
+
 	render() {
 		return m('div', [
 			m('h1', '@codeurs/front'),

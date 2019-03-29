@@ -15,7 +15,7 @@
 		"dev": "run-s build less && run-p less watch examples:watch",
 		"build": "tsc",
 		"watch": "tsc --pretty --preserveWatchOutput -w",
-		"examples:watch": "cd examples && webpack-dev-server --content-base dist --host 0.0.0.0",
+		"examples:watch": "cd examples && webpack --mode development -w",
 		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
 		"ghpages": "run-s prepublishOnly examples:build",
 		"less": "copyfiles -u 1 \"./src/**/*.less\" dist",
