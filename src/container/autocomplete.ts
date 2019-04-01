@@ -2,7 +2,10 @@ import {Children, VnodeDOM} from 'mithril'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
 import {
-	AutocompleteAction, AutocompleteChange, AutocompleteState, AutocompleteStore
+	AutocompleteAction,
+	AutocompleteChange,
+	AutocompleteState,
+	AutocompleteStore
 } from '../store/autocompletestore'
 import {View} from '../ui/view'
 
@@ -156,7 +159,7 @@ export class Autocomplete<Item> extends View<
 				this.dispatch({type: AutocompleteChange.InputBlur})
 		})
 	}
-	
+
 	// -- Item -------------------
 
 	itemAttrs = (attrs: {item: Item} & DOMAttrs) => {
@@ -172,7 +175,7 @@ export class Autocomplete<Item> extends View<
 		const selected = highlightedIndex === index
 		const scrollTo = selected && {
 			onupdate: (vnode: VnodeDOM) => {
-				if (this.avoidScrolling) return
+				if (this.avoidScrolling || !this.state.isOpen) return
 				scrollIntoView(vnode.dom, {behavior: 'smooth', scrollMode: 'if-needed'})
 			}
 		}
@@ -204,7 +207,7 @@ export class Autocomplete<Item> extends View<
 			item
 		})
 	}
-	
+
 	// -- Label -------------------
 
 	labelAttrs = (attrs: DOMAttrs = {}) => {
@@ -225,7 +228,7 @@ export class Autocomplete<Item> extends View<
 			...attrs
 		}
 	}
-	
+
 	// -- Button -------------------
 
 	buttonAttrs = (attrs: DOMAttrs = {}) => {
@@ -266,7 +269,7 @@ export class Autocomplete<Item> extends View<
 				this.dispatch({type: AutocompleteChange.ButtonBlur})
 		})
 	}
-	
+
 	// -- Key down handlers -------------------
 
 	keyDown = (event: KeyboardEvent) => {
@@ -320,7 +323,7 @@ export class Autocomplete<Item> extends View<
 			type: AutocompleteChange.KeyEscape
 		})
 	}
-	
+
 	// -- View -------------------
 
 	render() {
