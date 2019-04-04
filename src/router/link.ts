@@ -19,6 +19,7 @@ export class Link extends View<{
 				{
 					...attrs,
 					href,
+					target,
 					onclick: (e: MouseEvent & {redraw: boolean}) => {
 						e.redraw = false
 						if (onclick) onclick(e)
