@@ -50,11 +50,18 @@ class ModalExample extends View {
 
 const Images = ({children}) => 
 	m('.images', 
+		m('h3', 'Onload'),
+		m(Image, {
+			class: 'images-bg',
+			background: true,
+			onclick: () => {},
+			src: `https://picsum.photos/200/${Math.random() > .5 ? '200' : '300'}`,
+			onload: e => console.log(e)
+		}),
 		m('h3', 'Server resize'),
 		m('.images-landscape', {style: {width: '400px', height: 'auto'}}, 
 			m(ImageResizer, {
 				resize: (attrs, container) => {
-					console.log(attrs, container)
 					return {...attrs}
 				}
 			}, 

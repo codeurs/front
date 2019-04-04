@@ -26,6 +26,8 @@ const canUpscale = (fit: 'cover' | 'contain', container: Size, image: Size) => {
 	return width < image.width && height < image.height
 }
 
+const BrowserImage = (window as any)['Image']
+
 export type ImageAttrs = {
 	src: string
 	width?: number
@@ -37,30 +39,58 @@ export type ImageAttrs = {
 } & DOMAttrs
 
 class ImageBase extends View<ImageAttrs, HTMLImageElement> {
+	loader?: typeof BrowserImage
+
 	onCreate() {
-		if (!this.shouldCheckScale()) return
+		this.load()
+		if (!this.shouldCheckScale) return
 		const listener = () => this.scale()
 		window.addEventListener('resize', listener)
 		this.onRemove = () => window.removeEventListener('resize', listener)
 		this.scale()
 	}
 
-	onUpdate = this.scale
+	onUpdate = () => {
+		this.load()
+		this.scale()
+	}
 
-	shouldCheckScale() {
+	load() {
+		const {onload, onerror, src} = this.attrs
+		if (!onload && !onerror) return
+		if (this.loader && this.loader.src === src) return
+		if (!this.loader) {
+			const img = new BrowserImage()
+			img.onload = (e: Event) => this.attrs.onload && this.attrs.onload(e)
+			img.onerror = (e: Error) => this.attrs.onerror && this.attrs.onerror(e)
+			this.loader = img
+		}
+		this.loader.src = src
+	}
+
+	scale() {
+		const {width = 0, height = 0, fit, background} = this.attrs
+		if (!this.dom || !this.shouldCheckScale) return
+		const container = this.dom.getBoundingClientRect()
+		if (canUpscale(fit as any, container, {width, height})) return
+		if (this.useBackground) this.dom.style.backgroundSize = 'auto'
+		else this.dom.style.objectFit = 'none'
+	}
+
+	get shouldCheckScale() {
 		const {width, height, fit, upScale} = this.attrs
 		const crop = fit === 'cover' || fit === 'contain'
 		return !upScale && width && height && crop
 	}
 
-	scale() {
-		const {width = 0, height = 0, fit, background} = this.attrs
-		if (!this.dom || !this.shouldCheckScale()) return
-		const useBackground = background || !supportsObjectFit
-		const container = this.dom.getBoundingClientRect()
-		if (canUpscale(fit as any, container, {width, height})) return
-		if (useBackground) this.dom.style.backgroundSize = 'auto'
-		else this.dom.style.objectFit = 'none'
+	get shouldCrop() {
+		const {fit = 'landscape', background} = this.attrs
+		return background || fit === 'cover' || fit === 'contain'
+	}
+
+	get useBackground() {
+		const {background} = this.attrs
+		return background || (!supportsObjectFit && this.shouldCrop)
 	}
 
 	render() {
@@ -75,45 +105,49 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 			width,
 			height,
 			style,
+			onload,
+			onerror,
 			// These get passed by sizeof-loader, but we don't want them to be passed
 			// to the dom
 			type,
 			bytes,
 			...attrs
 		} = this.attrs
-		const crop = background || fit === 'cover' || fit === 'contain'
-		const useBackground = background || (!supportsObjectFit && crop)
-		const tag = useBackground ? 'div' : 'img'
+		const crop = this.shouldCrop
+		const tag = this.useBackground ? 'div' : 'img'
 		const focus =
 			typeof position === 'string'
 				? position
 				: position && `${position.x * 100}% ${position.y * 100}%`
-		return m(tag, {
-			...(useBackground
-				? {
-						role: 'img',
-						'aria-label': alt,
-						style: {
-							backgroundImage: `url('${src}')`,
-							backgroundSize: crop && fit,
-							backgroundPosition: focus,
-							backgroundRepeat: 'no-repeat',
-							...style
-						}
-				  }
-				: {
-						src,
-						alt,
-						width,
-						height,
-						style: {
-							objectFit: crop && fit,
-							objectPosition: focus !== 'center center' && focus,
-							...style
-						}
-				  }),
-			...addClasses(attrs, 'image', {mod: {crop}})
-		}, children)
+		return m(tag,
+			{
+				...(this.useBackground
+					? {
+							role: 'img',
+							'aria-label': alt,
+							style: {
+								backgroundImage: `url('${src}')`,
+								backgroundSize: crop && fit,
+								backgroundPosition: focus,
+								backgroundRepeat: 'no-repeat',
+								...style
+							}
+					  }
+					: {
+							src,
+							alt,
+							width,
+							height,
+							style: {
+								objectFit: crop && fit,
+								objectPosition: focus !== 'center center' && focus,
+								...style
+							}
+					  }),
+				...addClasses(attrs, 'image', {mod: {crop}})
+			},
+			children
+		)
 	}
 }
 
@@ -160,13 +194,16 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 				this.cached = src
 			}
 			if (!this.dom)
-				return m('div', {
-					...addClasses(rest, 'image', {mod: {crop}}),
-					oncreate: vnode => {
-						resolve(vnode.dom as HTMLElement)
-						m.redraw()
-					}
-				}, children)
+				return m('div',
+					{
+						...addClasses(rest, 'image', {mod: {crop}}),
+						oncreate: vnode => {
+							resolve(vnode.dom as HTMLElement)
+							m.redraw()
+						}
+					},
+					children
+				)
 			if (this.cached !== src) resolve(this.dom)
 			return this.resolved && m(ImageBase, this.resolved, children)
 		})
