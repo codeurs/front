@@ -3,6 +3,7 @@
 		"strict": true,
 		"target": "es5",
 		"declaration": true,
+		"declarationMap": true,
 		"sourceMap": true,
 		"importHelpers": true,
 		"module": "es6",

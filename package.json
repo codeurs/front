@@ -22,7 +22,7 @@
 		"prepublishOnly": "rimraf dist && run-p build less",
 		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
 		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
-		"prepare": "symlink-dir dist node_modules/@codeurs/front",
+		"prepare": "symlink-dir . node_modules/@codeurs/front",
 		"test": "jest"
 	},
 	"husky": {
