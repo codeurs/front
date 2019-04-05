@@ -6,7 +6,7 @@
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
-		"./dist"
+		"./dist", "./src"
 	],
 	"repository": "https://github.com/codeurs/front",
 	"author": "Ben Merckx <ben@codeurs.be>",
