@@ -1,9 +1,9 @@
 import './masonry.less'
 
 import m, {Child} from 'mithril'
-import {Component} from './component'
+import {View} from './view'
 
-export class Masonry extends Component<{
+export class Masonry extends View<{
 	cols: number
 	addClass?: (i: number, j: number) => string
 	children: Array<Child>
@@ -19,7 +19,7 @@ export class Masonry extends Component<{
 		return cols
 	}
 
-	view() {
+	render() {
 		const {children, cols: colsCount, addClass} = this.attrs
 		const cols = this.divide(children, colsCount)
 		return m('.masonry',

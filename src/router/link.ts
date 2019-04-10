@@ -11,7 +11,7 @@ export class Link extends View<{
 	[key: string]: any
 }> {
 	render() {
-		const {to, target, onclick, children, ...attrs} = this.attrs
+		const {to, target, download, onclick, children, ...attrs} = this.attrs
 		return m(Location, (location: RouterContext) => {
 			const href = location.formatPath(to)
 			const active = !!location.match({path: to, exact: attrs.exact})
@@ -20,12 +20,14 @@ export class Link extends View<{
 					...attrs,
 					href,
 					target,
+					download,
 					onclick: (e: MouseEvent & {redraw: boolean}) => {
 						e.redraw = false
 						if (onclick) onclick(e)
 						const ignore =
-							ignoreClick(e) ||
+							download ||
 							target === '_blank' ||
+							ignoreClick(e) ||
 							isExternal(location, e.currentTarget as HTMLAnchorElement)
 						if (ignore) return
 						e.preventDefault()
