@@ -26,23 +26,27 @@ export class Background extends View<
 		return m(ImageResizer,
 			{
 				resize: (
-					attrs: DOMAttrs,
+					attrs: {src: string} & DOMAttrs,
 					container: {width: number; height: number}
 				) => {
 					const {src} = attrs
+					if (src.indexOf('://') > -1) return attrs
 					const url = getResizedUrl(src, container.width, container.height)
 					return {...attrs, src: url}
 				}
 			},
-			m(Image, {
-				src,
-				background: true,
-				fit: 'cover',
-				position,
-				upScale: true,
-				...classes('background', className),
-				...rest
-			}, children)
+			m(Image,
+				{
+					src,
+					background: true,
+					fit: 'cover',
+					position,
+					upScale: true,
+					...classes('background', className),
+					...rest
+				},
+				children
+			)
 		)
 	}
 }

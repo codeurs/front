@@ -41,10 +41,11 @@ export class Picture extends View<
 		return m(ImageResizer,
 			{
 				resize: (
-					attrs: DOMAttrs,
+					attrs: {src: string} & DOMAttrs,
 					container: {width: number; height: number}
 				) => {
 					const {src} = attrs
+					if (src.indexOf('://') > -1) return attrs
 					const url = getResizedUrl(src, container.width, Infinity)
 					return {...attrs, src: url}
 				}
