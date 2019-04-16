@@ -86,23 +86,26 @@ export class Carousel extends View<
 			this.spring(snap)
 		}
 
-		const clearMove = listen(this.dom, 'mousedown touchstart').start(() => {
-			this.preventClick = false
-			const start = this.x
-			pointer({
-				x: start,
-				preventDefault: false
-			})
-				.pipe(
-					(pos: {x: number}) => pos.x,
-					this.overDrag
-				)
-				.start(this.offset)
+		const clearMove = listen(this.dom, 'mousedown touchstart').start(
+			(event: MouseEvent | TouchEvent) => {
+				const start = this.x
+				if ('which' in event && event.which !== 1) return
+				this.preventClick = false
+				pointer({
+					x: start,
+					preventDefault: false
+				})
+					.pipe(
+						(pos: {x: number}) => pos.x,
+						this.overDrag
+					)
+					.start(this.offset)
 
-			listen(document, 'mouseup touchend', {once: true}).start(() =>
-				snapToPoint(start)
-			)
-		}).stop
+				listen(document, 'mouseup touchend', {once: true}).start(() =>
+					snapToPoint(start)
+				)
+			}
+		).stop
 
 		const onClick = (e: MouseEvent) => {
 			if (!this.preventClick) return
