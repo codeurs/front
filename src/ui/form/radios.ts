@@ -2,6 +2,7 @@ import m from 'mithril'
 import {cleanupOptions, randomKey} from '../../util/formutils'
 import {Component} from '../component'
 import {Radio} from './radio'
+import {DOMAttrs} from '../../hyperscript'
 
 export class Radios extends Component<{
 	name: string
@@ -11,7 +12,9 @@ export class Radios extends Component<{
 	label?: string
 	modifier?: any
 	required?: boolean
-	options: Array<{key: string; label: string}> | {[key: string]: string}
+	options:
+		| Array<{key: string; label: string} & DOMAttrs>
+		| {[key: string]: string}
 	onchange?: (v: string) => void
 	onfocus?: (e: Event) => void
 }> {
@@ -32,14 +35,15 @@ export class Radios extends Component<{
 		const cleanOptions = cleanupOptions(options)
 
 		return m(`div.${this.className}`,
-			cleanOptions.map(option =>
+			cleanOptions.map(({key, label, ...rest}) =>
 				m(Radio, {
-					option: option.label,
+					option: label,
 					name: name,
 					unstyled,
 					required,
-					value: value == option.key,
-					onchange: onchange && (() => onchange(option.key))
+					value: value == key,
+					onchange: onchange && (() => onchange(key)),
+					...rest
 				})
 			)
 		)
