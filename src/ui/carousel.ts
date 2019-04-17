@@ -1,7 +1,6 @@
 import './carousel.less'
 
 import deepEqual from 'deep-equal'
-import {Children} from 'mithril'
 import {calc, listen, pointer, spring, styler, value} from 'popmotion'
 import {debounce} from 'throttle-debounce'
 import {m} from '../hyperscript'
@@ -86,12 +85,14 @@ export class Carousel extends View<
 			this.spring(snap)
 		}
 
+		let clearTrack = () => {}
+
 		const clearMove = listen(this.dom, 'mousedown touchstart').start(
 			(event: MouseEvent | TouchEvent) => {
 				const start = this.x
 				if ('which' in event && event.which !== 1) return
 				this.preventClick = false
-				pointer({
+				clearTrack = pointer({
 					x: start,
 					preventDefault: false
 				})
@@ -99,8 +100,7 @@ export class Carousel extends View<
 						(pos: {x: number}) => pos.x,
 						this.overDrag
 					)
-					.start(this.offset)
-
+					.start(this.offset).stop
 				listen(document, 'mouseup touchend', {once: true}).start(() =>
 					snapToPoint(start)
 				)
@@ -108,7 +108,7 @@ export class Carousel extends View<
 		).stop
 
 		const onClick = (e: MouseEvent) => {
-			if (!this.preventClick) return
+			if (!this.preventClick) return clearTrack()
 			e.stopPropagation()
 			e.preventDefault()
 		}
@@ -127,6 +127,7 @@ export class Carousel extends View<
 		this.onRemove = () => {
 			clearSubscription()
 			clearMove()
+			clearTrack()
 			clearClick()
 			clearWheel()
 			clearResize()

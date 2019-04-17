@@ -36,7 +36,11 @@ export default class SliderPage extends View {
 								onclick: () => {
 									this.carousel.goNext()
 								}
-							}, 'next >>')
+							}, 'next >>'),
+							m('a.sliderpage-slide-link', {
+								href: 'https://codeurs.be',
+								target: '_blank'
+							}, 'external')
 						])
 					)
 			))
