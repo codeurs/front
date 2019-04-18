@@ -90,7 +90,7 @@ export class Carousel extends View<
 		const clearMove = listen(this.dom, 'mousedown touchstart').start(
 			(event: MouseEvent | TouchEvent) => {
 				const start = this.x
-				if ('which' in event && event.which !== 1) return
+				if (event instanceof MouseEvent && event.which !== 1) return
 				this.preventClick = false
 				clearTrack = pointer({
 					x: start,
