@@ -8,9 +8,6 @@ script:
   - yarn test
   - yarn ghpages
   
-before_deploy:
-  - yarn build
-
 deploy:
   - provider: npm
     email: $NPM_EMAIL

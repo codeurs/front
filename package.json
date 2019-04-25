@@ -1,13 +1,13 @@
 {
 	"name": "@codeurs/front",
-	"version": "0.13.23",
+	"version": "0.13.24",
 	"description": "Collection of mithril utilities and components",
 	"sideEffects": false,
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
-		"./dist",
-		"./src"
+		"dist",
+		"src"
 	],
 	"publishConfig": {
 		"access": "public"
