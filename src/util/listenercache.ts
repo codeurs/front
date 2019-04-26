@@ -1,3 +1,4 @@
+import from from 'core-js-pure/stable/array/from'
 import {m} from '../hyperscript'
 import {View} from '../ui/view'
 
@@ -24,12 +25,12 @@ export class ListenerCache {
 			)
 		})
 		this.remove(
-			Array.from(this.attached.keys()).filter(key => events.indexOf(key) === -1)
+			from(this.attached.keys()).filter(key => events.indexOf(key) === -1)
 		)
 	}
 
 	remove(selected?: Array<string>) {
-		Array.from(this.attached.keys())
+		from(this.attached.keys())
 			.filter(key => !selected || selected.indexOf(key) > -1)
 			.forEach(event => {
 				this.attached.get(event)()

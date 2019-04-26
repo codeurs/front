@@ -1,12 +1,10 @@
 import './carousel.less'
 
 // We polyfill these as they're used in popmotion. Babel runtime transform
-// doesn't pick these up if they're in in an external lib like this one
-// (I think).
-import 'core-js/features/object/assign'
-import 'core-js/features/array/from'
-import 'core-js/features/weak-set'
-
+// doesn't pick these up if they're in an external lib (I think).
+import fill from '../util/polyfill'
+fill()
+import from from 'core-js-pure/stable/array/from'
 import deepEqual from 'deep-equal'
 import {calc, listen, pointer, spring, styler, value} from 'popmotion'
 import {debounce} from 'throttle-debounce'
@@ -185,7 +183,7 @@ export class Carousel extends View<
 
 	calcSnaps() {
 		const pageWidth = this.dom.offsetWidth
-		const children = Array.from(this.content.children) as Array<HTMLElement>
+		const children = from(this.content.children) as Array<HTMLElement>
 		return children.reduce<Snaps>(
 			({pages, elements}, child, i) => {
 				const prevPage = pages[pages.length - 1]

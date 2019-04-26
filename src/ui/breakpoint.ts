@@ -1,3 +1,5 @@
+import from from 'core-js-pure/stable/array/from'
+import Map from 'core-js-pure/stable/map'
 import m, {Children} from 'mithril'
 import {View} from './view'
 
@@ -37,7 +39,7 @@ export class Breakpoint<T> extends View<
 	render() {
 		const {children, ...breakpoints} = this.attrs
 		const keys = Object.keys(breakpoints)
-		const active = Array.from(this.matchers).reduce(
+		const active = from(this.matchers).reduce(
 			(active: null | string, [key, matcher]) => {
 				if (!matcher.matches) return active
 				if (!active) return key

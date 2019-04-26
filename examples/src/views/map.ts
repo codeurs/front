@@ -1,5 +1,6 @@
 import './map.less'
 
+import from from 'core-js-pure/stable/array/from'
 import {m, Maps, Marker, View} from '@codeurs/front'
 import {debounce} from 'throttle-debounce'
 
@@ -63,7 +64,7 @@ export default class Map extends View {
 							zoom_changed: this.changeMapProperty
 						}
 					},
-					Array.from(Array(this.markers))
+					from(Array(this.markers))
 						.map((_, i) =>
 							m(Marker, {
 								position: {
