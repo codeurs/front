@@ -1,4 +1,4 @@
-import assign from 'core-js-pure/stable/object/assign'
+import 'core-js/features/object/assign'
 
 import hyperscript, {Attributes, Child, Children, CVnode} from 'mithril'
 import {Component, View} from 'ui'
@@ -50,7 +50,7 @@ export type Attrs<T extends Element = Element> = Partial<T> & {
 
 export type DOMAttrs = {[key: string]: any}
 
-export const m: ExtendedHyperscript = assign(
+export const m: ExtendedHyperscript = Object.assign(
 	(selector: any, attrs: any, ...children: any) => {
 		const makeChildren = (children: any) =>
 			!children || children.length === 0

@@ -1,6 +1,5 @@
 import './autocomplete.less'
 
-import includes from 'core-js-pure/stable/string/includes'
 import {Autocomplete, AutocompleteStore, classes, m, View} from '@codeurs/front'
 import countries from './countries'
 
@@ -60,7 +59,7 @@ export default class extends View {
 				isOpen && m('ul', menuAttrs(),
 				m('.autocomplete-menu', 
 					countries
-						.filter(country => includes(country.name.toLowerCase(), inputValue.toLowerCase()))
+						.filter(country => country.name.toLowerCase().includes(inputValue.toLowerCase()))
 						.map((country, i) => 
 							m('li.autocomplete-item', itemAttrs({
 								key: country.code,
