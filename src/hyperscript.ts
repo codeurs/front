@@ -1,3 +1,5 @@
+import 'core-js/features/object/assign'
+
 import hyperscript, {Attributes, Child, Children, CVnode} from 'mithril'
 import {Component, View} from 'ui'
 import {extractChildren} from './util/children'
@@ -15,7 +17,9 @@ export type ComponentConstructors<Attrs> =
 	| ClassComponents<Attrs>
 
 type Without<T, K> = Pick<T, Exclude<keyof T, K>>
-type AttributesArgument<Attrs> = Without<Attrs, 'children' | 'key'> & {key?: any}
+type AttributesArgument<Attrs> = Without<Attrs, 'children' | 'key'> & {
+	key?: any
+}
 type OptionalAttrs<Attrs> = {} extends Attrs
 	? {}
 	: {children: any} extends Attrs

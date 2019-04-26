@@ -16,12 +16,12 @@ deploy:
     on:
       tags: true
   - provider: pages
-    skip-cleanup: true
     github-token: $GITHUB_TOKEN
     keep-history: true
     local-dir: examples/dist
+    skip-cleanup: true
     on:
-      branch: master
+      tags: true
 
 cache:
   yarn: true
