@@ -78,9 +78,11 @@ export class Autocomplete<Item> extends View<
 		const onMouseUp = (event: Event) => {
 			const target = event.target as HTMLElement
 			const {isOpen} = this.store
-			this.interacting = false
-			if (isOpen && !isOrContainsNode(dom, target))
-				this.dispatch({type: AutocompleteChange.MouseUp})
+			this.schedule(() => {
+				this.interacting = false
+				if (isOpen && !isOrContainsNode(dom, target))
+					this.dispatch({type: AutocompleteChange.MouseUp})
+			})
 		}
 		dom.addEventListener('mousedown', onMouseDown)
 		window.addEventListener('mouseup', onMouseUp)
@@ -149,15 +151,13 @@ export class Autocomplete<Item> extends View<
 	}
 
 	inputBlur = (event: Event) => {
-		this.schedule(() => {
-			const buttonIsActive =
-				document &&
-				!!document.activeElement &&
-				!!document.activeElement.id &&
-				document.activeElement.id == this.buttonId
-			if (!this.interacting && !buttonIsActive)
-				this.dispatch({type: AutocompleteChange.InputBlur})
-		})
+		const buttonIsActive =
+			document &&
+			!!document.activeElement &&
+			!!document.activeElement.id &&
+			document.activeElement.id == this.buttonId
+		if (!this.interacting && !buttonIsActive)
+			this.dispatch({type: AutocompleteChange.InputBlur})
 	}
 
 	// -- Item -------------------
