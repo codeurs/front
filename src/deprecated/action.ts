@@ -10,7 +10,7 @@ export const action = Object.assign(
 	(
 		data: string | {url: string; target?: string},
 		cb: null | Function = null,
-		replace = false
+		replace: boolean = false
 	): any => {
 		if (typeof data == 'string') return action({url: data}, cb, replace)
 		if (!data || !data.url) return {}

@@ -3,18 +3,24 @@
 		"sourceMap": true,
 		"importHelpers": true,
 		"allowJs": true,
-		"target": "es5",
-		"module": "esNext",
-		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"target": "es6",
+		"module": "esnext",
+		"moduleResolution": "node",
 		"noUnusedParameters": false,
 		"removeComments": false,
 		"preserveConstEnums": true,
 		"skipLibCheck": true,
 		"baseUrl": "./src/",
+		"outDir": "./dist/",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+    "resolveJsonModule": true,
+		"downlevelIteration": true,
 		"jsx": "react",
 		"jsxFactory": "m",
-		"experimentalDecorators": true
+    "lib": ["es2017", "dom"]
 	},
-	"include": ["./src/**/*", "."]
+	"include": ["./src/**/*"]
 }

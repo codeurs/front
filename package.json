@@ -86,7 +86,7 @@
 		"tslib": "^1.9.3"
 	},
 	"devDependencies": {
-		"@codeurs/packer": "^0.10.0",
+		"@codeurs/packer": "=0.14.1",
 		"@types/jest": "^24.0.9",
 		"copyfiles": "^2.0.0",
 		"cross-env": "^5.2.0",
@@ -99,7 +99,6 @@
 		"serve": "^10.1.2",
 		"style-loader": "^0.23.1",
 		"symlink-dir": "^2.0.2",
-		"ts-jest": "^24.0.0",
-		"webpack-dev-server": "^3.2.1"
+		"ts-jest": "^24.0.0"
 	}
 }
