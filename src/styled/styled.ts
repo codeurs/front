@@ -5,13 +5,20 @@ import {EmotionCache, getRegisteredStyles, insertStyles} from '@emotion/utils'
 import {StatelessView} from 'ui'
 import {DOMAttrs, m} from '../hyperscript'
 import {createContext} from '../ui/context'
-import {addClasses} from '../util/classes'
 
 const EmotionCacheContext = createContext<EmotionCache>(createCache())
 
 type Styled = {
 	(tag: string): (...args: any[]) => StatelessView<DOMAttrs>
 	<T>(tag: T): (...args: any[]) => T
+}
+
+const concatClasses = (classes: Array<string>) =>
+	classes.filter(v => v).join(' ')
+
+const addClasses = (attrs: DOMAttrs, ...rest: Array<string>): DOMAttrs => {
+	const {class: c1, className: c2, ...props} = attrs
+	return {...props, class: concatClasses([c1, c2, ...rest])}
 }
 
 const filterProps = (props: DOMAttrs) => {

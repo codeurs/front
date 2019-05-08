@@ -175,7 +175,7 @@ class Examples extends View {
 							m('', m(LanguagesNav)),
 							`Language: ${language}`,
 							m(Nav3, {as: 'div'}, [
-								m(A, {to: '/', exact: true}, 'Home'),
+								m(A, {class: 'home', to: '/', exact: true}, 'Home'),
 								m(A, {to: '/slider'}, 'Slider'),
 								m(A, {to: '/autocomplete'}, 'Autocomplete'),
 								m(A, {to: '/modal'}, 'Modal'),
