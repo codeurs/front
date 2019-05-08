@@ -1,0 +1,2 @@
+.slider{height:100%}.slider .carousel-content{display:block;height:100%;white-space:nowrap}.slider .carousel-content>*{white-space:normal}
+.carousel{height:100%;width:100%;touch-action:pan-y pinch-zoom;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.carousel .carousel-content{height:100%;display:flex}
