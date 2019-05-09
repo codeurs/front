@@ -43,7 +43,27 @@ export default class SliderPage extends View {
 							}, 'external')
 						])
 					)
-			))
+				),
+				m(Carousel, 
+					[1, 2, 3, 4, 5, 6, 7].map((slide, i) => 
+						m('.sliderpage-slide', {
+							className: 'is-active',
+							style: {'min-width': '33.33333%'}
+						}, [
+							slide,
+							m('a.sliderpage-slide-link', {
+								onclick: () => {
+									this.carousel.goNext()
+								}
+							}, 'next >>'),
+							m('a.sliderpage-slide-link', {
+								href: 'https://codeurs.be',
+								target: '_blank'
+							}, 'external')
+						])
+					)
+				)
+			)
 		])
 	}
 }

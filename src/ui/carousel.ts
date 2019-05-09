@@ -193,7 +193,7 @@ export class Carousel extends View<
 				const width = child.offsetWidth
 				const offset = prevElement + width
 				elements.push(offset)
-				if (prevElement > 0 && offset - prevPage >= pageWidth)
+				if (prevElement > 0 && offset - prevPage > pageWidth)
 					pages.push(prevElement)
 				return {pages, elements}
 			},
