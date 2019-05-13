@@ -13,8 +13,8 @@ export type FetcherRender<T> = (state: FetcherState<T>) => Children
 type RequestData<T> = {
 	url: string
 	hydrate?: T
-	cache: any
-	setCache: (cache: any) => void
+	cache?: any
+	setCache?: (cache: any) => void
 } & RequestOptions<T>
 
 export class Fetcher<T> extends View<
