@@ -14,6 +14,7 @@ type ClassValue =
 	| undefined
 	| null
 	| boolean
+	| Function
 
 function prefixClassNames(prefix: string | null, input: Array<ClassValue>) {
 	return classNames(input)
@@ -25,10 +26,12 @@ function prefixClassNames(prefix: string | null, input: Array<ClassValue>) {
 export function parseClasses(
 	classes: ClassValue
 ): ClassValue | Array<ClassValue> {
+	if (typeof classes === 'function')
+		return `${classes}`
 	if (!classes || Array.isArray(classes) || typeof classes !== 'object')
 		return classes
 	return Object.keys(classes).map(key =>
-		typeof classes[key] === 'object' || typeof classes[key] === 'string'
+		typeof classes[key] === 'object' || typeof classes[key] === 'string' || typeof classes[key] === 'function'
 			? prefixClassNames(
 					key,
 					([] as Array<ClassValue>).concat(parseClasses(classes[key]))
