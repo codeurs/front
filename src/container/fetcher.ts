@@ -13,6 +13,8 @@ export type FetcherRender<T> = (state: FetcherState<T>) => Children
 type RequestData<T> = {
 	url: string
 	hydrate?: T
+	cache: any
+	setCache: (cache: any) => void
 } & RequestOptions<T>
 
 export class Fetcher<T> extends View<
@@ -29,14 +31,20 @@ export class Fetcher<T> extends View<
 	onBeforeUpdate = this.load
 
 	load() {
-		const {children, hydrate, ...request} = this.attrs
+		const {
+			cache = this.cache,
+			setCache = (cache: any) => (this.cache = cache),
+			children,
+			hydrate,
+			...request
+		} = this.attrs
 		if (hydrate && !this.hydrated) {
 			this.data = hydrate
 			this.hydrated = true
-			this.cache = request
+			setCache(request)
 		}
-		if (deepEqual(this.cache, request)) return
-		this.cache = request
+		if (deepEqual(cache, request)) return
+		setCache(request)
 		this.isLoading = true
 		this.onRemove()
 		m.request({
