@@ -1,5 +1,7 @@
 import deepEqual from 'deep-equal'
-import m, {Children, RequestOptions} from 'mithril'
+import {RequestOptions} from 'mithril'
+import requestService from 'mithril/request'
+import {ComponentChildren} from 'preact'
 import {View} from '../ui/view'
 
 export type FetcherState<T> = {
@@ -8,7 +10,7 @@ export type FetcherState<T> = {
 	error?: Error
 }
 
-export type FetcherRender<T> = (state: FetcherState<T>) => Children
+export type FetcherRender<T> = (state: FetcherState<T>) => ComponentChildren
 
 type RequestData<T> = {
 	url: string
@@ -36,24 +38,26 @@ export class Fetcher<T> extends View<
 			setCache = (cache: any) => (this.cache = cache),
 			children,
 			hydrate,
-			...request
+			...req
 		} = this.attrs
 		if (hydrate && !this.hydrated) {
 			this.data = hydrate
 			this.hydrated = true
-			setCache(request)
+			setCache(req)
 		}
-		if (deepEqual(cache, request)) return
-		setCache(request)
+		if (deepEqual(cache, req)) return
+		setCache(req)
 		this.isLoading = true
 		this.onRemove()
-		m.request({
-			...request,
-			config: xhr => (this.transport = xhr)
-		})
-			.then(data => (this.data = data))
+		requestService
+			.request({
+				...req,
+				config: xhr => (this.transport = xhr)
+			})
+			.then(data => (this.data = data as T))
 			.catch(e => console.error((this.error = e)))
 			.then(() => (this.isLoading = false))
+			.then(this.redraw)
 	}
 
 	onRemove() {

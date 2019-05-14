@@ -7,37 +7,41 @@ import {Location, RouterContext} from './router'
 export class Link extends View<{
 	to: string
 	target?: string
-	onclick?: Function
+	onClick?: Function
 	[key: string]: any
 }> {
 	render() {
-		const {to, target, download, onclick, children, ...attrs} = this.attrs
-		return m(Location, (location: RouterContext) => {
-			const href = location.formatPath(to)
-			const active = !!location.match({path: to, exact: attrs.exact})
-			const anchorAttrs = addClasses(
-				{
-					...attrs,
-					href,
-					target,
-					download,
-					onclick: (e: MouseEvent & {redraw: boolean}) => {
-						e.redraw = false
-						if (onclick) onclick(e)
-						const ignore =
-							download ||
-							target === '_blank' ||
-							ignoreClick(e) ||
-							isExternal(location, e.currentTarget as HTMLAnchorElement)
-						if (ignore) return
-						e.preventDefault()
-						location.push(href)
-					}
-				},
-				{is: {active}}
-			)
-			return m('a', anchorAttrs, children)
-		})
+		const {to, target, download, onClick, children, ...attrs} = this.attrs
+
+		return (
+			<Location>
+				{(location: RouterContext) => {
+					const href = location.formatPath(to)
+					const active = !!location.match({path: to, exact: attrs.exact})
+					const anchorAttrs = addClasses(
+						{
+							...attrs,
+							href,
+							target,
+							download,
+							onClick: (e: MouseEvent) => {
+								if (onClick) onClick(e)
+								const ignore =
+									download ||
+									target === '_blank' ||
+									ignoreClick(e) ||
+									isExternal(location, e.currentTarget as HTMLAnchorElement)
+								if (ignore) return
+								e.preventDefault()
+								location.push(href)
+							}
+						},
+						{is: {active}}
+					)
+					return <a {...anchorAttrs}>{children}</a>
+				}}
+			</Location>
+		)
 	}
 }
 

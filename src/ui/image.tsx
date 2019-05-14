@@ -1,9 +1,9 @@
 import './image.less'
 
+import {createContext, h} from 'preact'
 import {DOMAttrs, m} from '../hyperscript'
 import {addClasses} from '../util/classes'
 import {contain, cover} from '../util/fit'
-import {createContext} from './context'
 import {View} from './view'
 
 export type ImageFit = 'portrait' | 'landscape' | 'cover' | 'contain'
@@ -69,12 +69,13 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 	}
 
 	scale() {
+		const dom = this.dom as HTMLElement
 		const {width = 0, height = 0, fit, background} = this.attrs
 		if (!this.dom || !this.shouldCheckScale) return
-		const container = this.dom.getBoundingClientRect()
+		const container = dom.getBoundingClientRect()
 		if (canUpscale(fit as any, container, {width, height})) return
-		if (this.useBackground) this.dom.style.backgroundSize = 'auto'
-		else this.dom.style.objectFit = 'none'
+		if (this.useBackground) dom.style.backgroundSize = 'auto'
+		else dom.style.objectFit = 'none'
 	}
 
 	get shouldCheckScale() {
@@ -114,14 +115,14 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 			...attrs
 		} = this.attrs
 		const crop = this.shouldCrop
-		const tag = this.useBackground ? 'div' : 'img'
+		const Tag = this.useBackground ? 'div' : 'img'
 		const focus =
 			typeof position === 'string'
 				? position
 				: position && `${position.x * 100}% ${position.y * 100}%`
-		return m(tag,
-			{
-				...(this.useBackground
+		return (
+			<Tag
+				{...(this.useBackground
 					? {
 							role: 'img',
 							'aria-label': alt,
@@ -143,24 +144,29 @@ class ImageBase extends View<ImageAttrs, HTMLImageElement> {
 								objectPosition: focus !== 'center center' && focus,
 								...style
 							}
-					  }),
-				...addClasses(attrs, 'image', {mod: {crop}})
-			},
-			children
+					  })}
+				{...addClasses(attrs, 'image', {mod: {crop}})}
+			>
+				{children}
+			</Tag>
 		)
 	}
 }
 
 type Resizer = (info: ImageAttrs, container: Size) => ImageAttrs
 
-const ImageResizerContext = createContext<Resizer>()
+const ImageResizerContext = createContext<Resizer | undefined>(undefined)
 
 export class ImageResizer extends View<{
 	resize: Resizer
 }> {
 	render() {
 		const {resize} = this.attrs
-		return m(ImageResizerContext.Provider, {value: resize}, this.children)
+		return (
+			<ImageResizerContext.Provider value={resize}>
+				{this.children}
+			</ImageResizerContext.Provider>
+		)
 	}
 }
 
@@ -184,28 +190,40 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			...rest
 		} = this.attrs
 		const crop = background || fit === 'cover' || fit === 'contain'
-		return m(ImageResizerContext.Consumer, (resize: Resizer | undefined) => {
-			if (!resize) return m(ImageBase, this.attrs, children)
-			const resolve = (dom: HTMLElement) => {
-				this.resolved = resize(this.attrs, {
-					width: dom.offsetWidth,
-					height: dom.offsetHeight
-				})
-				this.cached = src
-			}
-			if (!this.dom)
-				return m('div',
-					{
-						...addClasses(rest, 'image', {mod: {crop}}),
-						oncreate: vnode => {
-							resolve(vnode.dom as HTMLElement)
-							m.redraw()
-						}
-					},
-					children
-				)
-			if (this.cached !== src) resolve(this.dom)
-			return this.resolved && m(ImageBase, this.resolved, children)
-		})
+		return (
+			<ImageResizerContext.Consumer>
+				{(resize: Resizer | undefined) => {
+					if (!resize) return <ImageBase {...this.attrs}>{children}</ImageBase>
+					const resolve = (dom: HTMLElement) => {
+						this.resolved = resize(this.attrs, {
+							width: dom.offsetWidth,
+							height: dom.offsetHeight
+						})
+						this.cached = src
+					}
+					if (!this.dom)
+						return (
+							<div
+								{...{
+									...addClasses(rest, 'image', {mod: {crop}}),
+									ref: dom => {
+										if (!dom) return
+										resolve(dom as HTMLElement)
+										this.redraw()
+									}
+								}}
+							>
+								{children}
+							</div>
+						)
+					if (this.cached !== src) resolve(this.dom as HTMLElement)
+					return (
+						this.resolved && (
+							<ImageBase {...this.resolved}>{children}</ImageBase>
+						)
+					)
+				}}
+			</ImageResizerContext.Consumer>
+		)
 	}
 }

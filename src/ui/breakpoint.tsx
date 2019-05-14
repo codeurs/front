@@ -1,9 +1,10 @@
-import m, {Children} from 'mithril'
+import {ComponentChildren} from 'preact'
+import {m} from '../hyperscript'
 import {View} from './view'
 
 export class Breakpoint<T> extends View<
 	{
-		children?: (attrs: T) => Children
+		children: (attrs: T) => ComponentChildren
 	} & {
 		[breakpoint: string]: T
 	}
@@ -20,7 +21,7 @@ export class Breakpoint<T> extends View<
 		keys.forEach(query => {
 			if (this.matchers.has(query)) return
 			const matcher = matchMedia(query)
-			matcher.addListener(m.redraw)
+			matcher.addListener(this.redraw)
 			this.matchers.set(query, matchMedia(query))
 		})
 		this.removeMatchers(keys)
@@ -29,7 +30,7 @@ export class Breakpoint<T> extends View<
 	removeMatchers(except: Array<string> = []) {
 		this.matchers.forEach((matcher, query) => {
 			if (except.indexOf(query) > -1) return
-			matcher.removeListener(m.redraw)
+			matcher.removeListener(this.redraw)
 			this.matchers.delete(query)
 		})
 	}

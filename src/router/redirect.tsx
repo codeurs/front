@@ -7,8 +7,13 @@ export class Redirect extends View<{
 }> {
 	render() {
 		const {to} = this.attrs
-		return m(Location, (location: RouterContext) =>
-			location.replace(location.formatPath(to))
+		return (
+			<Location>
+				{(location: RouterContext) => {
+					location.replace(location.formatPath(to))
+					return null
+				}}
+			</Location>
 		)
 	}
 }

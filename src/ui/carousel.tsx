@@ -1,5 +1,4 @@
 import './carousel.less'
-
 // We polyfill these as they're used in popmotion. Babel runtime transform
 // doesn't pick these up if they're in in an external lib like this one
 // (I think).
@@ -66,10 +65,6 @@ export class Carousel extends View<
 
 	get x() {
 		return this.offset.get() as number
-	}
-
-	redraw() {
-		m.redraw()
 	}
 
 	onCreate() {
@@ -257,17 +252,19 @@ export class Carousel extends View<
 
 	render() {
 		const {overflow, unstyled, className} = this.attrs
-		return m('.carousel',
-			{
-				style: {overflow: !(overflow || unstyled) && 'hidden'},
-				className
-			},
-			m('.carousel-content',
-				{
-					ondragstart: (e: Event) => e.preventDefault()
-				},
-				this.children
-			)
+		return (
+			<div
+				className="carousel"
+				style={{overflow: !(overflow || unstyled) && 'hidden'}}
+				class={className}
+			>
+				<div
+					class="carousel-content"
+					onDragStart={(e: Event) => e.preventDefault()}
+				>
+					{this.children}
+				</div>
+			</div>
 		)
 	}
 }

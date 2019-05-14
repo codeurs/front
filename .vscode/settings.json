@@ -1,10 +1,33 @@
 {
-  "editor.tabSize": 2,
-  "editor.insertSpaces": false,
-  "editor.detectIndentation": false,
-  "prettier.tabWidth": 2,
-  "prettier.useTabs": true,
-  "prettier.semi": false,
-  "prettier.bracketSpacing": false,
-  "prettier.singleQuote": true
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": true,
+	"editor.rulers": [80],
+	"less.lint.emptyRules": "ignore",
+	"prettier.tabWidth": 2,
+	"prettier.useTabs": true,
+	"prettier.semi": false,
+	"prettier.bracketSpacing": false,
+	"prettier.singleQuote": true,
+	"importSorter.generalConfiguration.sortOnBeforeSave": true,
+	"importSorter.importStringConfiguration.hasSemicolon": false,
+	"importSorter.importStringConfiguration.spacingPerImportExpression.afterStartingBracket": 0,
+	"importSorter.importStringConfiguration.spacingPerImportExpression.beforeEndingBracket": 0,
+	"importSorter.sortConfiguration.customOrderingRules.rules": [
+		{
+			"type": "importMember",
+			"regex": "^$",
+			"orderLevel": 10,
+			"disableSort": true
+		},
+		{
+			"regex": "^[@]",
+			"orderLevel": 20
+		}
+	],
+	"importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 80,
+	"importSorter.importStringConfiguration.tabSize": 2,
+	"importSorter.importStringConfiguration.tabType": "tab",
+	"importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimit"
 }

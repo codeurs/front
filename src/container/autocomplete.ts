@@ -1,6 +1,5 @@
-import {Children, VnodeDOM} from 'mithril'
-import scrollIntoView from 'scroll-into-view-if-needed'
-import {DOMAttrs, m} from '../hyperscript'
+import {ComponentChildren} from 'preact'
+import {DOMAttrs} from '../hyperscript'
 import {
 	AutocompleteAction,
 	AutocompleteChange,
@@ -19,7 +18,7 @@ export type AutocompleteApi<Item> = AutocompleteState<Item> & {
 
 export type AutocompleteRenderApi<Item> = (
 	api: AutocompleteApi<Item>
-) => Children
+) => ComponentChildren
 
 type ItemAttrs<Item> = {
 	item: Item
@@ -56,7 +55,7 @@ export class Autocomplete<Item> extends View<
 > {
 	static instanceCount = 0
 
-	state: AutocompleteStore<Item> = new AutocompleteStore()
+	defaultStore: AutocompleteStore<Item> = new AutocompleteStore()
 
 	private items: Array<Item> = []
 	private id = `autocomplete-${Autocomplete.instanceCount++}`
@@ -70,7 +69,7 @@ export class Autocomplete<Item> extends View<
 	private interacting = false
 
 	get store() {
-		return this.attrs.store || this.state
+		return this.attrs.store || this.defaultStore
 	}
 
 	onCreate(dom: HTMLElement) {
@@ -112,8 +111,7 @@ export class Autocomplete<Item> extends View<
 		})
 		const {selectedItem} = this.store
 		if (wasSelected != selectedItem) if (onselect) onselect(selectedItem)
-		if (async) m.redraw()
-		else (m.redraw as any).sync()
+		this.redraw()
 	}
 
 	// -- Input -------------------
@@ -173,12 +171,14 @@ export class Autocomplete<Item> extends View<
 			onkeydown: callHandlers(onkeydown, this.keyDown)
 		}
 		const selected = highlightedIndex === index
-		const scrollTo = selected && {
+		const scrollTo = {}
+		/*const scrollTo = selected && {
 			onupdate: (vnode: VnodeDOM) => {
 				if (this.avoidScrolling || !this.state.isOpen) return
 				scrollIntoView(vnode.dom, {behavior: 'smooth', scrollMode: 'if-needed'})
 			}
-		}
+		}*/
+		// todo: fix scrollto
 		return {
 			id: this.getItemId(index),
 			role: 'option',

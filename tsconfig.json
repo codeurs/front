@@ -16,7 +16,9 @@
 		"experimentalDecorators": true,
 		"stripInternal": true,
 		"lib": ["es2017", "dom"],
-		"typeRoots": ["./types", "./node_modules/@types"]
+		"typeRoots": ["./types", "./node_modules/@types"],
+		"jsx": "react",
+		"jsxFactory": "m"
 	},
 	"files": ["./src/index.ts"]
 }

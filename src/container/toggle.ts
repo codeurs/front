@@ -1,4 +1,4 @@
-import {Children} from 'mithril'
+import {ComponentChildren} from 'preact'
 import {View} from '../ui/view'
 
 export class Toggle extends View<{
@@ -7,7 +7,7 @@ export class Toggle extends View<{
 		value: boolean
 		toggle: () => boolean
 		set: (value: boolean) => boolean
-	}) => Children
+	}) => ComponentChildren
 }> {
 	value = !!this.attrs.defaultValue
 	render() {

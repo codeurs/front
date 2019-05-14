@@ -1,11 +1,12 @@
-import m, {Children} from 'mithril'
+import {ComponentChildren} from 'preact'
+import {m} from '../hyperscript'
 import {Breakpoint} from './breakpoint'
 import {View} from './view'
 
 export class MediaQuery extends View<{
 	minWidth?: number
 	maxWidth?: number
-	view: () => Children
+	view: () => ComponentChildren
 }> {
 	render() {
 		const {view, minWidth, maxWidth} = this.attrs
@@ -13,6 +14,14 @@ export class MediaQuery extends View<{
 		if (minWidth) rules.push(`(min-width: ${minWidth}px)`)
 		if (maxWidth) rules.push(`(max-width: ${maxWidth}px)`)
 		const query = rules.join(' and ')
-		return m(Breakpoint, {[query]: true}, (match: boolean) => match && view())
+		return (
+			<Breakpoint
+				{...{
+					[query]: true
+				}}
+			>
+				{((match: boolean) => match && view()) as any}
+			</Breakpoint>
+		)
 	}
 }

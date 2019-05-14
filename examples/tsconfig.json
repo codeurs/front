@@ -16,11 +16,11 @@
 		"outDir": "./dist/",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-    "resolveJsonModule": true,
+		"resolveJsonModule": true,
 		"downlevelIteration": true,
 		"jsx": "react",
 		"jsxFactory": "m",
-    "lib": ["es2017", "dom"]
+		"lib": ["es2017", "dom"]
 	},
-	"include": ["./src/**/*"]
+	"files": ["./src/custom.d.ts", "./src/index.tsx"]
 }

@@ -1,40 +1,21 @@
 import {ChildrenType} from 'hyperscript'
-import {
-	Children,
-	ClassComponent,
-	CVnode,
-	CVnodeDOM,
-	Vnode,
-	VnodeDOM
-} from 'mithril'
-import {extractChildren} from '../util/children'
+import {Component, FunctionComponent} from 'preact'
 
-declare global {
-	namespace JSX {
-		interface ElementAttributesProperty {
-			attrs: {}
-		}
-		interface ElementChildrenAttribute {
-			children: {}
-		}
-	}
-}
+export type StatelessView<P = {}> = FunctionComponent<P>
 
-export type StatelessView<Attr = {}> = {
-	(attr: {children?: Children} & Attr): Children
-}
+type Dom = Element | Text | undefined
 
-export abstract class View<Attrs = {}, Dom extends Element = Element>
-	implements ClassComponent<Attrs> {
-	attrs!: Readonly<{children?: Children}> & Readonly<Attrs>
-	dom: undefined | Dom
-
-	constructor(vnode: CVnode<Attrs>) {
-		this.__update(vnode as Vnode<Attrs, this>)
+export abstract class View<A = {}, S = {}> extends Component<A, S> {
+	get dom() {
+		return this.base
 	}
 
-	get children(): ChildrenType<Attrs> {
-		return this.attrs.children as ChildrenType<Attrs>
+	get attrs(): A {
+		return this.props
+	}
+
+	get children(): ChildrenType<A> {
+		return this.props.children as any
 	}
 
 	// Public API
@@ -42,59 +23,40 @@ export abstract class View<Attrs = {}, Dom extends Element = Element>
 	onInit() {}
 	onCreate(dom: Dom) {}
 	onUpdate(dom: Dom) {}
-	onBeforeRemove(dom: Dom): void | Promise<any> {}
 	onRemove() {}
-	onBeforeUpdate(attrs: Attrs): void | boolean {}
-	abstract render(): Children | null | void
+	onBeforeUpdate(
+		nextAttrs: Readonly<A>,
+		nextState: Readonly<S>
+	): void | boolean {}
 
-	// Mithril connection
+	// Preact connection
 
-	/** @internal */
-	oninit(vnode: Vnode<Attrs, this>) {
-		this.__update(vnode)
-		return this.onInit()
+	redraw = () => this.setState({})
+
+	constructor(attrs?: A, context?: any) {
+		super(attrs, context)
+		this.onInit()
 	}
 
-	/** @internal */
-	oncreate(vnode: VnodeDOM<Attrs, this>) {
-		this.__update(vnode)
-		return this.onCreate(vnode.dom as Dom)
+	componentDidMount() {
+		this.onCreate(this.dom)
 	}
 
-	/** @internal */
-	onupdate(vnode: VnodeDOM<Attrs, this>) {
-		this.__update(vnode)
-		return this.onUpdate(vnode.dom as Dom)
+	componentDidUpdate() {
+		this.onUpdate(this.dom)
 	}
 
-	/** @internal */
-	onbeforeremove(vnode: VnodeDOM<Attrs, this>) {
-		this.__update(vnode)
-		return this.onBeforeRemove(vnode.dom as Dom)
+	componentWillUnmount() {
+		this.onRemove()
 	}
 
-	/** @internal */
-	onremove(vnode: VnodeDOM<Attrs, this>) {
-		this.__update(vnode)
-		return this.onRemove()
-	}
-
-	/** @internal */
-	onbeforeupdate(vnode: Vnode<Attrs, this>, old: CVnodeDOM<Attrs>) {
-		this.__update(vnode)
-		return this.onBeforeUpdate(old.attrs)
-	}
-
-	view(vnode: Vnode<Attrs, this>) {
-		return this.render()
-	}
-
-	/** @internal */
-	__update(vnode: Vnode<Attrs, this> | VnodeDOM<Attrs, this>) {
-		if ('dom' in vnode && vnode.dom) this.dom = vnode.dom as Dom
-		this.attrs = {
-			...vnode.attrs,
-			children: extractChildren(vnode.children)
-		}
+	shouldComponentUpdate(
+		nextAttrs: Readonly<A>,
+		nextState: Readonly<S>,
+		nextContext: any
+	): boolean {
+		const res = this.onBeforeUpdate(nextAttrs, nextState)
+		if (res === false) return false
+		return true
 	}
 }
