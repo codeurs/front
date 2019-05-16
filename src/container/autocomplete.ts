@@ -2,10 +2,7 @@ import {Children, VnodeDOM} from 'mithril'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import {DOMAttrs, m} from '../hyperscript'
 import {
-	AutocompleteAction,
-	AutocompleteChange,
-	AutocompleteState,
-	AutocompleteStore
+	AutocompleteAction, AutocompleteChange, AutocompleteState, AutocompleteStore
 } from '../store/autocompletestore'
 import {View} from '../ui/view'
 
@@ -52,11 +49,12 @@ export class Autocomplete<Item> extends View<
 		itemToString?: (item: Item) => string
 		children: AutocompleteRenderApi<Item>
 	},
+	{},
 	HTMLElement
 > {
 	static instanceCount = 0
 
-	state: AutocompleteStore<Item> = new AutocompleteStore()
+	defaultStore: AutocompleteStore<Item> = new AutocompleteStore()
 
 	private items: Array<Item> = []
 	private id = `autocomplete-${Autocomplete.instanceCount++}`
@@ -70,7 +68,7 @@ export class Autocomplete<Item> extends View<
 	private interacting = false
 
 	get store() {
-		return this.attrs.store || this.state
+		return this.attrs.store || this.defaultStore
 	}
 
 	onCreate(dom: HTMLElement) {
@@ -175,7 +173,7 @@ export class Autocomplete<Item> extends View<
 		const selected = highlightedIndex === index
 		const scrollTo = selected && {
 			onupdate: (vnode: VnodeDOM) => {
-				if (this.avoidScrolling || !this.state.isOpen) return
+				if (this.avoidScrolling || !this.store.isOpen) return
 				scrollIntoView(vnode.dom, {behavior: 'smooth', scrollMode: 'if-needed'})
 			}
 		}

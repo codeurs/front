@@ -1,11 +1,6 @@
 import {ChildrenType} from 'hyperscript'
 import {
-	Children,
-	ClassComponent,
-	CVnode,
-	CVnodeDOM,
-	Vnode,
-	VnodeDOM
+	Children, ClassComponent, CVnode, CVnodeDOM, Vnode, VnodeDOM
 } from 'mithril'
 import {extractChildren} from '../util/children'
 
@@ -24,9 +19,13 @@ export type StatelessView<Attr = {}> = {
 	(attr: {children?: Children} & Attr): Children
 }
 
-export abstract class View<Attrs = {}, Dom extends Element = Element>
-	implements ClassComponent<Attrs> {
+export abstract class View<
+	Attrs = {},
+	State extends {} = {},
+	Dom extends Element = Element
+> implements ClassComponent<Attrs> {
 	attrs!: Readonly<{children?: Children}> & Readonly<Attrs>
+	state?: Readonly<State>
 	dom: undefined | Dom
 
 	constructor(vnode: CVnode<Attrs>) {
@@ -46,6 +45,24 @@ export abstract class View<Attrs = {}, Dom extends Element = Element>
 	onRemove() {}
 	onBeforeUpdate(attrs: Attrs): void | boolean {}
 	abstract render(): Children | null | void
+
+	// Future (p)react connection
+
+	setState<K extends keyof State>(
+		state:
+			| ((
+					prevState: Readonly<State> | undefined,
+					attrs: Readonly<{children?: Children}> & Readonly<Attrs>
+			  ) => Pick<State, K> | State | null)
+			| (Pick<State, K> | State | null),
+		callback?: () => void
+	) {
+		if (state === null) return
+		if (typeof state === 'function')
+			Object.assign(this.state, (state as any)(this.state, this.attrs))
+		else Object.assign(this.state, state)
+		if (callback) callback()
+	}
 
 	// Mithril connection
 

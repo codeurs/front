@@ -38,7 +38,7 @@ export type ImageAttrs = {
 	background?: boolean
 } & DOMAttrs
 
-class ImageBase extends View<ImageAttrs, HTMLImageElement> {
+class ImageBase extends View<ImageAttrs, {}, HTMLImageElement> {
 	loader?: typeof BrowserImage
 
 	onCreate() {
@@ -164,7 +164,7 @@ export class ImageResizer extends View<{
 	}
 }
 
-export class Image extends View<ImageAttrs, HTMLElement> {
+export class Image extends View<ImageAttrs, {}, HTMLElement> {
 	cached: undefined | string
 	resolved: undefined | ImageAttrs
 	render() {
