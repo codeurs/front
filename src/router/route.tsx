@@ -1,4 +1,3 @@
-import {AnyComponent, ComponentChildren} from 'preact'
 import {m} from '../hyperscript'
 import {View} from '../ui/view'
 import {Match} from './parseroute'

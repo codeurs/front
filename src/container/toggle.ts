@@ -1,4 +1,4 @@
-import {ComponentChildren} from 'preact'
+import {Children} from '../hyperscript'
 import {View} from '../ui/view'
 
 export class Toggle extends View<{
@@ -7,7 +7,7 @@ export class Toggle extends View<{
 		value: boolean
 		toggle: () => boolean
 		set: (value: boolean) => boolean
-	}) => ComponentChildren
+	}) => Children
 }> {
 	value = !!this.attrs.defaultValue
 	render() {

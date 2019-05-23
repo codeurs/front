@@ -1,10 +1,9 @@
-import {ComponentChildren} from 'preact'
-import {m} from '../hyperscript'
+import {Children} from '../hyperscript'
 import {View} from './view'
 
 export class Breakpoint<T> extends View<
 	{
-		children: (attrs: T) => ComponentChildren
+		children: (attrs: T) => Children
 	} & {
 		[breakpoint: string]: T
 	}

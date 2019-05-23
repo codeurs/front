@@ -1,5 +1,5 @@
-import {ComponentChildren, VNode} from 'preact'
-import {m} from '../hyperscript'
+import {VNode} from 'preact'
+import {Children, m} from '../hyperscript'
 import {View} from '../ui/view'
 import {Route, RouteAttrs} from './route'
 import {Location, RouterContext} from './router'
@@ -14,7 +14,7 @@ export class Switch extends View<{
 				{(location: RouterContext) => {
 					for (const child of children) {
 						const props = child!.props! as RouteAttrs & {
-							children: ComponentChildren
+							children: Children
 						}
 						if (child.type !== Route)
 							throw `Unexpected child type "${child.type}", expected "Route"`

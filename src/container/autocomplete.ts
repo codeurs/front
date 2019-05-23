@@ -1,5 +1,4 @@
-import {ComponentChildren} from 'preact'
-import {DOMAttrs} from '../hyperscript'
+import {Children, DOMAttrs} from '../hyperscript'
 import {
 	AutocompleteAction,
 	AutocompleteChange,
@@ -18,7 +17,7 @@ export type AutocompleteApi<Item> = AutocompleteState<Item> & {
 
 export type AutocompleteRenderApi<Item> = (
 	api: AutocompleteApi<Item>
-) => ComponentChildren
+) => Children
 
 type ItemAttrs<Item> = {
 	item: Item

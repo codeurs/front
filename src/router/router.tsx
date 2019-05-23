@@ -1,7 +1,6 @@
-import {ComponentChildren, FunctionComponent} from 'preact'
-import {m} from '../hyperscript'
+import {Children, m} from '../hyperscript'
 import {createContext} from '../ui/context'
-import {View} from '../ui/view'
+import {StatelessView, View} from '../ui/view'
 import {Match, parseRoute} from './parseroute'
 import {RouteAttrs} from './route'
 
@@ -38,8 +37,8 @@ export type RouterContext = LocationData &
 
 const {Provider, Consumer} = createContext<undefined | RouterContext>(undefined)
 
-export const Location: FunctionComponent<{
-	children?: (location: RouterContext) => ComponentChildren
+export const Location: StatelessView<{
+	children?: (location: RouterContext) => Children
 }> = ({children}) => (
 	<Consumer>
 		{(location: undefined | RouterContext) =>

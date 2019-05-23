@@ -1,12 +1,11 @@
-import {ComponentChildren} from 'preact'
-import {m} from '../hyperscript'
+import {Children, m} from '../hyperscript'
 import {Breakpoint} from './breakpoint'
 import {View} from './view'
 
 export class MediaQuery extends View<{
 	minWidth?: number
 	maxWidth?: number
-	view: () => ComponentChildren
+	view: () => Children
 }> {
 	render() {
 		const {view, minWidth, maxWidth} = this.attrs

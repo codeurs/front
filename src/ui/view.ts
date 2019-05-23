@@ -1,5 +1,5 @@
-import {ChildrenType} from 'hyperscript'
 import {Component, FunctionComponent} from 'preact'
+import {ChildrenType} from '../hyperscript'
 
 export type StatelessView<P = {}> = FunctionComponent<P>
 
@@ -33,8 +33,7 @@ export abstract class View<A = {}, S = {}> extends Component<A, S> {
 
 	redraw = () => this.setState({})
 
-	constructor(attrs?: A, context?: any) {
-		super(attrs, context)
+	componentWillMount() {
 		this.onInit()
 	}
 

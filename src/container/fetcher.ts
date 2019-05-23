@@ -1,7 +1,7 @@
 import deepEqual from 'deep-equal'
 import {RequestOptions} from 'mithril'
 import requestService from 'mithril/request'
-import {ComponentChildren} from 'preact'
+import {Children} from '../hyperscript'
 import {View} from '../ui/view'
 
 export type FetcherState<T> = {
@@ -10,65 +10,99 @@ export type FetcherState<T> = {
 	error?: Error
 }
 
-export type FetcherRender<T> = (state: FetcherState<T>) => ComponentChildren
+export type FetcherRender<T> = (state: FetcherState<T>) => Children
 
 type RequestData<T> = {
 	url: string
+	cache?: Cache
 	hydrate?: T
-	cache?: any
-	setCache?: (cache: any) => void
 } & RequestOptions<T>
 
-export class Fetcher<T> extends View<
-	RequestData<T> & {children: FetcherRender<T>}
-> {
-	isLoading = false
-	error?: Error
-	data?: T
-	transport?: XMLHttpRequest
+type FetcherPrivateState<T> = FetcherState<T> & {
+	hydrated: boolean
 	cache?: RequestData<T>
-	hydrated = false
+}
 
-	onInit = this.load
-	onBeforeUpdate = this.load
+type Cache = {
+	data?: any
+	error?: Error
+	isLoading: boolean
+	transport?: XMLHttpRequest
+	hydrated?: boolean
+	req?: any
+	callbacks: Set<Function>
+}
+
+export const createFetcherCache = () => ({
+	data: undefined,
+	error: undefined,
+	req: undefined,
+	isLoading: true,
+	callbacks: new Set(),
+	render() {
+		this.callbacks.forEach(f => f())
+	},
+	clear() {
+		this.data = undefined
+		this.error = undefined
+		this.req = undefined
+		this.isLoading = false
+	}
+})
+
+export class Fetcher<T> extends View<
+	RequestData<T> & {children: FetcherRender<T>},
+	FetcherPrivateState<T>
+> {
+	cache: Cache = createFetcherCache()
+
+	onInit() {
+		const {children, hydrate, cache = this.cache, ...req} = this.attrs
+		if (hydrate && !cache.hydrated) {
+			cache.data = hydrate
+			cache.hydrated = true
+			cache.isLoading = false
+			cache.req = req
+		}
+	}
+
+	onCreate = this.load
+	onUpdate = this.load
+
+	onRemove() {
+		const {cache = this.cache} = this.attrs
+		cache.callbacks.delete(this.redraw)
+	}
 
 	load() {
-		const {
-			cache = this.cache,
-			setCache = (cache: any) => (this.cache = cache),
-			children,
-			hydrate,
-			...req
-		} = this.attrs
-		if (hydrate && !this.hydrated) {
-			this.data = hydrate
-			this.hydrated = true
-			setCache(req)
+		const {children, hydrate, cache = this.cache, ...req} = this.attrs
+		if (deepEqual(cache.req, req)) {
+			if (cache.isLoading) cache.callbacks.add(this.redraw)
+			return
 		}
-		if (deepEqual(cache, req)) return
-		setCache(req)
-		this.isLoading = true
-		this.onRemove()
+		cache.req = req
+		cache.callbacks.add(this.redraw)
+		cache.isLoading = true
 		requestService
 			.request({
 				...req,
-				config: xhr => (this.transport = xhr)
+				config: xhr => (cache.transport = xhr)
 			})
-			.then(data => (this.data = data as T))
-			.catch(e => console.error((this.error = e)))
-			.then(() => (this.isLoading = false))
-			.then(this.redraw)
-	}
-
-	onRemove() {
-		if (this.transport) this.transport = void this.transport.abort()
+			.then(data => {
+				cache.data = data
+			})
+			.catch(error => {
+				console.error(error)
+				cache.error = error
+			})
+			.then(() => {
+				cache.isLoading = false
+				cache.callbacks.forEach(f => f())
+			})
 	}
 
 	render() {
-		return this.children({
-			isLoading: this.isLoading,
-			data: this.data,
-			error: this.error
-		})
+		const {cache = this.cache} = this.attrs
+		return this.children(cache)
 	}
 }
