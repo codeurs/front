@@ -85,7 +85,7 @@
 		"mithril": "^1.1.6",
 		"object-to-formdata": "codeurs/object-to-formdata",
 		"popmotion": "^8.6.4",
-		"preact": "^10.0.0-beta.1",
+		"preact": "^10.0.0-beta.2",
 		"scroll-into-view-if-needed": "^2.2.20",
 		"throttle-debounce": "^2.1.0",
 		"tslib": "^1.9.3"

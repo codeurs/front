@@ -6,6 +6,7 @@ import {
 	HistoryRouter,
 	Image,
 	ImageResizer,
+	lazy,
 	Link,
 	m,
 	Modal,
@@ -19,7 +20,8 @@ import {
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
 import {render} from 'preact'
-import Slider from './views/sliderpage'
+
+const Slider = lazy(() => import('./views/sliderpage'))
 
 //import Autocomplete from 'views/autocomplete'
 //const Map = lazy(() => import('./views/map'))
@@ -125,7 +127,6 @@ class Examples extends View {
 											<Link to="/autocomplete">Autocomplete</Link>
 											<Link to="/modal">Modal</Link>
 											<Link to="/images">Images</Link>
-											<Link to="/maps">Maps</Link>
 											<Link to="/back">Back home</Link>
 										</div>
 										<Switch>
@@ -141,7 +142,6 @@ class Examples extends View {
 												)}
 											</Route>
 											<Route path="/modal">{ModalExample}</Route>
-											<Route path="/maps">{Map}</Route>
 											<Route>
 												{() => (
 													<Breakpoint

@@ -1,4 +1,4 @@
-import {Component, FunctionComponent} from 'preact'
+import {Component, FunctionComponent, RenderableProps} from 'preact'
 import {ChildrenType} from '../hyperscript'
 
 export type StatelessView<P = {}> = FunctionComponent<P>
@@ -10,7 +10,7 @@ export abstract class View<A = {}, S = {}> extends Component<A, S> {
 		return this.base
 	}
 
-	get attrs(): A {
+	get attrs(): RenderableProps<A> {
 		return this.props
 	}
 

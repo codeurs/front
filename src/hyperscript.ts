@@ -1,4 +1,5 @@
 import {
+	Attributes,
 	ComponentChildren,
 	ComponentType as ComponentTypePreact,
 	createElement,
@@ -6,12 +7,9 @@ import {
 } from 'preact'
 import {ComponentType as ComponentTypeReact} from 'react'
 
-type Key = string | number | any
-
-interface Attributes {
-	key?: Key
-	jsx?: boolean
-}
+export type ComponentType<P = {}> =
+	| ComponentTypeReact<P>
+	| ComponentTypePreact<P>
 
 type Hyperscript = {
 	(
@@ -20,12 +18,7 @@ type Hyperscript = {
 		...children: Array<ComponentChildren>
 	): ComponentChildren
 	<P>(
-		type: ComponentTypePreact<P>,
-		props: Attributes & P | null,
-		...children: Array<ComponentChildren>
-	): ComponentChildren
-	<P>(
-		type: ComponentTypeReact<P>,
+		type: ComponentType<P>,
 		props: Attributes & P | null,
 		...children: Array<ComponentChildren>
 	): ComponentChildren
