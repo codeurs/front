@@ -19,7 +19,7 @@ import {
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
-import {render} from 'preact'
+import {h, render} from 'preact'
 
 const Slider = lazy(() => import('./views/sliderpage'))
 
@@ -83,6 +83,7 @@ const Images = ({children}) => (
 		<div class="images-landscape" style={{width: '400px', height: 'auto'}}>
 			<ImageResizer
 				resize={(attrs, container) => {
+					console.log(attrs, container)
 					return {...attrs}
 				}}
 			>

@@ -50,7 +50,7 @@ export class Picture extends View<
 				}}
 			>
 				<Image
-					upScale={true}
+					upScale
 					position={position}
 					style={{display: inline && 'inline'}}
 					{...classes('picture', className)}

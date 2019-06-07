@@ -38,7 +38,7 @@ export type ImageAttrs = {
 	background?: boolean
 } & DOMAttrs
 
-class ImageBase extends View<ImageAttrs, HTMLImageElement> {
+class ImageBase extends View<ImageAttrs> {
 	loader?: typeof BrowserImage
 
 	onCreate() {
@@ -170,9 +170,17 @@ export class ImageResizer extends View<{
 	}
 }
 
-export class Image extends View<ImageAttrs, HTMLElement> {
+export class Image extends View<ImageAttrs> {
 	cached: undefined | string
 	resolved: undefined | ImageAttrs
+	resolve?: (dom: HTMLElement) => void
+
+	onCreate(dom: HTMLElement) {
+		if (!dom || !this.resolve) return
+		this.resolve(dom)
+		this.redraw()
+	}
+
 	render() {
 		const {
 			children,
@@ -194,7 +202,7 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 			<ImageResizerContext.Consumer>
 				{(resize: Resizer | undefined) => {
 					if (!resize) return <ImageBase {...this.attrs}>{children}</ImageBase>
-					const resolve = (dom: HTMLElement) => {
+					this.resolve = (dom: HTMLElement) => {
 						this.resolved = resize(this.attrs, {
 							width: dom.offsetWidth,
 							height: dom.offsetHeight
@@ -203,20 +211,11 @@ export class Image extends View<ImageAttrs, HTMLElement> {
 					}
 					if (!this.dom)
 						return (
-							<div
-								{...{
-									...addClasses(rest, 'image', {mod: {crop}}),
-									ref: dom => {
-										if (!dom) return
-										resolve(dom as HTMLElement)
-										this.redraw()
-									}
-								}}
-							>
+							<div {...addClasses(rest, 'image', {mod: {crop}})}>
 								{children}
 							</div>
 						)
-					if (this.cached !== src) resolve(this.dom as HTMLElement)
+					if (this.cached !== src) this.resolve(this.dom as HTMLElement)
 					return (
 						this.resolved && (
 							<ImageBase {...this.resolved}>{children}</ImageBase>
