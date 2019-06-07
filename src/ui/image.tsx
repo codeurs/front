@@ -1,6 +1,6 @@
 import './image.less'
 
-import {createContext, h} from 'preact'
+import {createContext} from 'preact'
 import {DOMAttrs, m} from '../hyperscript'
 import {addClasses} from '../util/classes'
 import {contain, cover} from '../util/fit'
