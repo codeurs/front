@@ -42,7 +42,7 @@ export default class SliderPage extends View {
 									'sliderpage-slide ' +
 									(this.carousel.isActive(i) ? 'is-active' : '')
 								}
-								style={{'min-width': this.state.width * 100 + '%'}}
+								style={{minWidth: this.state.width * 100 + '%'}}
 							>
 								{slide}
 								<a
@@ -67,7 +67,7 @@ export default class SliderPage extends View {
 						{...[1, 2, 3, 4, 5, 6, 7].map((slide, i) => (
 							<div
 								class="sliderpage-slide is-active"
-								style={{'min-width': '33.33333%'}}
+								style={{minWidth: '33.33333%'}}
 							>
 								{slide}
 								<a

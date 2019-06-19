@@ -1,16 +1,14 @@
-import {Component, FunctionComponent, RenderableProps} from 'preact'
+import {Component} from 'react'
 import {ChildrenType} from '../hyperscript'
-
-export type StatelessView<P = {}> = FunctionComponent<P>
 
 type Dom = Element | Text | undefined
 
 export abstract class View<A = {}, S = {}> extends Component<A, S> {
-	get dom() {
-		return this.base
+	get dom(): Element {
+		return (this as any).base
 	}
 
-	get attrs(): RenderableProps<A> {
+	get attrs(): Readonly<A> & Readonly<{children?: ChildrenType<A>}> {
 		return this.props
 	}
 

@@ -1,6 +1,6 @@
-import {Children, m} from '../hyperscript'
+import {Children, m, StatelessView} from '../hyperscript'
 import {createContext} from '../ui/context'
-import {StatelessView, View} from '../ui/view'
+import {View} from '../ui/view'
 import {Match, parseRoute} from './parseroute'
 import {RouteAttrs} from './route'
 

@@ -1,6 +1,5 @@
 import {Component} from 'preact'
-import {m} from '../hyperscript'
-import {StatelessView} from '../ui/view'
+import {m, StatelessView} from '../hyperscript'
 
 /*export function wrap<L extends {}, T extends Component<{}>>(
 	layout: Component<Partial<L>>,

@@ -1,11 +1,11 @@
-import {VNode} from 'preact'
+import {ReactElement} from 'react'
 import {Children, m} from '../hyperscript'
 import {View} from '../ui/view'
 import {Route, RouteAttrs} from './route'
 import {Location, RouterContext} from './router'
 
 export class Switch extends View<{
-	children: Array<VNode<RouteAttrs>>
+	children: Array<ReactElement<RouteAttrs>>
 }> {
 	render() {
 		const {children} = this.attrs

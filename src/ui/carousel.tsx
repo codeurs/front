@@ -252,16 +252,10 @@ export class Carousel extends View<
 
 	render() {
 		const {overflow, unstyled, className} = this.attrs
+		const style = !(overflow || unstyled) ? {overflow: 'hidden'} : {}
 		return (
-			<div
-				className="carousel"
-				style={{overflow: !(overflow || unstyled) && 'hidden'}}
-				class={className}
-			>
-				<div
-					class="carousel-content"
-					onDragStart={(e: Event) => e.preventDefault()}
-				>
+			<div className="carousel" style={style} class={className}>
+				<div class="carousel-content" onDragStart={e => e.preventDefault()}>
 					{this.children}
 				</div>
 			</div>

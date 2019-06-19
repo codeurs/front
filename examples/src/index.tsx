@@ -19,7 +19,7 @@ import {
 } from '@codeurs/front'
 import testImage from 'assets/test.jpg'
 import svgImage from 'assets/test.svg'
-import {h, render} from 'preact'
+import {render} from 'preact'
 
 const Slider = lazy(() => import('./views/sliderpage'))
 

@@ -1,6 +1,6 @@
 {
 	"name": "@codeurs/front",
-	"version": "1.0.0-alpha.4",
+	"version": "1.0.0-alpha.6",
 	"description": "Collection of mithril utilities and components",
 	"sideEffects": false,
 	"module": "dist/index.js",
@@ -72,7 +72,7 @@
 		"@types/classnames": "^2.2.6",
 		"@types/deep-equal": "^1.0.1",
 		"@types/mithril": "^1.1.16",
-		"@types/react": "^16.8.19",
+		"@types/react": "codeurs/prt",
 		"@types/throttle-debounce": "^1.1.1",
 		"classnames": "^2.2.5",
 		"core-js": "^3.0.1",

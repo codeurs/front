@@ -29,7 +29,7 @@ export class Masonry extends View<{
 					<div
 						class="masonry-col"
 						style={{
-							'flex-basis': 100 / cols.length + '%'
+							flexBasis: 100 / cols.length + '%'
 						}}
 					>
 						{children.map((item, j) => (
