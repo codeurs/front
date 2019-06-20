@@ -1,1 +1,1 @@
-export {createContext} from 'preact'
+export {createContext} from 'react'
