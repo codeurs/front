@@ -1,7 +1,6 @@
-import {ReactNode} from 'react'
+import {createElement, ReactNode} from 'react'
 
 export {
-	createElement as m,
 	Attributes,
 	ComponentType,
 	FunctionComponent,
@@ -15,3 +14,9 @@ export type Children = Array<ReactNode> | ReactNode
 export type ChildrenType<A> = A extends {children?: any}
 	? A['children']
 	: Children
+
+export const m: typeof createElement = ((type: any, ...args: Array<any>) => {
+	const vnode = createElement(type, ...args)
+	if (vnode.props.class) vnode.props.class = String(vnode.props.class)
+	return vnode
+}) as any
