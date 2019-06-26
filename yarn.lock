@@ -852,10 +852,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@codeurs/packer@^0.14.3":
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/@codeurs/packer/-/packer-0.14.3.tgz#0e5ede87a8de7f5750bfbb37a5d9f34ced9a4281"
-  integrity sha512-zNlwJhiPn5442wS3ye8ao8fhLDccFoWQ6UCmrGDz+qFdZ1AC85BZ/hFPVCWEL5B8bPluJF7/DjRGuudKAaB0og==
+"@codeurs/packer@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@codeurs/packer/-/packer-0.15.0.tgz#6d7e0bb3b4cf54a1ece7567d1a1efcf29b9c6d49"
+  integrity sha512-MGOvPsOMEJn8YufjrhE4m/0isdz5U9ih4+zFO6myu1dAHkKoxQ3/PgRIPxTBWJ3uq7GWkCmqlhqhDt0yeRLvEQ==
   dependencies:
     "@babel/core" "^7.4.3"
     "@babel/plugin-proposal-class-properties" "^7.4.0"
@@ -875,6 +875,7 @@
     extract-text-webpack-plugin "^3.0.2"
     file-loader "^3.0.1"
     fork-ts-checker-webpack-plugin "^1.2.0"
+    fstream "^1.0.12"
     happypack "^5.0.1"
     less "^3.9.0"
     less-loader "^4.1.0"
@@ -1057,7 +1058,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.27.tgz#eb3843f15d0ba0986cc7e4d734d2ee8b50709ef8"
   integrity sha512-e9wgeY6gaY21on3ve0xAjgBVjGDWq/xUteK0ujsE53bUoxycMkqfnkUgMt6ffZtykZ5X12Mg3T7Pw4TRCObDKg==
 
-"@types/prop-types@^15.7.1":
+"@types/prop-types@*":
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
@@ -1067,11 +1068,19 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
-"@types/react@codeurs/prt":
-  version "0.0.0"
-  resolved "https://codeload.github.com/codeurs/prt/tar.gz/be5a50600bd6b50d940e2cbf738ea2cac605983e"
+"@types/react-dom@^16.8.4":
+  version "16.8.4"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.4.tgz#7fb7ba368857c7aa0f4e4511c4710ca2c5a12a88"
+  integrity sha512-eIRpEW73DCzPIMaNBDP5pPIpK1KXyZwNgfxiVagb5iGiz6da+9A5hslSX6GAQKdO7SayVCS/Fr2kjqprgAvkfA==
   dependencies:
-    "@types/prop-types" "^15.7.1"
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.8.22":
+  version "16.8.22"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.22.tgz#7f18bf5ea0c1cad73c46b6b1c804a3ce0eec6d54"
+  integrity sha512-C3O1yVqk4sUXqWyx0wlys76eQfhrQhiDhDlHBrjER76lR2S2Agiid/KpOU9oCqj1dISStscz7xXz1Cg8+sCQeA==
+  dependencies:
+    "@types/prop-types" "*"
     csstype "^2.2.0"
 
 "@types/tapable@*", "@types/tapable@^1.0.4":
@@ -3777,7 +3786,7 @@ fsevents@^1.2.3, fsevents@^1.2.7:
     nan "^2.9.2"
     node-pre-gyp "^0.10.0"
 
-fstream@^1.0.0, fstream@^1.0.2:
+fstream@^1.0.0, fstream@^1.0.12, fstream@^1.0.2:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/fstream/-/fstream-1.0.12.tgz#4e8ba8ee2d48be4f7d0de505455548eae5932045"
   integrity sha512-WvJ193OHa0GHPEL+AycEJgxvBEwyfRkN1vhjca23OaPVMCaLCXTd5qAu82AjTcgP1UJmytkOKb63Ypde7raDIg==
@@ -7087,10 +7096,10 @@ postcss@^7.0.6:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-preact@^10.0.0-beta.2:
-  version "10.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.0.0-beta.2.tgz#659b6520eb41d5a3d178a61b3311e6ae79d8cf56"
-  integrity sha512-sKu2tdECRcmG8B2Q0GIAhTR95PhaWy15RkYFgpzfkEQLo7qqnE5lYQO2ccHNTfwuzj0LVPRdG71s5QjhnRyVbQ==
+preact@^10.0.0-beta.3:
+  version "10.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.0.0-beta.3.tgz#dabd0628d941f9e7908f68bb008e012ddff1b28f"
+  integrity sha512-JDeA+CVFBlv+r+v/tScG8hzOcOedXfBLUA5IhStqpfc7rPGY3T85pdlu4aGo2tV0AoZzQfO4LTnKkQEnKJ3UxQ==
 
 prelude-ls@~1.1.2:
   version "1.1.2"

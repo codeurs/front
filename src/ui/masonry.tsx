@@ -1,15 +1,15 @@
 import './masonry.less'
 
-import {ComponentChild} from 'preact'
+import {ReactNode} from 'react'
 import {m} from '../hyperscript'
 import {View} from './view'
 
 export class Masonry extends View<{
 	cols: number
-	children: Array<ComponentChild>
+	children: Array<ReactNode>
 }> {
-	divide(items: Array<ComponentChild>, colsCount: number) {
-		const cols: Array<Array<ComponentChild>> = Array(colsCount)
+	divide(items: Array<ReactNode>, colsCount: number) {
+		const cols: Array<Array<ReactNode>> = Array(colsCount)
 			.fill(null)
 			.map(_ => [])
 		items.forEach((item, i) => {

@@ -17,6 +17,21 @@ export type ChildrenType<A> = A extends {children?: any}
 
 export const m: typeof createElement = ((type: any, ...args: Array<any>) => {
 	const vnode = createElement(type, ...args)
-	if (vnode.props.class) vnode.props.class = String(vnode.props.class)
+	if (typeof vnode.props.class === 'function')
+		vnode.props.class = String(vnode.props.class)
 	return vnode
 }) as any
+
+declare module 'react' {
+	interface DOMAttributes<T> {
+		class?: string | {toString(): string}
+	}
+}
+
+declare global {
+	namespace JSX {
+		interface IntrinsicAttributes {
+			class?: string | {toString(): string}
+		}
+	}
+}

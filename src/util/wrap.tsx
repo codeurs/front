@@ -1,4 +1,3 @@
-import {Component} from 'preact'
 import {m, StatelessView} from '../hyperscript'
 
 /*export function wrap<L extends {}, T extends Component<{}>>(
