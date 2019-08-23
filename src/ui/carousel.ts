@@ -1,5 +1,4 @@
 import './carousel.less'
-
 // We polyfill these as they're used in popmotion. Babel runtime transform
 // doesn't pick these up if they're in in an external lib like this one
 // (I think).
@@ -40,6 +39,7 @@ export type CarouselAttrs = {
 	tug?: number
 	power?: number
 	overflow?: boolean
+	draggable?: boolean
 	// Backwards compatibility
 	unstyled?: boolean
 	connect?: (instance: Carousel) => void
@@ -73,56 +73,69 @@ export class Carousel extends View<
 	}
 
 	onCreate() {
+		const {draggable = true} = this.attrs
 		this.onUpdate()
+		
 		const contentStyler = styler(this.content)
 		const clearSubscription = this.offset.subscribe((offset: number) => {
 			contentStyler.set('x', offset)
 		}).unsubscribe
 
-		const snapToPoint = (start: number) => {
-			const {snapTo = 'pages', power = 0.25} = this.attrs
-			const snaps = this.snaps[snapTo]
-			const from = this.x
-			const velocity = this.offset.getVelocity()
-			const distance = from - start
-			const amplitude = power * velocity
-			const idealTarget = Math.round(from + amplitude)
-			const snap = closest(snaps, -idealTarget)
-			this.preventClick = Math.abs(distance) > 1
-			this.spring(snap)
-		}
+		let clearDraggable = clearSubscription
 
-		let clearTrack = () => {}
-
-		const clearMove = listen(this.dom, 'mousedown touchstart').start(
-			(event: MouseEvent | TouchEvent) => {
-				const start = this.x
-				if (event instanceof MouseEvent && event.which !== 1) return
-				this.preventClick = false
-				clearTrack = pointer({
-					x: start,
-					preventDefault: false
-				})
-					.pipe(
-						(pos: {x: number}) => pos.x,
-						this.overDrag
-					)
-					.start(this.offset).stop
-				listen(document, 'mouseup touchend', {once: true}).start(() =>
-					snapToPoint(start)
-				)
+		if (draggable) {
+			const snapToPoint = (start: number) => {
+				const {snapTo = 'pages', power = 0.25} = this.attrs
+				const snaps = this.snaps[snapTo]
+				const from = this.x
+				const velocity = this.offset.getVelocity()
+				const distance = from - start
+				const amplitude = power * velocity
+				const idealTarget = Math.round(from + amplitude)
+				const snap = closest(snaps, -idealTarget)
+				this.preventClick = Math.abs(distance) > 1
+				this.spring(snap)
 			}
-		).stop
 
-		const onClick = (e: MouseEvent) => {
-			if (!this.preventClick) return clearTrack()
-			e.stopPropagation()
-			e.preventDefault()
+			let clearTrack = () => {}
+
+			const clearMove = listen(this.dom, 'mousedown touchstart').start(
+				(event: MouseEvent | TouchEvent) => {
+					const start = this.x
+					if (event instanceof MouseEvent && event.which !== 1) return
+					this.preventClick = false
+					clearTrack = pointer({
+						x: start,
+						preventDefault: false
+					})
+						.pipe(
+							(pos: {x: number}) => pos.x,
+							this.overDrag
+						)
+						.start(this.offset).stop
+					listen(document, 'mouseup touchend', {once: true}).start(() =>
+						snapToPoint(start)
+					)
+				}
+			).stop
+
+			const onClick = (e: MouseEvent) => {
+				if (!this.preventClick) return clearTrack()
+				e.stopPropagation()
+				e.preventDefault()
+			}
+			
+			this.dom.addEventListener('click', onClick, true)
+			const clearClick = () =>
+				this.dom.removeEventListener('click', onClick, true)
+			
+			clearDraggable = () => {
+				clearSubscription()
+				clearMove()
+				clearTrack()
+				clearClick()
+			}
 		}
-
-		this.dom.addEventListener('click', onClick, true)
-		const clearClick = () =>
-			this.dom.removeEventListener('click', onClick, true)
 
 		this.dom.addEventListener('wheel', this.onWheel)
 		const clearWheel = () => this.dom.removeEventListener('wheel', this.onWheel)
@@ -132,10 +145,7 @@ export class Carousel extends View<
 			window.removeEventListener('resize', this.onResize)
 
 		this.onRemove = () => {
-			clearSubscription()
-			clearMove()
-			clearTrack()
-			clearClick()
+			clearDraggable()
 			clearWheel()
 			clearResize()
 		}
