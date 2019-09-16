@@ -28,7 +28,7 @@ export default class SliderPage extends View {
 				onclick: () => this.setState({snap: snap == 'pages' ? 'elements': 'pages'})
 			}, `Snap to ${snap == 'pages' ? 'elements': 'pages'}`),
 			m('.sliderpage', 
-				m(Carousel, {...this.carousel, snapTo: snap, draggable: false}, 
+				m(Carousel, {...this.carousel, touchpadSupport: false, snapTo: snap}, 
 					[1, 2, 3, 4, 5, 6, 7].map((slide, i) => 
 						m('.sliderpage-slide', {
 							//onclick: () => alert('ok'),

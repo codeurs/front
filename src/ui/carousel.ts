@@ -40,6 +40,7 @@ export type CarouselAttrs = {
 	power?: number
 	overflow?: boolean
 	draggable?: boolean
+	touchpadSupport?: boolean
 	// Backwards compatibility
 	unstyled?: boolean
 	connect?: (instance: Carousel) => void
@@ -73,9 +74,9 @@ export class Carousel extends View<
 	}
 
 	onCreate() {
-		const {draggable = true} = this.attrs
+		const {draggable = true, touchpadSupport = true} = this.attrs
 		this.onUpdate()
-		
+
 		const contentStyler = styler(this.content)
 		const clearSubscription = this.offset.subscribe((offset: number) => {
 			contentStyler.set('x', offset)
@@ -124,11 +125,11 @@ export class Carousel extends View<
 				e.stopPropagation()
 				e.preventDefault()
 			}
-			
+
 			this.dom.addEventListener('click', onClick, true)
 			const clearClick = () =>
 				this.dom.removeEventListener('click', onClick, true)
-			
+
 			clearDraggable = () => {
 				clearSubscription()
 				clearMove()
@@ -137,8 +138,11 @@ export class Carousel extends View<
 			}
 		}
 
-		this.dom.addEventListener('wheel', this.onWheel)
-		const clearWheel = () => this.dom.removeEventListener('wheel', this.onWheel)
+		let clearTouchpad = () => {}
+		if (touchpadSupport) {
+			this.dom.addEventListener('wheel', this.onWheel)
+			clearTouchpad = () => this.dom.removeEventListener('wheel', this.onWheel)
+		}
 
 		window.addEventListener('resize', this.onResize)
 		const clearResize = () =>
@@ -146,7 +150,7 @@ export class Carousel extends View<
 
 		this.onRemove = () => {
 			clearDraggable()
-			clearWheel()
+			clearTouchpad()
 			clearResize()
 		}
 
@@ -266,16 +270,20 @@ export class Carousel extends View<
 	}
 
 	render() {
-		const {overflow, unstyled, className} = this.attrs
+		const {draggable = true, overflow, unstyled, className} = this.attrs
 		return m('.carousel',
 			{
-				style: {overflow: !(overflow || unstyled) && 'hidden'},
+				style: unstyled
+					? {}
+					: {
+							overflow: !overflow ? 'hidden' : null,
+							userSelect: draggable ? 'none' : null,
+							touchAction: draggable ? 'pan-y pinch-zoom' : null
+					  },
 				className
 			},
 			m('.carousel-content',
-				{
-					ondragstart: (e: Event) => e.preventDefault()
-				},
+				draggable ? {ondragstart: (e: Event) => e.preventDefault()} : {},
 				this.children
 			)
 		)
