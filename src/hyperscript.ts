@@ -17,7 +17,7 @@ export type ChildrenType<A> = A extends {children?: any}
 
 export const m: typeof createElement = ((type: any, ...args: Array<any>) => {
 	const vnode = createElement(type, ...args)
-	if (typeof vnode.props.class === 'function')
+	if (vnode.props.class && typeof vnode.props.class !== 'string')
 		vnode.props.class = String(vnode.props.class)
 	return vnode
 }) as any

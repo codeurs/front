@@ -2,8 +2,8 @@ import createCache from '@emotion/cache'
 import isPropValid from '@emotion/is-prop-valid'
 import {serializeStyles} from '@emotion/serialize'
 import {EmotionCache, getRegisteredStyles, insertStyles} from '@emotion/utils'
-import {DOMAttrs, m, StatelessView} from '../hyperscript'
-import {createContext} from '../ui/context'
+import {createContext} from 'react'
+import {DOMAttrs, m, StatelessView} from '../../hyperscript'
 
 const EmotionCacheContext = createContext<EmotionCache>(createCache())
 

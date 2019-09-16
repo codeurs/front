@@ -1,7 +1,7 @@
 import {DOMAttrs, m} from '../hyperscript'
 import {Image, ImageResizer} from '../ui/image'
 import {View} from '../ui/view'
-import {classes} from '../util/classes'
+import {classes} from './classes'
 import {getResizedUrl} from './picture'
 
 export type Img = {

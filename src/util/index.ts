@@ -1,4 +1,4 @@
-export * from './classes'
+export * from './classnamebuilder'
 export * from './fit'
 export * from './lazy'
 export * from './lethargy'

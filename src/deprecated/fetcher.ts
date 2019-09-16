@@ -33,7 +33,10 @@ type Cache = {
 	callbacks: Set<Function>
 }
 
-export const createFetcherCache = () => ({
+export const createFetcherCache = (): Cache & {
+	render: () => void
+	clear: () => void
+} => ({
 	data: undefined,
 	error: undefined,
 	req: undefined,

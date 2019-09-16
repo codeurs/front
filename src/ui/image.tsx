@@ -1,8 +1,8 @@
 import './image.less'
 
 import {createContext} from 'react'
+import {addClasses} from '../deprecated/classes'
 import {DOMAttrs, m} from '../hyperscript'
-import {addClasses} from '../util/classes'
 import {contain, cover} from '../util/fit'
 import {View} from './view'
 
