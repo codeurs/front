@@ -1,95 +1,56 @@
 {
-	"name": "@codeurs/front",
-	"version": "0.11.4",
-	"description": "Collection of mithril utilities and components",
+	"name": "@codeurs/carousel",
+	"version": "0.0.2",
+	"repository": "https://github.com/codeurs/carousel",
+	"author": "Ben Merckx <ben@codeurs.be>",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
 	"sideEffects": false,
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
-		"./dist"
+		"dist",
+		"src"
 	],
-	"repository": "https://github.com/codeurs/front",
-	"author": "Ben Merckx <ben@codeurs.be>",
-	"license": "MIT",
 	"scripts": {
-		"dev": "rimraf dist && run-s build less && run-p less watch examples:watch",
+		"dev": "start-storybook --port 8080",
 		"build": "tsc",
-		"watch": "tsc --pretty --preserveWatchOutput -w",
-		"examples:watch": "cd examples && webpack --mode development -w",
-		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
-		"ghpages": "run-s prepublishOnly examples:build",
-		"less": "copyfiles -u 1 \"./src/**/*.less\" dist",
-		"prepublishOnly": "rimraf dist && run-p build less",
-		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
-		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
-		"prepare": "symlink-dir dist node_modules/@codeurs/front",
-		"test": "jest"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged"
-		}
-	},
-	"lint-staged": {
-		"src/**/*.ts": [
-			"npm run -s pretty:format",
-			"npm run -s pretty:hyperscript",
-			"git add"
-		],
-		"src/**/*.less": [
-			"prettier --write --tab-width 2 --use-tabs --parser postcss",
-			"git add"
-		]
-	},
-	"jest": {
-		"transform": {
-			"^.+\\.ts?$": "ts-jest"
-		},
-		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
-		"moduleDirectories": [
-			"node_modules",
-			"src"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx"
-		]
-	},
-	"dependencies": {
-		"@emotion/cache": "^10.0.7",
-		"@emotion/serialize": "^0.11.4",
-		"@emotion/utils": "^0.11.1",
-		"@types/classnames": "^2.2.6",
-		"@types/deep-equal": "^1.0.1",
-		"@types/googlemaps": "^3.30.16",
-		"@types/jump.js": "^1.0.2",
-		"@types/load-google-maps-api": "^1.3.0",
-		"@types/mithril": "https://codeload.github.com/codeurs/mithril.d.ts/tar.gz/911e3bb343b77dc6839debc911e9829de2cefbcf",
-		"classnames": "^2.2.5",
-		"deep-equal": "^1.0.1",
-		"jump.js": "codeurs/jump.js",
-		"load-google-maps-api": "^1.3.2",
-		"mithril": "2.0.0-rc.4",
-		"object-to-formdata": "codeurs/object-to-formdata",
-		"popmotion": "^8.1.10",
-		"scroll-into-view-if-needed": "^2.2.20",
-		"tslib": "^1.9.3"
+		"deploy": "yarn -s build && yarn -s pages:build && yarn publish && yarn -s pages:deploy",
+		"pages:build": "build-storybook -c .storybook -o .out",
+		"pages:deploy": "git-directory-deploy --directory .out --branch gh-pages"
 	},
 	"devDependencies": {
-		"@codeurs/packer": "^0.9.4",
-		"@types/jest": "^24.0.9",
-		"copyfiles": "^2.0.0",
-		"cross-env": "^5.2.0",
-		"husky": "^1.2.0",
-		"jest": "^24.1.0",
-		"lint-staged": "^8.1.0",
-		"npm-run-all": "^4.1.3",
-		"prettier": "^1.15.3",
-		"rimraf": "^2.6.3",
-		"symlink-dir": "^2.0.2",
+		"@babel/core": "^7.6.4",
+		"@storybook/addon-actions": "^5.2.5",
+		"@storybook/addon-info": "^5.2.5",
+		"@storybook/addon-knobs": "^5.2.5",
+		"@storybook/addon-notes": "^5.2.5",
+		"@storybook/cli": "^5.2.5",
+		"@storybook/react": "^5.2.5",
+		"@types/deep-equal": "^1.0.1",
+		"@types/jest": "^24.0.19",
+		"@types/storybook__react": "^4.0.2",
+		"@types/throttle-debounce": "^2.1.0",
+		"awesome-typescript-loader": "^5.2.1",
+		"babel-loader": "^8.0.6",
+		"git-directory-deploy": "^1.5.1",
+		"jest": "^24.9.0",
+		"react-docgen-typescript-loader": "^3.3.0",
+		"react-dom": "^16.11.0",
+		"ts-jest": "^24.1.0",
+		"typescript": "^3.6.4"
+	},
+	"peerDependencies": {
+		"react": "^16.11.0"
+	},
+	"dependencies": {
+		"@emotion/core": "^10.0.22",
+		"@emotion/styled": "^10.0.23",
+		"deep-equal": "^1.1.0",
+		"popmotion": "^8.7.0",
 		"throttle-debounce": "^2.1.0",
-		"ts-jest": "^24.0.0"
+		"tslib": "^1.10.0"
 	}
 }

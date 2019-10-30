@@ -2,9 +2,5 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": false,
   "editor.detectIndentation": false,
-  "prettier.tabWidth": 2,
-  "prettier.useTabs": true,
-  "prettier.semi": false,
-  "prettier.bracketSpacing": false,
-  "prettier.singleQuote": true
+	"editor.formatOnSave": true
 }

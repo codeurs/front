@@ -1,21 +1,23 @@
 {
 	"compilerOptions": {
-		"strict": true,
-		"target": "es5",
-		"declaration": true,
-		"sourceMap": true,
-		"importHelpers": true,
+		"outDir": "dist",
 		"module": "es6",
 		"moduleResolution": "node",
-		"baseUrl": "./src/",
-		"outDir": "./dist/",
+		"target": "es5",
+		"lib": ["es5", "es6", "es7", "es2017", "dom"],
+		"sourceMap": true,
+		"jsx": "react",
+		"rootDirs": ["src", "stories"],
+		"forceConsistentCasingInFileNames": true,
+		"strictNullChecks": true,
+		"declaration": true,
+		"declarationMap": true,
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-		"preserveWatchOutput": true,
-		"experimentalDecorators": true,
-		"stripInternal": true,
-		"lib": ["es2017", "dom"],
-		"typeRoots": ["./types", "./node_modules/@types"]
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"importHelpers": true
 	},
-	"files": ["./src/index.ts"]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
 }

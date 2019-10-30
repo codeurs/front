@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="64261e28-de14-4b64-8faf-28e4595af996" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/ui/filter/duotone.ts" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.npmignore" afterPath="$PROJECT_DIR$/.npmignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.travis.yml" afterPath="$PROJECT_DIR$/.travis.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.vscode/settings.json" afterPath="$PROJECT_DIR$/.vscode/settings.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/.gitignore" afterPath="$PROJECT_DIR$/docs/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/index.html" afterPath="$PROJECT_DIR$/docs/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/src/index.less" afterPath="$PROJECT_DIR$/docs/src/index.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/src/index.ts" afterPath="$PROJECT_DIR$/docs/src/index.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/tsconfig.json" afterPath="$PROJECT_DIR$/docs/tsconfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/webpack.config.js" afterPath="$PROJECT_DIR$/docs/webpack.config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/action.ts" afterPath="$PROJECT_DIR$/src/action.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/form.ts" afterPath="$PROJECT_DIR$/src/form.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.ts" afterPath="$PROJECT_DIR$/src/index.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/router.ts" afterPath="$PROJECT_DIR$/src/router.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/formstore.ts" afterPath="$PROJECT_DIR$/src/store/formstore.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/modalstore.ts" afterPath="$PROJECT_DIR$/src/store/modalstore.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/store/sliderstore.ts" afterPath="$PROJECT_DIR$/src/store/sliderstore.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/background.less" afterPath="$PROJECT_DIR$/src/ui/background.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/background.ts" afterPath="$PROJECT_DIR$/src/ui/background.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/component.ts" afterPath="$PROJECT_DIR$/src/ui/component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/boxes.ts" afterPath="$PROJECT_DIR$/src/ui/form/boxes.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/checkbox.ts" afterPath="$PROJECT_DIR$/src/ui/form/checkbox.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/field.ts" afterPath="$PROJECT_DIR$/src/ui/form/field.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/fields.ts" afterPath="$PROJECT_DIR$/src/ui/form/fields.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/input.ts" afterPath="$PROJECT_DIR$/src/ui/form/input.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/radio.ts" afterPath="$PROJECT_DIR$/src/ui/form/radio.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/radios.ts" afterPath="$PROJECT_DIR$/src/ui/form/radios.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/select.ts" afterPath="$PROJECT_DIR$/src/ui/form/select.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/form/textarea.ts" afterPath="$PROJECT_DIR$/src/ui/form/textarea.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/icon.less" afterPath="$PROJECT_DIR$/src/ui/icon.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/icon.ts" afterPath="$PROJECT_DIR$/src/ui/icon.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/image.less" afterPath="$PROJECT_DIR$/src/ui/image.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/image.ts" afterPath="$PROJECT_DIR$/src/ui/image.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/masonry.less" afterPath="$PROJECT_DIR$/src/ui/masonry.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/masonry.ts" afterPath="$PROJECT_DIR$/src/ui/masonry.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/mediaquery.ts" afterPath="$PROJECT_DIR$/src/ui/mediaquery.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/modal.less" afterPath="$PROJECT_DIR$/src/ui/modal.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/modal.ts" afterPath="$PROJECT_DIR$/src/ui/modal.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/page.ts" afterPath="$PROJECT_DIR$/src/ui/page.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/picture.less" afterPath="$PROJECT_DIR$/src/ui/picture.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/picture.ts" afterPath="$PROJECT_DIR$/src/ui/picture.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/portal.ts" afterPath="$PROJECT_DIR$/src/ui/portal.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/slider.less" afterPath="$PROJECT_DIR$/src/ui/slider.less" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/slider.ts" afterPath="$PROJECT_DIR$/src/ui/slider.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/util/classes.ts" afterPath="$PROJECT_DIR$/src/util/classes.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/util/formutils.ts" afterPath="$PROJECT_DIR$/src/util/formutils.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/util/lockscroll.ts" afterPath="$PROJECT_DIR$/src/util/lockscroll.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/util/subcomponent.ts" afterPath="$PROJECT_DIR$/src/util/subcomponent.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsconfig.json" afterPath="$PROJECT_DIR$/tsconfig.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/form.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="16" />
+    <option name="y" value="23" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>RELAX NG</id>
+          </State>
+          <State>
+            <id>SQL</id>
+          </State>
+          <State>
+            <id>XPath</id>
+          </State>
+          <State>
+            <id>XSLT</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>General</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="front" type="b2602c69:ProjectViewProjectNode" />
+              <item name="front" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="front" type="b2602c69:ProjectViewProjectNode" />
+              <item name="front" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="last_opened_file_path" value="D:/projects/babbelboom" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64261e28-de14-4b64-8faf-28e4595af996" name="Default" comment="" />
+      <created>1528359653383</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1528359653383</updated>
+      <workItem from="1528359658035" duration="1935000" />
+      <workItem from="1533306863002" duration="27000" />
+      <workItem from="1537186664182" duration="62000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2024000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="16" y="23" width="1936" height="1066" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25752687" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/index.ts" />
+    <entry file="file://$PROJECT_DIR$/src/form.ts" />
+    <entry file="file://$PROJECT_DIR$/src/form.ts" />
+    <entry file="file://$PROJECT_DIR$/src/index.ts" />
+  </component>
+</project>
