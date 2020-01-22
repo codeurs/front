@@ -1,6 +1,6 @@
 import './modal.less'
 
-import {DOMAttrs} from 'hyperscript'
+import {DOMAttrs} from '../hyperscript'
 import m from 'mithril'
 import {classes} from '../util/classes'
 import lockScroll from '../util/lockscroll'

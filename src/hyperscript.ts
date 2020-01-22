@@ -1,7 +1,7 @@
 import 'core-js/features/object/assign'
 
 import hyperscript, {Attributes, Child, Children, CVnode} from 'mithril'
-import {Component, View} from 'ui'
+import {Component, View} from './ui'
 import {extractChildren} from './util/children'
 
 export type ChildAttr<T> = {children: T} | {children?: T}

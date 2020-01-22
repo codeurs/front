@@ -1,4 +1,4 @@
-import {DOMAttrs} from 'hyperscript'
+import {DOMAttrs} from '../hyperscript'
 import m from 'mithril'
 import {Image, ImageResizer} from '../ui/image'
 import {View} from '../ui/view'

@@ -2,7 +2,7 @@ import createCache from '@emotion/cache'
 import isPropValid from '@emotion/is-prop-valid'
 import {serializeStyles} from '@emotion/serialize'
 import {EmotionCache, getRegisteredStyles, insertStyles} from '@emotion/utils'
-import {StatelessView} from 'ui'
+import {StatelessView} from '../ui'
 import {DOMAttrs, m} from '../hyperscript'
 import {createContext} from '../ui/context'
 

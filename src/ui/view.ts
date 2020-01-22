@@ -1,6 +1,11 @@
-import {ChildrenType} from 'hyperscript'
+import {ChildrenType} from '../hyperscript'
 import {
-	Children, ClassComponent, CVnode, CVnodeDOM, Vnode, VnodeDOM
+	Children,
+	ClassComponent,
+	CVnode,
+	CVnodeDOM,
+	Vnode,
+	VnodeDOM
 } from 'mithril'
 import {extractChildren} from '../util/children'
 

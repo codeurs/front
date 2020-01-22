@@ -8,7 +8,6 @@
 		"importHelpers": true,
 		"module": "es6",
 		"moduleResolution": "node",
-		"baseUrl": "./src/",
 		"outDir": "./dist/",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
