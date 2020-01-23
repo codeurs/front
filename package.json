@@ -1,105 +1,108 @@
 {
-	"name": "@codeurs/front",
-	"version": "1.0.0-beta.3",
-	"description": "Collection of mithril utilities and components",
-	"sideEffects": false,
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist",
-		"src"
-	],
-	"publishConfig": {
-		"access": "public"
-	},
-	"repository": "https://github.com/codeurs/front",
-	"author": "Ben Merckx <ben@codeurs.be>",
-	"license": "MIT",
-	"scripts": {
-		"dev": "run-s build less && run-p less watch examples:watch",
-		"serve": "run-p dev client:serve",
-		"client:serve": "cd examples/dist && wright index.html",
-		"build": "tsc",
-		"watch": "tsc --pretty --preserveWatchOutput -w",
-		"examples:watch": "cd examples && webpack --mode development -w",
-		"examples:build": "cd examples && webpack --mode production --optimize-minimize",
-		"ghpages": "run-s prepublishOnly examples:build",
-		"less": "copyfiles -u 1 \"./src/**/*.less\" dist",
-		"prepublishOnly": "rimraf dist && run-p build less",
-		"pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
-		"pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
-		"prepare": "symlink-dir . node_modules/@codeurs/front",
-		"test": "jest",
-		"tojsx": "codemod --plugin ./node_modules/babel-plugin-hyperscript-to-jsx/src/index.js"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged"
-		}
-	},
-	"lint-staged": {
-		"src/**/*.ts": [
-			"npm run -s pretty:format",
-			"npm run -s pretty:hyperscript",
-			"git add"
-		],
-		"src/**/*.less": [
-			"prettier --write --tab-width 2 --use-tabs --parser postcss",
-			"git add"
-		]
-	},
-	"jest": {
-		"transform": {
-			"^.+\\.ts?$": "ts-jest"
-		},
-		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
-		"moduleDirectories": [
-			"node_modules",
-			"src"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx"
-		]
-	},
-	"dependencies": {
-		"@emotion/cache": "^10.0.7",
-		"@emotion/is-prop-valid": "^0.7.3",
-		"@emotion/serialize": "^0.11.4",
-		"@emotion/utils": "^0.11.1",
-		"@types/classnames": "^2.2.6",
-		"@types/deep-equal": "^1.0.1",
-		"@types/mithril": "^1.1.16",
-		"@types/react": "^16.8.22",
-		"@types/react-dom": "^16.8.4",
-		"@types/throttle-debounce": "^1.1.1",
-		"classnames": "^2.2.5",
-		"deep-equal": "^1.0.1",
-		"mithril": "^1.1.6",
-		"popmotion": "^8.6.4",
-		"preact": "^10.0.0-beta.3",
-		"scroll-into-view-if-needed": "^2.2.20",
-		"throttle-debounce": "^2.1.0",
-		"tslib": "^1.9.3"
-	},
-	"devDependencies": {
-		"@codeurs/packer": "^0.15.0",
-		"@types/jest": "^24.0.9",
-		"babel-codemod": "^2.1.2",
-		"babel-core": "^6.26.3",
-		"babel-plugin-hyperscript-to-jsx": "codeurs/babel-plugin-hyperscript-to-jsx",
-		"copyfiles": "^2.0.0",
-		"cross-env": "^5.2.0",
-		"husky": "^1.2.0",
-		"jest": "^24.1.0",
-		"lint-staged": "^8.1.0",
-		"npm-run-all": "^4.1.3",
-		"prettier": "^1.15.3",
-		"rimraf": "^2.6.3",
-		"symlink-dir": "^2.0.2",
-		"ts-jest": "^24.0.0",
-		"wright": "^2.0.0-beta35"
-	}
+  "name": "@codeurs/front",
+  "version": "1.0.0-beta.3",
+  "description": "Collection of mithril utilities and components",
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/codeurs/front",
+  "author": "Ben Merckx <ben@codeurs.be>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "run-s build less && run-p less watch examples:watch",
+    "serve": "run-p dev client:serve",
+    "client:serve": "cd examples/dist && wright index.html",
+    "build": "tsc",
+    "watch": "tsc --pretty --preserveWatchOutput -w",
+    "examples:watch": "cd examples && webpack --mode development -w",
+    "examples:build": "cd examples && webpack --mode production --optimize-minimize",
+    "ghpages": "run-s prepublishOnly examples:build",
+    "less": "copyfiles -u 1 \"./src/**/*.less\" dist",
+    "prepublishOnly": "rimraf dist && run-p build less",
+    "pretty:format": "prettier --print-width 80 --single-quote --write --no-semi --no-bracket-spacing --parser typescript --tab-width 2 --use-tabs",
+    "pretty:hyperscript": "perl -i -0777pe 's/\\bm\\(\\s+/m(/gs'",
+    "prepare": "symlink-dir . node_modules/@codeurs/front",
+    "test": "jest",
+    "tojsx": "codemod --plugin ./node_modules/babel-plugin-hyperscript-to-jsx/src/index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node -e \"process.exit(require('os').platform() != 'win32')\" || lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run -s pretty:format",
+      "npm run -s pretty:hyperscript",
+      "git add"
+    ],
+    "src/**/*.less": [
+      "prettier --write --tab-width 2 --use-tabs --parser postcss",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ]
+  },
+  "dependencies": {
+    "@emotion/cache": "^10.0.7",
+    "@emotion/is-prop-valid": "^0.7.3",
+    "@emotion/serialize": "^0.11.4",
+    "@emotion/utils": "^0.11.1",
+    "@types/classnames": "^2.2.6",
+    "@types/deep-equal": "^1.0.1",
+    "@types/mithril": "^1.1.16",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "@types/throttle-debounce": "^1.1.1",
+    "classnames": "^2.2.5",
+    "deep-equal": "^1.0.1",
+    "mithril": "^1.1.6",
+    "popmotion": "^8.6.4",
+    "preact": "^10.0.0-beta.3",
+    "scroll-into-view-if-needed": "^2.2.20",
+    "throttle-debounce": "^2.1.0",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@codeurs/packer": "^0.15.0",
+    "@types/jest": "^24.0.9",
+    "babel-codemod": "^2.1.2",
+    "babel-core": "^6.26.3",
+    "babel-plugin-hyperscript-to-jsx": "codeurs/babel-plugin-hyperscript-to-jsx",
+    "copyfiles": "^2.0.0",
+    "cross-env": "^5.2.0",
+    "husky": "^1.2.0",
+    "jest": "^24.1.0",
+    "lint-staged": "^8.1.0",
+    "npm-run-all": "^4.1.3",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.3",
+    "symlink-dir": "^2.0.2",
+    "ts-jest": "^24.0.0",
+    "wright": "^2.0.0-beta35"
+  }
 }
