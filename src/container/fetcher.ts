@@ -1,8 +1,7 @@
+import {Children, DOMAttrs, m, View} from '@codeurs/front'
 import deepEqual from 'deep-equal'
 import {RequestOptions} from 'mithril'
 import requestService from 'mithril/request'
-import {Children} from '../hyperscript'
-import {View} from '../ui/view'
 
 export type FetcherState<T> = {
 	isLoading: boolean
@@ -16,6 +15,7 @@ type RequestData<T> = {
 	url: string
 	cache?: Cache
 	hydrate?: T
+	suspend?: boolean
 } & RequestOptions<T>
 
 type FetcherPrivateState<T> = FetcherState<T> & {
@@ -33,20 +33,16 @@ type Cache = {
 	callbacks: Set<Function>
 }
 
-export const createFetcherCache = () => ({
-	data: undefined,
-	error: undefined,
-	req: undefined,
+export const createCache = (): Cache & {clear} => ({
 	isLoading: true,
 	callbacks: new Set(),
-	render() {
-		this.callbacks.forEach(f => f())
-	},
 	clear() {
-		this.data = undefined
+		//this.data = undefined
 		this.error = undefined
 		this.req = undefined
 		this.isLoading = false
+		if (this.transport) this.transport.abort()
+		this.callbacks.forEach(f => f())
 	}
 })
 
@@ -54,7 +50,7 @@ export class Fetcher<T> extends View<
 	RequestData<T> & {children: FetcherRender<T>},
 	FetcherPrivateState<T>
 > {
-	cache: Cache = createFetcherCache()
+	cache: Cache = createCache()
 
 	onInit() {
 		const {children, hydrate, cache = this.cache, ...req} = this.attrs
@@ -77,15 +73,22 @@ export class Fetcher<T> extends View<
 	load() {
 		const {children, hydrate, cache = this.cache, ...req} = this.attrs
 		if (deepEqual(cache.req, req)) {
-			if (cache.isLoading) cache.callbacks.add(this.redraw)
-			return
+			if (cache.isLoading)
+				return new Promise(done =>
+					cache.callbacks.add(() => {
+						this.redraw()
+						done()
+					})
+				)
+			return Promise.resolve()
 		}
 		cache.req = req
 		cache.callbacks.add(this.redraw)
 		cache.isLoading = true
-		requestService
+		return requestService
 			.request({
 				...req,
+				deserialize: d => JSON.parse(d),
 				config: xhr => (cache.transport = xhr)
 			})
 			.then(data => {
@@ -102,7 +105,9 @@ export class Fetcher<T> extends View<
 	}
 
 	render() {
-		const {cache = this.cache} = this.attrs
+		const {cache = this.cache, suspend = false} = this.attrs
+		const finish = this.load()
+		if (cache.isLoading && suspend) throw finish
 		return this.children(cache)
 	}
 }
