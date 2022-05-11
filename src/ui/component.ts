@@ -45,7 +45,10 @@ export class Component<Attr = {}, El = Element>
 				try {
 					return original(vnode)
 				} catch (e) {
-					console.error(e)
+					setTimeout(() => {
+				          // Rethrow outside of this context so it can be picked up by Sentry
+					  throw e
+					})
 					return null
 				}
 			} else {
